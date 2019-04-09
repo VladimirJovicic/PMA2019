@@ -13,7 +13,7 @@
         android:layout_height="110dp"
         android:layout_marginTop="30dp"
         android:layout_centerHorizontal="true"
-        app:srcCompat="@drawable/user_icon"
+        app:srcCompat="@drawable/signup_icon"
         android:contentDescription="@string/user_img_description"/>
 
     <EditText
@@ -84,19 +84,19 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/buttonLogin"
+            android:id="@+id/buttonSignIn"
             android:layout_width="115dp"
             android:layout_height="match_parent"
             android:textStyle="bold"
-            android:text="@string/loginButton" />
+            android:text="@string/signInButton" />
 
         <Button
-            android:id="@+id/buttonRegister"
+            android:id="@+id/buttonSignUp"
             android:layout_width="115dp"
             android:layout_height="match_parent"
             android:layout_gravity="end"
             android:textStyle="bold"
-            android:text="@string/registerButton" />
+            android:text="@string/signUpButton" />
 
     </LinearLayout>
 

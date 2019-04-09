@@ -8,10 +8,10 @@
     <string name="delivery_address">Delivery Address</string>
     <string name="phone">Phone Number</string>
     <string name="password">Password</string>
-    <string name="user_img_description">User icon</string>
+    <string name="user_img_description">SignIn or SignUp icon</string>
     <!-- BUTTONS -->>
-    <string name="registerButton">Register</string>
-    <string name="loginButton">Login</string>
+    <string name="signInButton">Sign In</string>
+    <string name="signUpButton">Sign Up</string>
 
 
 </resources>
