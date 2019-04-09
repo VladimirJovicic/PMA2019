@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Donesi Klon</string>
+
+    <!-- REGISTRATION -->>
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="username">Username</string>
+    <string name="delivery_address">Delivery Address</string>
+    <string name="phone">Phone Number</string>
+    <string name="password">Password</string>
+    <string name="user_img_description">User icon</string>
+    <!-- BUTTONS -->>
+    <string name="registerButton">Register</string>
+    <string name="loginButton">Login</string>
+
+
 </resources>
