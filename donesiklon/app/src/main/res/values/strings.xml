@@ -12,9 +12,19 @@
 
     <!-- ADD REVIEW -->
     <string name="leave_comment">Leave comment</string>
+
+    <!-- SETTINGS -->
+    <string name="change_personal_information">Change personal information</string>
+    <string name="new_delivery_address">New Delivery Address</string>
+    <string name="new_phone_number">New Phone Number</string>
+    <string name="choose_language">Choose language</string>
+    <string name="englishRadioButton">English</string>
+    <string name="serbianRadioButton">Serbian</string>
+
     <!-- BUTTONS -->>
     <string name="signInButton">Sign In</string>
     <string name="signUpButton">Sign Up</string>
     <string name="addReviewButton">Review</string>
     <string name="cancelButton">Cancel</string>
+    <string name="applyChangesButton">Apply Changes</string>
 </resources>

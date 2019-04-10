@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:outlineAmbientShadowColor="@color/colorAccent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+
+    <TextView
+        android:id="@+id/textChangeDeliveryAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/change_personal_information"
+        android:textSize="20sp"
+        />
+
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="19"
+        android:layout_marginTop="60dp"
+        android:inputType="textPostalAddress"
+        android:hint="@string/new_delivery_address"
+        android:textSize="17sp"/>
+
+    <EditText
+        android:id="@+id/phoneNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="110dp"
+        android:ems="19"
+        android:inputType="phone"
+        android:hint="@string/new_phone_number"
+        android:textSize="17sp"
+        />
+
+    <EditText
+        android:id="@+id/editText3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="19"
+        android:layout_marginTop="160dp"
+        android:inputType="textPassword"
+        android:hint="@string/password"
+        android:textSize="17sp"
+        />
+
+    <Button
+        android:id="@+id/buttonChangeDeliveryAddress"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="210dp"
+        android:text="@string/applyChangesButton"
+        android:textStyle="bold" />
+
+    <View
+        android:id="@+id/divider4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="280dp"
+        android:background="?android:attr/listDivider" />
+
+    <TextView
+        android:id="@+id/textChooseLanguage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="290dp"
+        android:text="@string/choose_language"
+        android:textSize="20sp"
+        />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="330dp"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/radioEnglish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/englishRadioButton"
+            android:textSize="17sp"
+            />
+
+        <RadioButton
+            android:id="@+id/radioSerbian"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/serbianRadioButton"
+            android:textSize="17sp"
+            />
+    </RadioGroup>
+
+
+
+
+</RelativeLayout>
