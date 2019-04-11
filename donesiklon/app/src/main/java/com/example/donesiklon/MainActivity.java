@@ -36,8 +36,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         //da se ne bi prikazala prazna aktivnost na pocetku
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MessageFragment()).commit();
-        navigationView.setCheckedItem(R.id.nav_message);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new RestarauntListFragment()).commit();
+        navigationView.setCheckedItem(R.id.nav_restaraunt_list);
 
     }
 
@@ -55,13 +55,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
         switch (menuItem.getItemId()){
-            case R.id.nav_message:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MessageFragment()).commit();
+            case R.id.nav_restaraunt_list:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new RestarauntListFragment()).commit();
                 break;
             case R.id.nav_profile:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MessageFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ChatFragment()).commit();
                 break;
-            case R.id.nav_demo:
+            case R.id.nav_chat:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ChatFragment()).commit();
                 break;
         }

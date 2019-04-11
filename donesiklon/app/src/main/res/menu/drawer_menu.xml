@@ -5,29 +5,29 @@
 
     <group android:checkableBehavior="single">
 
+        <item android:id="@+id/nav-restaraunt-list"
+            android:icon="@drawable/ic_message"
+            android:title="Restaraunts" />
+
         <item android:id="@+id/nav-profile"
             android:icon="@drawable/ic_message"
-            android:title="Profile" />
+            android:title="Promeniti" />
 
-        <item android:id="@+id/nav-message"
+        <item android:id="@+id/nav-chat"
             android:icon="@drawable/ic_message"
-            android:title="Message" />
-
-        <item android:id="@+id/nav-demo"
-            android:icon="@drawable/ic_message"
-            android:title="Demo" />
+            android:title="Promeniti" />
 
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Ovde ne ostaju selektovane stavke">
         <menu>
             <item android:id="@+id/nav-share"
                 android:icon="@drawable/ic_message"
-                android:title="Share" />
+                android:title="Promeniti" />
 
             <item android:id="@+id/nav-send"
                 android:icon="@drawable/ic_message"
-                android:title="Send" />
+                android:title="Promeniti" />
         </menu>
     </item>
 
