@@ -21,6 +21,9 @@
             android:icon="@drawable/shopping_cart"
             android:title="Korpa" />
 
+        <item android:id="@+id/map"
+            android:icon="@drawable/map"
+            android:title="Incoming Orders" />
     </group>
 
     <item android:title="Ovde ne ostaju selektovane stavke">
