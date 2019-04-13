@@ -13,9 +13,13 @@
             android:icon="@drawable/ic_message"
             android:title="Promeniti" />
 
-        <item android:id="@+id/nav-chat"
-            android:icon="@drawable/ic_message"
-            android:title="Promeniti" />
+        <item android:id="@+id/visit-history"
+            android:icon="@drawable/eye"
+            android:title="Istorija poseta" />
+
+        <item android:id="@+id/shopping-cary"
+            android:icon="@drawable/shopping_cart"
+            android:title="Korpa" />
 
     </group>
 
