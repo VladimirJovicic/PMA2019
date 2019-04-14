@@ -7,26 +7,26 @@
 
         <item android:id="@+id/nav-restaurant-list"
             android:icon="@drawable/ic_restaurant"
-            android:title="Restorani" />
+            android:title="@string/restaraunts" />
 
         <item android:id="@+id/visit-history"
             android:icon="@drawable/eye"
-            android:title="Istorija poseta" />
+            android:title="@string/visit_history" />
 
         <item android:id="@+id/shopping-cary"
             android:icon="@drawable/shopping_cart"
-            android:title="Korpa" />
+            android:title="@string/shopping_cart" />
 
         <item android:id="@+id/map"
             android:icon="@drawable/map"
-            android:title="Incoming Orders" />
+            android:title="@string/incoming_orders" />
     </group>
 
 
     <group android:id="@+id/logout_group">
             <item android:id="@+id/nav-share"
                 android:icon="@drawable/ic_power"
-                android:title="Logout" />
+                android:title="@string/logout" />
 
     </group>
 

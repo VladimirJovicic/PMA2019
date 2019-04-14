@@ -3,6 +3,15 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <!-- MENT -->
+    <string name="restaraunts">Restorani</string>
+    <string name="visit_history">Istorija poseta</string>
+    <string name="shopping_cart">Korpa</string>
+    <string name="incoming_orders">Prati dostavljaca</string>
+    <string name="logout">Odjavi se</string>
+
+
+
 
     <!-- REGISTRATION -->>
     <string name="name">Name</string>

@@ -9,10 +9,10 @@
     </style>
 
 
-    <!-- ako hocu da obrisem action bar samo za 1 activity (treba promeniti aktivnost da koristi ovu temu u manifestu) -->
-    <!--style name="AppTheme.NoActionBar">
+    <!-- brisanje defaultnog action bara (u manifestu za main activity jer se tamo nalazi meni) -->
+    <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-    </style-->
+    </style>
 
 </resources>
