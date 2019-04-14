@@ -3,15 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="single" android:id="@+id/main_group">
 
-        <item android:id="@+id/nav-restaraunt-list"
-            android:icon="@drawable/ic_message"
-            android:title="Restaraunts" />
-
-        <item android:id="@+id/nav-profile"
-            android:icon="@drawable/ic_message"
-            android:title="Promeniti" />
+        <item android:id="@+id/nav-restaurant-list"
+            android:icon="@drawable/ic_restaurant"
+            android:title="Restorani" />
 
         <item android:id="@+id/visit-history"
             android:icon="@drawable/eye"
@@ -26,17 +22,13 @@
             android:title="Incoming Orders" />
     </group>
 
-    <item android:title="Ovde ne ostaju selektovane stavke">
-        <menu>
-            <item android:id="@+id/nav-share"
-                android:icon="@drawable/ic_message"
-                android:title="Promeniti" />
 
-            <item android:id="@+id/nav-send"
-                android:icon="@drawable/ic_message"
-                android:title="Promeniti" />
-        </menu>
-    </item>
+    <group android:id="@+id/logout_group">
+            <item android:id="@+id/nav-share"
+                android:icon="@drawable/ic_power"
+                android:title="Logout" />
+
+    </group>
 
 
 </menu>

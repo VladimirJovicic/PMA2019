@@ -38,13 +38,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         //da se ne bi prikazala prazna aktivnost na pocetku
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new RestarauntListFragment()).commit();
-        navigationView.setCheckedItem(R.id.nav_restaraunt_list);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new RestaurantListFragment()).commit();
+        navigationView.setCheckedItem(R.id.nav_restaurant_list);
 
 
     }
 
-    //kad se klikne back dok je navigation drawer treba da zatvori navigation drawer a ne cela aplikacija
+    //kad se klikne back dok je u navigation draweru treba da zatvori navigation drawer a ne da ode back
     @Override
     public void onBackPressed() {
         if(drawer.isDrawerOpen(GravityCompat.START)){
@@ -58,20 +58,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
         switch (menuItem.getItemId()){
-            case R.id.nav_restaraunt_list:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new RestarauntListFragment()).commit();
-                break;
-            case R.id.nav_profile:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ChatFragment()).commit();
+            case R.id.nav_restaurant_list:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new RestaurantListFragment()).addToBackStack(null).commit();
                 break;
             case R.id.shopping_cary:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ShoppingCart()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ShoppingCart()).addToBackStack(null).commit();
                 break;
             case R.id.visit_history:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new VisitHistory()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new VisitHistory()).addToBackStack(null).commit();
                 break;
             case R.id.map:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Map()).commitAllowingStateLoss();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Map()).addToBackStack(null).commitAllowingStateLoss();
                 //with activity:
                 //Intent intent = new Intent(MainActivity.this, MapsActivity.class);
                 //MainActivity.this.startActivity(intent);

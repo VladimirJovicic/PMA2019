@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class RestarauntListFragment extends Fragment {
+public class RestaurantListFragment extends Fragment {
 
     @Nullable
     @Override
