@@ -74,7 +74,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //Intent intent = new Intent(MainActivity.this, MapsActivity.class);
                 //MainActivity.this.startActivity(intent);
                 break;
-
+            case R.id.settings:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Settings()).addToBackStack(null).commit();
+                break;
             case R.id.nav_logout:
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 MainActivity.this.startActivity(intent);

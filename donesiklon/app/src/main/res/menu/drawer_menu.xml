@@ -20,6 +20,10 @@
         <item android:id="@+id/map"
             android:icon="@drawable/map"
             android:title="@string/incoming_orders" />
+
+        <item android:id="@+id/settings"
+            android:icon="@drawable/settings"
+            android:title="@string/settings" />
     </group>
 
 

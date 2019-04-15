@@ -30,6 +30,7 @@
     <string name="choose_language">Choose language</string>
     <string name="englishRadioButton">English</string>
     <string name="serbianRadioButton">Serbian</string>
+    <string name="settings">Settings</string>
 
     <!-- BUTTONS -->>
     <string name="signInButton">Sign In</string>
