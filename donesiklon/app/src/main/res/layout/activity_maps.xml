@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,4 +14,231 @@
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_weight="1"
     tools:context=".MapsActivity" />
+
+    <ScrollView android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+
+        >
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="?android:attr/dividerHorizontal"
+        android:showDividers="middle"
+        android:stretchColumns="1">
+        <TableRow>
+            <TextView
+                android:text="Ciao"
+                android:padding="3dip" />
+            <TextView
+                android:text="2 Pizzas"
+                android:gravity="center_horizontal"
+                android:padding="3dip" />
+            <TextView
+                android:text="16 min"
+                android:gravity="right"
+                android:padding="3dip" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text="Siki"
+                android:padding="3dip" />
+            <TextView
+                android:text="2 Burgers"
+                android:gravity="center_horizontal"
+                android:padding="3dip" />
+            <TextView
+                android:text="3 min"
+                android:gravity="right"
+                android:padding="3dip" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text="Siki"
+                android:padding="3dip" />
+            <TextView
+                android:text="2 Burgers"
+                android:gravity="center_horizontal"
+                android:padding="3dip" />
+            <TextView
+                android:text="3 min"
+                android:gravity="right"
+                android:padding="3dip" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text="Siki"
+                android:padding="3dip" />
+            <TextView
+                android:text="2 Burgers"
+                android:gravity="center_horizontal"
+                android:padding="3dip" />
+            <TextView
+                android:text="3 min"
+                android:gravity="right"
+                android:padding="3dip" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text="Siki"
+                android:padding="3dip" />
+            <TextView
+                android:text="2 Burgers"
+                android:gravity="center_horizontal"
+                android:padding="3dip" />
+            <TextView
+                android:text="3 min"
+                android:gravity="right"
+                android:padding="3dip" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text="Siki"
+                android:padding="3dip" />
+            <TextView
+                android:text="2 Burgers"
+                android:gravity="center_horizontal"
+                android:padding="3dip" />
+            <TextView
+                android:text="3 min"
+                android:gravity="right"
+                android:padding="3dip" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text="Siki"
+                android:padding="3dip" />
+            <TextView
+                android:text="2 Burgers"
+                android:gravity="center_horizontal"
+                android:padding="3dip" />
+            <TextView
+                android:text="3 min"
+                android:gravity="right"
+                android:padding="3dip" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text="Siki"
+                android:padding="3dip" />
+            <TextView
+                android:text="2 Burgers"
+                android:gravity="center_horizontal"
+                android:padding="3dip" />
+            <TextView
+                android:text="3 min"
+                android:gravity="right"
+                android:padding="3dip" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text="Siki"
+                android:padding="3dip" />
+            <TextView
+                android:text="2 Burgers"
+                android:gravity="center_horizontal"
+                android:padding="3dip" />
+            <TextView
+                android:text="3 min"
+                android:gravity="right"
+                android:padding="3dip" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text="Siki"
+                android:padding="3dip" />
+            <TextView
+                android:text="2 Burgers"
+                android:gravity="center_horizontal"
+                android:padding="3dip" />
+            <TextView
+                android:text="3 min"
+                android:gravity="right"
+                android:padding="3dip" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text="Siki"
+                android:padding="3dip" />
+            <TextView
+                android:text="2 Burgers"
+                android:gravity="center_horizontal"
+                android:padding="3dip" />
+            <TextView
+                android:text="3 min"
+                android:gravity="right"
+                android:padding="3dip" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text="Siki"
+                android:padding="3dip" />
+            <TextView
+                android:text="2 Burgers"
+                android:gravity="center_horizontal"
+                android:padding="3dip" />
+            <TextView
+                android:text="3 min"
+                android:gravity="right"
+                android:padding="3dip" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text="Siki"
+                android:padding="3dip" />
+            <TextView
+                android:text="2 Burgers"
+                android:gravity="center_horizontal"
+                android:padding="3dip" />
+            <TextView
+                android:text="3 min"
+                android:gravity="right"
+                android:padding="3dip" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text="Siki"
+                android:padding="3dip" />
+            <TextView
+                android:text="2 Burgers"
+                android:gravity="center_horizontal"
+                android:padding="3dip" />
+            <TextView
+                android:text="3 min"
+                android:gravity="right"
+                android:padding="3dip" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text="Siki"
+                android:padding="3dip" />
+            <TextView
+                android:text="2 Burgers"
+                android:gravity="center_horizontal"
+                android:padding="3dip" />
+            <TextView
+                android:text="3 min"
+                android:gravity="right"
+                android:padding="3dip" />
+        </TableRow>
+
+    </TableLayout>
+    </ScrollView>
+
+</LinearLayout>
