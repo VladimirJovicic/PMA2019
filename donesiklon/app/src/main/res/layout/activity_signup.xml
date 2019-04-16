@@ -99,10 +99,6 @@
             android:text="@string/signUpButton" />
 
     </LinearLayout>
-
-
-
-
 </RelativeLayout>
 
 

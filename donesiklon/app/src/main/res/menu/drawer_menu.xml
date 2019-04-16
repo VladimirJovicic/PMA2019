@@ -7,11 +7,11 @@
 
         <item android:id="@+id/nav-restaurant-list"
             android:icon="@drawable/ic_restaurant"
-            android:title="@string/restaraunts" />
+            android:title="@string/restaurants" />
 
         <item android:id="@+id/visit-history"
             android:icon="@drawable/eye"
-            android:title="@string/visit_history" />
+            android:title="@string/visits_history" />
 
         <item android:id="@+id/shopping-cary"
             android:icon="@drawable/shopping_cart"
