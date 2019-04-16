@@ -63,8 +63,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         //da se ne bi prikazala prazna aktivnost na pocetku
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new RestaurantListFragment()).commit();
-        navigationView.setCheckedItem(R.id.nav_restaurant_list);
+        Intent intentRes = new Intent(MainActivity.this, RestaurantListFragment.class);
+        MainActivity.this.startActivity(intentRes);
 
 
     }
@@ -84,7 +84,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch (menuItem.getItemId()){
             case R.id.nav_restaurant_list:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new RestaurantListFragment()).addToBackStack(null).commit();
+                Intent intentRes = new Intent(MainActivity.this, RestaurantListFragment.class);
+                MainActivity.this.startActivity(intentRes);
+               // getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new RestaurantListFragment()).addToBackStack(null).commit();
                 break;
             case R.id.shopping_cary:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ShoppingCart()).addToBackStack(null).commit();

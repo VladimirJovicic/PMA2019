@@ -14,6 +14,13 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
+
+        Intent i = getIntent();
+        Bundle b = i.getExtras();
+        if (b!= null) {
+            if (b.containsKey("naslov"))
+                Log.d("tag",i.getStringExtra("naslov"));
+        }
         //Toolbar toolbar = findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
 
