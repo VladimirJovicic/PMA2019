@@ -1,5 +1,6 @@
 package com.example.donesiklon;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,7 +10,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -23,11 +27,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //setContentView(R.layout.restoraunt);
         setContentView(R.layout.activity_main);
 
+        // Provera da li postoji sacuvan token - username na onovu koga cemo filtrirati view History, Order...
+        String user="";
+        if(SaveSharedPreference.getUserName(MainActivity.this).length() == 0)
+        {
+            Log.i("DA_LI_POSTOJI_USER", "ne");
+            // Ako ne postoji VRATI GA NA FORMU ZA LOGOVANJE
+        }
+        else
+        {
+            Log.i("DA_LI_POSTOJI_USER", "da");
+            user = SaveSharedPreference.getUserName(MainActivity.this);
+            Log.i("ZAKACEN_USER", user);
+        }
+
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+
+        // Username korisnika prikazan na nav
+        View headerView = navigationView.getHeaderView(0);
+        TextView navUsername = (TextView) headerView.findViewById(R.id.usernameNav);
+        navUsername.setText(user);
 
         //implementiran interfejs
         navigationView.setNavigationItemSelectedListener(this);
@@ -79,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Settings()).addToBackStack(null).commit();
                 break;
             case R.id.nav_logout:
+                SaveSharedPreference.clearUserName(MainActivity.this);
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 MainActivity.this.startActivity(intent);
                 //da back posle login-a ne vrati na main activity
