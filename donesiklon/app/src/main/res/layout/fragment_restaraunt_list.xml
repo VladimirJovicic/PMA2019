@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/restoraunt-list-id"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
     <ScrollView
-        android:clickable="true"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -16,35 +15,15 @@
             android:id="@+id/rest_list"
             android:orientation="vertical"
             tools:context="viralandroid.com.androidlistviewwithimageandtext.ListViewWithImageAndText">
-
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Restoraunts"
+                android:gravity="center"
+                android:textSize="35dp"
+                android:textColor="#000000"/>
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="130dp"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/border"
-                >
-                <ImageView
-                    android:layout_width="150dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:scaleType="fitXY"
-                    app:srcCompat="@drawable/food1" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Probajte nase dobre speijatitete. Bas su fini mmm. Sve vrste hrane koje volite"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="15dp"/>
-
-
-            </LinearLayout>
-
-            <LinearLayout
+                android:id="@+id/restoraunt1"
                 android:layout_width="wrap_content"
                 android:layout_height="130dp"
                 android:orientation="horizontal"
@@ -52,48 +31,40 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/border">
-                <ImageView
-                    android:layout_width="150dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="10dp"
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:scaleType="fitXY"
+                        app:srcCompat="@drawable/food1" />
+                </LinearLayout>
+                <LinearLayout
                     android:layout_marginTop="10dp"
-                    android:scaleType="fitXY"
-                    app:srcCompat="@drawable/food2" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Probajte nase dobre speijatitete. Bas su fini mmm. Sve vrste hrane koje volite"
                     android:layout_marginLeft="10dp"
-                    android:textSize="15dp"/>
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textSize="20dp"
+                        android:text="Kinezi"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="Probajte nase dobre speijatitete. Bas su fini mmm. Sve vrste hrane koje volite"
+                        android:textSize="15dp"/>
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="130dp"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="10dp"
-
-                android:background="@drawable/border">
-                <ImageView
-                    android:layout_width="150dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:scaleType="fitXY"
-                    app:srcCompat="@drawable/food3" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Probajte nase dobre speijatitete. Bas su fini mmm. Sve vrste hrane koje volite"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="15dp"/>
-            </LinearLayout>
-
-            <LinearLayout
+                android:id="@+id/restoraunt12"
                 android:layout_width="wrap_content"
                 android:layout_height="130dp"
                 android:orientation="horizontal"
@@ -101,23 +72,40 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/border">
-                <ImageView
-                    android:layout_width="150dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="10dp"
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:scaleType="fitXY"
+                        app:srcCompat="@drawable/food2" />
+                </LinearLayout>
+                <LinearLayout
                     android:layout_marginTop="10dp"
-                    android:scaleType="fitXY"
-                    app:srcCompat="@drawable/food4" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Probajte nase dobre speijatitete. Bas su fini mmm. Sve vrste hrane koje volite"
                     android:layout_marginLeft="10dp"
-                    android:textSize="15dp"/>
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textSize="20dp"
+                        android:text="Brza hrana"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="Probajte nase dobre speijatitete. Bas su fini mmm. Sve vrste hrane koje volite"
+                        android:textSize="15dp"/>
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/restoraunt13"
                 android:layout_width="wrap_content"
                 android:layout_height="130dp"
                 android:orientation="horizontal"
@@ -125,48 +113,120 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/border">
-                <ImageView
-                    android:layout_width="150dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="10dp"
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:scaleType="fitXY"
+                        app:srcCompat="@drawable/food3" />
+                </LinearLayout>
+                <LinearLayout
                     android:layout_marginTop="10dp"
-                    android:scaleType="fitXY"
-                    app:srcCompat="@drawable/food5" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Probajte nase dobre speijatitete. Bas su fini mmm. Sve vrste hrane koje volite"
                     android:layout_marginLeft="10dp"
-                    android:textSize="15dp"/>
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textSize="20dp"
+                        android:text="Moja picerija"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="Probajte nase dobre speijatitete. Bas su fini mmm. Sve vrste hrane koje volite"
+                        android:textSize="15dp"/>
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/restoraunt14"
                 android:layout_width="wrap_content"
                 android:layout_height="130dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="10dp"
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/border">
-                <ImageView
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:scaleType="fitXY"
 
-                    app:srcCompat="@drawable/food6" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Probajte nase dobre speijatitete. Bas su fini mmm. Sve vrste hrane koje volite"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:scaleType="fitXY"
+                        app:srcCompat="@drawable/food4" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="10dp"
-                    android:textSize="15dp"/>
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textSize="20dp"
+                        android:text="4 viljuske"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="Probajte nase dobre speijatitete. Bas su fini mmm. Sve vrste hrane koje volite"
+                        android:textSize="15dp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/restoraunt15"
+                android:layout_width="wrap_content"
+                android:layout_height="130dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/border">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:scaleType="fitXY"
+                        app:srcCompat="@drawable/food5" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textSize="20dp"
+                        android:text="Bife kod pere"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="Probajte nase dobre speijatitete. Bas su fini mmm. Sve vrste hrane koje volite"
+                        android:textSize="15dp"/>
+                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
-
 </RelativeLayout>
