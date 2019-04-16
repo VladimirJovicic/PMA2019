@@ -109,7 +109,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,locationListener);
 
                 Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                centreMapOnLocation(lastKnownLocation,"Your Location");
+                if(lastKnownLocation!=null)
+                    centreMapOnLocation(lastKnownLocation,"Your Location");
             }
         }
     }
