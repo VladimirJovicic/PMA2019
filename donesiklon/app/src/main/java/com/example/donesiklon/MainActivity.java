@@ -99,6 +99,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent intent2 = new Intent(MainActivity.this, MapsActivity.class);
                 MainActivity.this.startActivity(intent2);
                 break;
+            case R.id.orders:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Orders()).addToBackStack(null).commit();
+                break;
             case R.id.settings:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Settings()).addToBackStack(null).commit();
                 break;
