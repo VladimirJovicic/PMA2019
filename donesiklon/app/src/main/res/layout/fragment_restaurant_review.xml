@@ -1,174 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:outlineAmbientShadowColor="@color/colorAccent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
 
-    >
-    <View
-        android:id="@+id/divider7"
-        android:layout_width="match_parent"
-        android:layout_height="14dp"
-
-        android:background="@null"
-
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-    <TextView
-        android:id="@+id/comment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Leave a Review"
-        android:textColor="@android:color/background_dark"
-        android:textSize="20sp"
-        android:textStyle="bold|italic"
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="170dp"
+        android:layout_height="110dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:contentDescription="@string/review_img_description"
+        app:srcCompat="@drawable/review_icon" />
 
 
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider7"
-        />
-    <View
-        android:id="@+id/divider5"
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="240dp"
+        android:layout_height="230dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="150dp"
+        android:background="@drawable/border"
+        android:ems="19"
+        android:gravity="top|start"
+        android:hint="@string/leave_comment"
+        android:inputType="textCapSentences|textMultiLine"
+        android:maxLength="2000"
+        android:maxLines="8"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        android:scrollbars="vertical"
+        android:textSize="17sp" />
 
-        android:background="@null"
-
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/comment"
-        />
-
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/reviewText"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider5"
-        >
-
-        <EditText
-
-
-            android:layout_centerHorizontal="true"
-
-            android:paddingLeft="22dp"
-            android:paddingRight="22dp"
-            android:ems="19"
-
-            android:hint="@string/leave_comment"
-            android:textSize="17sp"
-
-
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="12dp"
-            android:background="@null"
-            android:layout_alignParentBottom="true"
-
-            android:inputType="textCapSentences|textMultiLine"
-            android:maxLength="2000"
-            android:maxLines="8" />
-    </FrameLayout>
-    <View
-        android:id="@+id/divider6"
-        android:layout_width="match_parent"
-        android:layout_height="12dp"
-
-        android:background="@null"
-
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/reviewText"
-        />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Rate This Restaurant"
-        android:textColor="@android:color/background_dark"
-        android:textSize="20sp"
-        android:textStyle="bold|italic"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-
-        app:layout_constraintTop_toBottomOf="@id/divider6"
-        />
-
-    <View
-        android:id="@+id/divider8"
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-
-        android:background="@null"
-
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView"
-        />
 
     <RatingBar
         android:id="@+id/ratingBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="390dp" />
 
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider8"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1" />
-
-
-    <Button
-        android:id="@+id/submitReview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
-        android:layout_marginTop="50dp"
-        android:background="@android:color/holo_red_dark"
-        android:onClick="Call"
-        android:text="Submit"
-        android:textColor="@android:color/background_light"
-        android:textStyle="bold"
-
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ratingBar"
-        tools:layout_constraintBottom_creator="1"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1" />
-
-    <Button
-        android:id="@+id/showReviews"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
-        android:layout_marginTop="50dp"
-
-        android:onClick="Call"
-        android:text="See Reviews"
-        android:textColor="@android:color/background_light"
-        android:textStyle="bold"
-
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/submitReview"
-        tools:layout_constraintBottom_creator="1"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1" />
+    <LinearLayout
+        android:layout_width="240dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="470dp"
+        android:orientation="horizontal">
 
 
+        <Button
+            android:id="@+id/showReviews"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:onClick="Call"
+            android:text="@string/seeReviewsButton"
+            android:textStyle="bold" />
 
-</android.support.constraint.ConstraintLayout>
+        <Button
+            android:id="@+id/submitReview"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:onClick="Call"
+            android:text="@string/addReviewButton"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</RelativeLayout>
