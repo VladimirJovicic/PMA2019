@@ -3,6 +3,17 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <!-- VALIDATION -->
+    <string name="reqUsername">Username is required.</string>
+    <string name="mustBeEmailUsername">  Username must be an email address.</string>
+    <string name="reqPassword">Password is required.</string>
+    <string name="mustLengthPassword">Password must be at last 6 characters.</string>
+    <string name="reqPhoneNumber">Phone number is required.</string>
+    <string name="reqName">Name is required.</string>
+    <string name="reqSurname">Surname is required.</string>
+    <string name="reqDeliveryAddress">Delivery address is required.</string>
+    <string name="reqAll">All fields are required.</string>
+    <string name="successfullyReg">Successfully registered.</string>
     <!-- DRAWER_MENU -->
     <string name="restaurants">Restaurants</string>
     <string name="visits_history">Visits history</string>
