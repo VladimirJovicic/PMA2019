@@ -75,6 +75,7 @@ public class RegistrationActivity  extends AppCompatActivity {
     }
 
     void addEditTextListeners(){
+        // Treba jos da se proveri da li postoji vec korisnik sa tim username
         username.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {}
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
