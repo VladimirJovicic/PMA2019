@@ -1,0 +1,59 @@
+<resources>
+    <string name="app_name">Donesi Klon</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!-- VALIDATION -->
+    <string name="reqUsername">Korisničko ime je obavezno.</string>
+    <string name="mustBeEmailUsername">  Username must be an email address.</string>
+    <string name="reqPassword">Lozinka je neophodna.</string>
+    <string name="mustLengthPassword">Lozinka mora da sadrži najmanje 6 karaktera.</string>
+    <string name="reqPhoneNumber">Broj telefona je obavezan.</string>
+    <string name="reqName">Ime je obavezno.</string>
+    <string name="reqSurname">Prezime je obavezno.</string>
+    <string name="reqDeliveryAddress">Adresa za dostavu je obavezna.</string>
+    <string name="reqAll">Sva polja su obavezna.</string>
+    <string name="successfullyReg">Registracija je uspešna.</string>
+    <string name="successfullyLogged">Logovanje je uspešno.</string>
+
+    <!-- DRAWER_MENU -->
+    <string name="restaurants">Restorani</string>
+    <string name="visits_history">Istorija poseta</string>
+    <string name="shopping_cart">Korpa</string>
+    <string name="incoming_orders">Praćenje porudžbina</string>
+    <string name="orders">Istorija narudžbina</string>
+    <string name="logout">Odjavljivanje</string>
+
+
+    <!-- REGISTRATION -->>
+    <string name="name">Ime</string>
+    <string name="surname">Prezime</string>
+    <string name="username">Korisničko ime</string>
+    <string name="delivery_address">Adresa za dostavu</string>
+    <string name="phone">Broj telefona</string>
+    <string name="password">Lozinka</string>
+    <string name="user_img_description">Ikonica za registraciju ili logovanje</string>
+
+    <!-- ADD REVIEW -->
+    <string name="leave_comment">Ostavite komentar</string>
+    <string name="review_img_description">Ikonica za recenzije</string>
+    <!-- SETTINGS -->
+    <string name="change_personal_information">Promena ličnih informacija</string>
+    <string name="new_delivery_address">Nova adresa za dostavu</string>
+    <string name="new_phone_number">Novi broj telefona</string>
+    <string name="choose_language">Promena jezika</string>
+    <string name="englishRadioButton">Engleski</string>
+    <string name="serbianRadioButton">Srpski</string>
+    <string name="settings">Podešavanja</string>
+
+    <!-- BUTTONS -->>
+    <string name="signInButton">Prijava</string>
+    <string name="signUpButton">Registracija</string>
+    <string name="addReviewButton">Recenzije</string>
+    <string name="seeReviewsButton">Recenzije</string>
+    <string name="cancelButton">Odustanite</string>
+    <string name="applyChangesButton">Potvrdite promene</string>
+    <string name="title_activity_maps">Mapa</string>
+
+    
+</resources>
