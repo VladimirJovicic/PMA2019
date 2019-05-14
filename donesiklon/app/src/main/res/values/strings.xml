@@ -19,7 +19,7 @@
     <!-- DRAWER_MENU -->
     <string name="restaurants">Restaurants</string>
     <string name="visits_history">Visits history</string>
-    <string name="shopping_cart">Cart</string>
+    <string name="shopping_cart">Shopping cart</string>
     <string name="incoming_orders">Incoming orders</string>
     <string name="orders">Orders History</string>
     <string name="logout">Log out</string>
@@ -55,7 +55,13 @@
     <string name="applyChangesButton">Apply Changes</string>
     <string name="title_activity_maps">Map</string>
 
+    <!-- CART -->
+    <string name="orderButton">Order</string>
+
+    <!-- FRAGMENT_RESTAURANTS -->
 
 
+    <!-- VISIT -->
+    <string name="clearButton">Clear history</string>
 
 </resources>

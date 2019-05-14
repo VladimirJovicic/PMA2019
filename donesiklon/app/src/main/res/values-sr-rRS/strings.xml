@@ -55,5 +55,11 @@
     <string name="applyChangesButton">Potvrdite promene</string>
     <string name="title_activity_maps">Mapa</string>
 
-    
+    <!-- CART -->
+    <string name="orderButton">Naručite</string>
+
+    <!-- FRAGMENT_RESTAURANTS -->
+
+    <!-- VISIT -->
+    <string name="clearButton">Obrišite istoriju</string>
 </resources>
