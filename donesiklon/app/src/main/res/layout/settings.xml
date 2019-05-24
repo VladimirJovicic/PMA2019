@@ -16,7 +16,7 @@
         android:textSize="20sp"
         />
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/deliveryAddressSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="19"
@@ -26,7 +26,7 @@
         android:textSize="17sp"/>
 
     <EditText
-        android:id="@+id/phoneNumber"
+        android:id="@+id/phoneNumberSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -38,7 +38,7 @@
         />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/passwordSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="19"
