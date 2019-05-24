@@ -75,21 +75,31 @@ public class RegistrationActivity  extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.i("prebacivanjeNaPrijavu", "Da");
+                clearTextFields();
 
                 Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
                 RegistrationActivity.this.startActivity(intent);
-                finish();
             }
         });
+    }
+
+    void clearTextFields(){
+        email.setText("");
+        password.setText("");
+        name.setText("");
+        surname.setText("");
+        deliveryAddress.setText("");
+        phoneNumber.setText("");
     }
 
     void successfulRegistration(){
         Log.i("uspeloRegistrovanje", "Da");
         Toast.makeText(getApplicationContext(), getResources().getString(R.string.successfullyReg), Toast.LENGTH_LONG).show();
+        clearTextFields();
+
         // Redirekcija na login formu
         Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
         RegistrationActivity.this.startActivity(intent);
-        finish();
     }
 
     void failedRegistration(String message){

@@ -12,10 +12,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -48,33 +53,33 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.reqAll), Toast.LENGTH_LONG).show();
                 }
                 else{
-                    Log.i("uspeloLogovanje", "Da");
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.successfullyLogged), Toast.LENGTH_LONG).show();
-                    // Uzimanje podataka
+                    final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                    Log.i("USERNAME_LOGOVANOG", email.getText().toString());
-                    Log.i("PASSWORD_LOGOVANOG", password.getText().toString());
+                    //check if user with this email exists
+                    db.collection("users")
+                            .whereEqualTo("email", email.getText().toString())
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        if(task.getResult().isEmpty()){
+                                            wrongCredentials();
+                                        }else{
+                                            DocumentSnapshot document = task.getResult().getDocuments().get(0);     //because only one user with this email should exist
+                                            if(document.getData().get("password").equals(password.getText().toString())){
+                                                succesfulLogin();
+                                            }else{
+                                                wrongCredentials();
+                                            }
+                                        }
+                                    } else {
+                                        Log.d("firebaseError", task.getException().toString());
+                                        Toast.makeText(getApplicationContext(), "Error getting documents for email checking", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
 
-                    //Ovde ce ici provera sa bazom da li postoji to ime i sifra
-                    Log.i("USPESNO_LOGOVANJE", "da");
-                    // Treba da se sacuva u SharedPreference
-                    SaveSharedPreference.setUserName(LoginActivity.this, email.getText().toString());
-
-                    /*
-                    if(username.getText().toString().equals("olja") && password.getText().toString().equals("olja")){
-                        Log.i("USPESNO_LOGOVANJE", "da");
-                        // Treba da se sacuva u SharedPreference
-                        SaveSharedPreference.setUserName(LoginActivity.this,username.getText().toString());
-                    }
-                    else{
-                        Log.i("USPESNO_LOGOVANJE", "ne");
-                    }
-                     */
-
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    LoginActivity.this.startActivity(intent);
-                    //da back iz main activitya ne vrati na login
-                    finish();
                 }
             }
         });
@@ -83,11 +88,34 @@ public class LoginActivity extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                clearTextFields();
                 Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
                 LoginActivity.this.startActivity(intent);
             }
         });
 
+    }
+
+    void clearTextFields(){
+        email.setText("");
+        password.setText("");
+    }
+
+    void succesfulLogin(){
+        Log.i("uspeloLogovanje", "Da");
+        Toast.makeText(getApplicationContext(), getResources().getString(R.string.successfullyLogged), Toast.LENGTH_LONG).show();
+
+        // Treba da se sacuva u SharedPreference
+        SaveSharedPreference.setUserName(LoginActivity.this, email.getText().toString());
+
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        LoginActivity.this.startActivity(intent);
+        //da back iz main activitya ne vrati na login
+        finish();
+    }
+
+    void wrongCredentials(){
+        Toast.makeText(getApplicationContext(), "Wrong credentials", Toast.LENGTH_LONG).show();
     }
 
     void addEditTextListeners(){
