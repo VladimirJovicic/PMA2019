@@ -23,7 +23,7 @@ import java.util.Map;
 public class LoginActivity extends AppCompatActivity {
     Button signInButton;
     Button signUpButton;
-    EditText username;
+    EditText email;
     EditText password;
     boolean correct = false;
 
@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
 
-        username = (EditText) findViewById(R.id.usernameSignIn);
+        email = (EditText) findViewById(R.id.emailSignIn);
         password = (EditText) findViewById(R.id.passwordSignIn);
 
         addEditTextListeners();
@@ -52,13 +52,13 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.successfullyLogged), Toast.LENGTH_LONG).show();
                     // Uzimanje podataka
 
-                    Log.i("USERNAME_LOGOVANOG", username.getText().toString());
+                    Log.i("USERNAME_LOGOVANOG", email.getText().toString());
                     Log.i("PASSWORD_LOGOVANOG", password.getText().toString());
 
                     //Ovde ce ici provera sa bazom da li postoji to ime i sifra
                     Log.i("USPESNO_LOGOVANJE", "da");
                     // Treba da se sacuva u SharedPreference
-                    SaveSharedPreference.setUserName(LoginActivity.this,username.getText().toString());
+                    SaveSharedPreference.setUserName(LoginActivity.this, email.getText().toString());
 
                     /*
                     if(username.getText().toString().equals("olja") && password.getText().toString().equals("olja")){
@@ -91,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     void addEditTextListeners(){
-        username.addTextChangedListener(new TextWatcher() {
+        email.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {}
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -99,11 +99,11 @@ public class LoginActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
                 if(s.length() == 0 || s.equals("")){
-                    username.setError(getResources().getString(R.string.reqUsername));
+                    email.setError(getResources().getString(R.string.reqUsername));
                     correct = false;
                 }
                 else if(!android.util.Patterns.EMAIL_ADDRESS.matcher(s).matches()){
-                    username.setError(getResources().getString(R.string.mustBeEmailUsername));
+                    email.setError(getResources().getString(R.string.mustBeEmailUsername));
                     correct = false;
                 }
                 else{

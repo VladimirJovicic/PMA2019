@@ -17,7 +17,7 @@
         app:srcCompat="@drawable/signin_icon" />
 
     <EditText
-        android:id="@+id/usernameSignIn"
+        android:id="@+id/emailSignIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -25,7 +25,7 @@
         android:ems="11"
         android:drawableLeft="@drawable/user_text_icon"
         android:drawablePadding="10dp"
-        android:hint="@string/username"
+        android:hint="@string/email"
         android:inputType="textPersonName" />
 
     <EditText

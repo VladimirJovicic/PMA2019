@@ -2,6 +2,7 @@ package com.example.donesiklon;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,11 +12,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.donesiklon.model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.HashMap;
+
 public class RegistrationActivity  extends AppCompatActivity {
     Button signUpButton;
     Button signInButton;
     EditText password;
-    EditText username;
+    EditText email;
     EditText name;
     EditText surname;
     EditText deliveryAddress;
@@ -29,7 +42,7 @@ public class RegistrationActivity  extends AppCompatActivity {
 
         // Datas
         password = (EditText)findViewById(R.id.password);
-        username = (EditText)findViewById(R.id.username);
+        email = (EditText)findViewById(R.id.email);
         name = (EditText)findViewById(R.id.name);
         surname = (EditText)findViewById(R.id.surname);
         deliveryAddress = (EditText)findViewById(R.id.deliveryAddress);
@@ -48,14 +61,10 @@ public class RegistrationActivity  extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.reqAll), Toast.LENGTH_LONG).show();
                 }
                 else{
-                    Log.i("uspeloRegistrovanje", "Da");
                     // Ide u bazu
-
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.successfullyReg), Toast.LENGTH_LONG).show();
-                    // Redirekcija na login formu
-                    Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
-                    RegistrationActivity.this.startActivity(intent);
-                    finish();
+                    saveUserToDatabase(email.getText().toString(), password.getText().toString(),
+                            name.getText().toString(), surname.getText().toString(), deliveryAddress.getText().toString(),
+                            phoneNumber.getText().toString());
                 }
             }
 
@@ -74,9 +83,66 @@ public class RegistrationActivity  extends AppCompatActivity {
         });
     }
 
+    void successfulRegistration(){
+        Log.i("uspeloRegistrovanje", "Da");
+        Toast.makeText(getApplicationContext(), getResources().getString(R.string.successfullyReg), Toast.LENGTH_LONG).show();
+        // Redirekcija na login formu
+        Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
+        RegistrationActivity.this.startActivity(intent);
+        finish();
+    }
+
+    void failedRegistration(String message){
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+    }
+
+    void saveUserToDatabase(String email, String password, String firstName, String lastName, String deliveryAddres, String phoneNumber){
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final User user = new User(email, password, firstName, lastName, deliveryAddres, phoneNumber);
+
+        //check if email exists
+        db.collection("users")
+                .whereEqualTo("email", email)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if(task.getResult().isEmpty()){
+                                //if email doesnt exist insert new user
+                                insertUserToDatabase(db, user);
+                            }else{
+                                failedRegistration("Email you entered is taken");
+                            }
+                        } else {
+                            Log.d("firebaseError", task.getException().toString());
+                            failedRegistration("Error getting documents for email checking");
+                        }
+                    }
+                });
+    }
+
+    void insertUserToDatabase(FirebaseFirestore db, User user){
+        db.collection("users")
+                .add(user)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        successfulRegistration();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("firebaseError", e.toString());
+                        failedRegistration("Couldn't add user to database");
+                    }
+                });
+    }
+
     void addEditTextListeners(){
         // Treba jos da se proveri da li postoji vec korisnik sa tim username
-        username.addTextChangedListener(new TextWatcher() {
+        email.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {}
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -84,11 +150,11 @@ public class RegistrationActivity  extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
                 if(s.length() == 0 || s.equals("")){
-                    username.setError(getResources().getString(R.string.reqUsername));
+                    email.setError(getResources().getString(R.string.reqUsername));
                     correct = false;
                 }
                 else if(!android.util.Patterns.EMAIL_ADDRESS.matcher(s).matches()){
-                    username.setError(getResources().getString(R.string.mustBeEmailUsername));
+                    email.setError(getResources().getString(R.string.mustBeEmailUsername));
                     correct = false;
                 }
                 else{

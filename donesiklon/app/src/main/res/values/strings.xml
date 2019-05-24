@@ -28,7 +28,7 @@
     <!-- REGISTRATION -->>
     <string name="name">Name</string>
     <string name="surname">Surname</string>
-    <string name="username">Username</string>
+    <string name="email">Email</string>
     <string name="delivery_address">Delivery Address</string>
     <string name="phone">Phone Number</string>
     <string name="password">Password</string>

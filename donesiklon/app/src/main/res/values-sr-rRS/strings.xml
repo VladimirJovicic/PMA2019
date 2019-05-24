@@ -28,7 +28,7 @@
     <!-- REGISTRATION -->>
     <string name="name">Ime</string>
     <string name="surname">Prezime</string>
-    <string name="username">Korisničko ime</string>
+    <string name="email">Email</string>
     <string name="delivery_address">Adresa za dostavu</string>
     <string name="phone">Broj telefona</string>
     <string name="password">Lozinka</string>
