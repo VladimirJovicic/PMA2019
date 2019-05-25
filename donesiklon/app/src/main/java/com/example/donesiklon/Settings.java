@@ -77,6 +77,7 @@ public class Settings extends Fragment {
                                 deliveryAddress.setText(deliveryAddressFirebase);
                                 password.setText(passwordFirebase);
                                 phoneNumber.setText(phoneNumberFirebase);
+                                addEditTextListeners();
                             }
                         } else {
                             Log.d("firebaseError", task.getException().toString());
@@ -89,9 +90,10 @@ public class Settings extends Fragment {
         buttonChangeDeliveryAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addEditTextListeners();
+              //  addEditTextListeners();
 
                 if(correct) {
+                    Log.i("PODESAVANJA","promena");
                     db.collection("users").document(userId).update("deliveryAddress", deliveryAddress.getText().toString(), "phoneNumber", phoneNumber.getText().toString(), "password", password.getText().toString());
                 }
             }
