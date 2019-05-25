@@ -4,13 +4,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -23,13 +24,17 @@ public class Settings extends Fragment {
     EditText deliveryAddress;
     EditText password;
     EditText phoneNumber;
+    Button buttonChangeDeliveryAddress;
+    String user;
+    String userId;
+    boolean correct = false;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view =  inflater.inflate(R.layout.settings, container, false);
 
-        String user="";
+        user="";
         if(SaveSharedPreference.getUserName(getContext()).length() == 0)
         {
             Log.i("USER_SETTINGS", "ne");
@@ -43,7 +48,6 @@ public class Settings extends Fragment {
         }
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
-
         //check if user with this email exists
         db.collection("users")
                 .whereEqualTo("email", user)
@@ -53,17 +57,19 @@ public class Settings extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             if(task.getResult().isEmpty()){
-                                //wrongCredentials();
+                                Log.e("settingsError", "Ne postoji korisnik u bazi");
                             }else{
                                 DocumentSnapshot document = task.getResult().getDocuments().get(0);     //because only one user with this email should exist
+                                userId = document.getId();
                                 String deliveryAddressFirebase = document.getData().get("deliveryAddress").toString();
                                 String phoneNumberFirebase = document.getData().get("phoneNumber").toString();
                                 String passwordFirebase = document.getData().get("password").toString();
+                                /*
                                 Log.i("adresa", deliveryAddressFirebase);
                                 Log.i("broj", phoneNumberFirebase);
                                 Log.i("lozinka", passwordFirebase);
-
-                                // Uzimanje
+                                */
+                                // Uzimanje polja sa fronta i popunjavanje vrednostima iz baze
                                 deliveryAddress = (EditText) view.findViewById(R.id.deliveryAddressSettings);
                                 password = (EditText) view.findViewById(R.id.passwordSettings);
                                 phoneNumber = (EditText) view.findViewById(R.id.phoneNumberSettings);
@@ -71,29 +77,85 @@ public class Settings extends Fragment {
                                 deliveryAddress.setText(deliveryAddressFirebase);
                                 password.setText(passwordFirebase);
                                 phoneNumber.setText(phoneNumberFirebase);
-
-//phoneNumber passwordSettings deliveryAddressSettings
-                               /* if(document.getData().get("password").equals(password.getText().toString())){
-                                    //succesfulLogin();
-                                }else{
-                                    //wrongCredentials();
-                                }*/
                             }
                         } else {
                             Log.d("firebaseError", task.getException().toString());
-                           // Toast.makeText(getApplicationContext(), "Error getting documents for email checking", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
 
 
+        buttonChangeDeliveryAddress = (Button) view.findViewById(R.id.buttonChangeDeliveryAddress);
+        buttonChangeDeliveryAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addEditTextListeners();
 
-
-
-
-
+                if(correct) {
+                    db.collection("users").document(userId).update("deliveryAddress", deliveryAddress.getText().toString(), "phoneNumber", phoneNumber.getText().toString(), "password", password.getText().toString());
+                }
+            }
+        });
         //return inflater.inflate(R.layout.settings, container, false);
         return view;
     }
 
+
+    void addEditTextListeners(){
+        deliveryAddress.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                if(s.length() == 0 || s.equals("")){
+                    deliveryAddress.setError(getResources().getString(R.string.reqDeliveryAddress));
+                    correct = false;
+                }
+                else{
+                    correct = true;
+                }
+            }
+        });
+
+        phoneNumber.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                if(s.length() == 0 || s.equals("")){
+                    phoneNumber.setError(getResources().getString(R.string.reqPhoneNumber));
+                    correct = false;
+                }
+                else{
+                    correct = true;
+                }
+            }
+        });
+
+        password.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                if(s.length() == 0 || s.equals("")){
+                    password.setError(getResources().getString(R.string.reqPassword));
+                    correct = false;
+                }else if(password.length()<6){
+                    password.setError(getResources().getString(R.string.mustLengthPassword));
+                    correct = false;
+                }
+                else{
+                    correct = true;
+                }
+            }
+        });
+
+    }
+
 }
+
