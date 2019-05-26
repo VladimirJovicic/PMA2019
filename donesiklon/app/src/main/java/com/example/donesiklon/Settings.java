@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -95,6 +96,10 @@ public class Settings extends Fragment {
                 if(correct) {
                     Log.i("PODESAVANJA","promena");
                     db.collection("users").document(userId).update("deliveryAddress", deliveryAddress.getText().toString(), "phoneNumber", phoneNumber.getText().toString(), "password", password.getText().toString());
+                    Toast.makeText(getContext(), getResources().getString(R.string.successfullyChangedSettings), Toast.LENGTH_LONG).show();
+                }
+                else{
+                    Toast.makeText(getContext(), getResources().getString(R.string.unsuccessfullyLogged), Toast.LENGTH_LONG).show();
                 }
             }
         });

@@ -45,6 +45,8 @@
     <string name="englishRadioButton">Engleski</string>
     <string name="serbianRadioButton">Srpski</string>
     <string name="settings">Podešavanja</string>
+    <string name="successfullyChangedSettings">Uspešno izmenjena podešavanja.</string>
+    <string name="unsuccessfullyLogged">Podešavanja ne mogu da se izmene, pokušajte ponovo.</string>
 
     <!-- BUTTONS -->>
     <string name="signInButton">Prijava</string>

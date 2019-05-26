@@ -45,6 +45,8 @@
     <string name="englishRadioButton">English</string>
     <string name="serbianRadioButton">Serbian</string>
     <string name="settings">Settings</string>
+    <string name="successfullyChangedSettings">Successfully changed settings.</string>
+    <string name="unsuccessfullyLogged">Settings can not be changed, try again.</string>
 
     <!-- BUTTONS -->>
     <string name="signInButton">Sign In</string>
