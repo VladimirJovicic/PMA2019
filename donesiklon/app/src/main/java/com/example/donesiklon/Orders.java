@@ -1,10 +1,24 @@
 package com.example.donesiklon;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Orders extends Fragment {
@@ -54,7 +68,48 @@ public class Orders extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_orders, container, false);
+        View view = inflater.inflate(R.layout.fragment_orders, container, false);
+        final TableLayout ordersTable = (TableLayout)view.findViewById(R.id.ordersTable);
+
+
+        ordersTable.setStretchAllColumns(true);
+        ordersTable.bringToFront();
+
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        //check if user with this email exists
+        db.collection("users").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if(task.getResult().isEmpty()){
+                                Log.e("settingsError", "Ne postoje orderi");
+                            }else{
+                                List<DocumentSnapshot> documents = task.getResult().getDocuments();     //because only one user with this email should exist
+
+                                for(DocumentSnapshot doc : documents){
+
+                                    TableRow tr =  new TableRow(getContext());
+                                    TextView c1 = new TextView(getContext());
+                                    c1.setText(doc.getData().get("firstName").toString());
+                                    TextView c2 = new TextView(getContext());
+                                    c2.setText(doc.getData().get("lastName").toString());
+                                    TextView c3 = new TextView(getContext());
+                                    c3.setText(doc.getData().get("phoneNumber").toString());
+                                    tr.addView(c1);
+                                    tr.addView(c2);
+                                    tr.addView(c3);
+                                    ordersTable.addView(tr);
+
+                                }
+                            }
+                        } else {
+                            Log.d("firebaseError", task.getException().toString());
+                        }
+                    }
+                });
+
+        return view;
     }
 
 
