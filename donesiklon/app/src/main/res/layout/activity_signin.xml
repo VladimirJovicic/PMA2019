@@ -26,6 +26,7 @@
         android:drawableLeft="@drawable/user_text_icon"
         android:drawablePadding="10dp"
         android:hint="@string/email"
+        android:text="email@email.com"
         android:inputType="textPersonName" />
 
     <EditText
@@ -38,6 +39,7 @@
         android:drawableLeft="@drawable/password_text_icon"
         android:drawablePadding="10dp"
         android:hint="@string/password"
+        android:text="asdfgh"
         android:inputType="textPassword" />
 
     <LinearLayout

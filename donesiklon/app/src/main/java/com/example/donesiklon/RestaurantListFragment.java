@@ -1,63 +1,155 @@
 package com.example.donesiklon;
 
+import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.example.donesiklon.model.Restaurant;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.lang.reflect.Field;
 
 public class RestaurantListFragment extends Fragment {
 
     public String naslov = "";
+    int width = Resources.getSystem().getDisplayMetrics().widthPixels;
+    int height = Resources.getSystem().getDisplayMetrics().heightPixels;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_restaraunt_list, container, false);
+        final LinearLayout layout = view.findViewById(R.id.rest_list);
 
-        View view =  inflater.inflate(R.layout.fragment_restaraunt_list, container, false);
-        final LinearLayout app_layer = (LinearLayout) view.findViewById(R.id.rest_list);
-        app_layer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment fragment = new RestorauntMenuFragment();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-            }
-        });
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        app_layer.setOnLongClickListener(new View.OnLongClickListener() {
+        db.collection("restoraunts").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public boolean onLongClick(View v) {
-                app_layer.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Fragment fragment = new RestaurantReview();
-                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.fragment_container, fragment);
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        final Restaurant restaurant = createRestoraunt(document);
+                        LinearLayout restorauntLayout = createRestorauntLayout(restaurant);
+                        restorauntLayout.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Fragment fragment = new RestorauntMenuFragment();
+                                Bundle args = new Bundle();
+                                args.putInt("id", restaurant.getId());
+                                fragment.setArguments(args);
+                                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                fragmentTransaction.replace(R.id.fragment_container, fragment);
+                                fragmentTransaction.addToBackStack(null);
+                                fragmentTransaction.commit();
+                            }
+                        });
+
+                        restorauntLayout.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View v) {
+                                Fragment fragment = new RestaurantReview();
+                                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                fragmentTransaction.replace(R.id.fragment_container, fragment);
+                                fragmentTransaction.addToBackStack(null);
+                                fragmentTransaction.commit();
+                                return true;
+                            }
+                        });
+                        layout.addView(restorauntLayout);
                     }
-                });
-                return false;
+                } else {
+                    Log.d("qwe", "Error getting documents: ", task.getException());
+                }
             }
-
         });
-
-
         return view;
     }
 
+    private Restaurant createRestoraunt(QueryDocumentSnapshot document) {
+        Restaurant retVal = new Restaurant();
+        retVal.setId(Integer.parseInt(document.getData().get("id").toString()));
+        retVal.setName(document.getData().get("name").toString());
+        retVal.setAddress(document.getData().get("address").toString());
+        retVal.setImageUrl(document.getData().get("imageUrl").toString());
+        retVal.setDescription(document.getData().get("description").toString());
+        return  retVal;
+    }
+
+    private LinearLayout createRestorauntLayout(Restaurant restaurant) {
+        LinearLayout restorauntLayout = new LinearLayout(getActivity().getApplicationContext());
+        restorauntLayout.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, height/5);
+        layoutParams.setMargins(5, 10, 10, 30);
+        restorauntLayout.setLayoutParams(layoutParams);
+        restorauntLayout.setBackgroundDrawable(ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.border));
+
+        LinearLayout imageHolder = new LinearLayout(getActivity().getApplicationContext());
+        imageHolder.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
+
+        ImageView imageView = new ImageView(getActivity().getApplicationContext());
+        TableRow.LayoutParams layoutParamsForImageView = new TableRow.LayoutParams(width/3, height/5 - 20);
+        layoutParamsForImageView.setMargins(10, 10, 0, 20);
+        imageView.setLayoutParams(layoutParamsForImageView);
+
+        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+        Glide.with(getActivity().getApplicationContext()).load(restaurant.getImageUrl()).into(imageView);
+        imageHolder.addView(imageView);
+
+        ImageView image = new ImageView(getActivity().getApplicationContext());
+        Glide.with(getActivity().getApplicationContext()).load(restaurant.getImageUrl()).into(image);
+
+        LinearLayout textViewsHolder = new LinearLayout(getActivity().getApplicationContext());
+        LinearLayout.LayoutParams layoutParamsContentHolderLayout = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,  LinearLayout.LayoutParams.MATCH_PARENT);
+        layoutParamsContentHolderLayout.setMargins(25, 10, 25, 0);
+        textViewsHolder.setOrientation(LinearLayout.VERTICAL);
+        textViewsHolder.setLayoutParams(layoutParamsContentHolderLayout);
+
+        TextView textName = new TextView(getActivity().getApplicationContext());
+        textName.setTextSize(20);
+        textName.setTypeface(null, Typeface.BOLD);
+        textName.setText(restaurant.getName());
+
+        TextView textAddress = new TextView(getActivity().getApplicationContext());
+        textAddress.setTextSize(13);
+        textAddress.setText("Adresa: " + restaurant.getAddress());
+
+        TextView textDescription = new TextView(getActivity().getApplicationContext());
+        textDescription.setTextSize(13);
+        textDescription.setText("Opis: " + restaurant.getDescription());
+
+        textViewsHolder.addView(textName);
+        textViewsHolder.addView(textAddress);
+        textViewsHolder.addView(textDescription);
+
+        restorauntLayout.addView(imageHolder);
+        restorauntLayout.addView(textViewsHolder);
+
+        return restorauntLayout;
+    }
 
 }
