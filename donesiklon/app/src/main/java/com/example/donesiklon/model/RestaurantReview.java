@@ -1,10 +1,13 @@
 package com.example.donesiklon.model;
 
-public class RestaurantRating {
+import java.util.Date;
 
+public class RestaurantReview {
     private String userId;
     private String restaurantId;
-    private double rating;
+    private String comment;
+    private String date;
+    private float rating;
 
     public String getUserId() {
         return userId;
@@ -22,11 +25,27 @@ public class RestaurantRating {
         this.restaurantId = restaurantId;
     }
 
-    public double getRating() {
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public float getRating() {
         return rating;
     }
 
-    public void setRating(double rating) {
+    public void setRating(float rating) {
         this.rating = rating;
     }
 }

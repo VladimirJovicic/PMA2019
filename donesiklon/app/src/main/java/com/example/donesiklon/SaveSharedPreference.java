@@ -34,4 +34,6 @@ public class SaveSharedPreference
         Log.i("OBRISAO",  "trebalo bi");
         editor.commit();
     }
+
+
 }

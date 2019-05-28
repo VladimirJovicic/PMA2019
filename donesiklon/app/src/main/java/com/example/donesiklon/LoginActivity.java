@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 else{
                     final FirebaseFirestore db = FirebaseFirestore.getInstance();
-
+                    email.setText("email@email.com");    // ovo se brise posle
                     //check if user with this email exists
                     db.collection("users")
                             .whereEqualTo("email", email.getText().toString())
@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                                         }else{
                                             DocumentSnapshot document = task.getResult().getDocuments().get(0);     //because only one user with this email should exist
                                             if(document.getData().get("password").equals(password.getText().toString())){
-                                                succesfulLogin();
+                                                succesfulLogin(document.getId());
                                             }else{
                                                 wrongCredentials();
                                             }
@@ -101,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
         password.setText("");
     }
 
-    void succesfulLogin(){
+    void succesfulLogin(String userId){
         Log.i("uspeloLogovanje", "Da");
         Toast.makeText(getApplicationContext(), getResources().getString(R.string.successfullyLogged), Toast.LENGTH_LONG).show();
 

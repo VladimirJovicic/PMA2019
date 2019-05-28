@@ -57,7 +57,7 @@ public class RestaurantListFragment extends Fragment {
                             public void onClick(View v) {
                                 Fragment fragment = new RestorauntMenuFragment();
                                 Bundle args = new Bundle();
-                                args.putInt("id", restaurant.getId());
+                                args.putString("id", restaurant.getId());
                                 fragment.setArguments(args);
                                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -71,6 +71,9 @@ public class RestaurantListFragment extends Fragment {
                             @Override
                             public boolean onLongClick(View v) {
                                 Fragment fragment = new RestaurantReview();
+                                Bundle args = new Bundle();
+                                args.putString("id", restaurant.getId());
+                                fragment.setArguments(args);
                                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                                 fragmentTransaction.replace(R.id.fragment_container, fragment);
@@ -91,7 +94,7 @@ public class RestaurantListFragment extends Fragment {
 
     private Restaurant createRestoraunt(QueryDocumentSnapshot document) {
         Restaurant retVal = new Restaurant();
-        retVal.setId(Integer.parseInt(document.getData().get("id").toString()));
+        retVal.setId(document.getId());
         retVal.setName(document.getData().get("name").toString());
         retVal.setAddress(document.getData().get("address").toString());
         retVal.setImageUrl(document.getData().get("imageUrl").toString());

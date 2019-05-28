@@ -10,6 +10,7 @@
     android:layout_height="wrap_content">
     <ScrollView android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/scrollview"
         >
     <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
@@ -17,72 +18,9 @@
         android:divider="?android:attr/dividerHorizontal"
         android:showDividers="middle"
         android:gravity="center_horizontal"
+        android:id="@+id/list_of_reviews"
     >
-    <TableRow>
-        <TextView
-            android:text="Losa hrana!!1"
-            android:padding="3dip" />
-        <RatingBar
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="false"
-
-            android:isIndicator="true"
-            style="?android:attr/ratingBarStyleSmall"
-            android:numStars="5"
-            android:rating="2"/>
-
-    </TableRow>
-
-    <TableRow>
-        <TextView
-            android:text="Top top!"
-            android:padding="3dip" />
-        <RatingBar
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="false"
-
-            android:isIndicator="true"
-            style="?android:attr/ratingBarStyleSmall"
-            android:numStars="5"
-            android:rating="5"/>
-
-    </TableRow>
-    <TableRow>
-        <TextView
-            android:text="Nije lose moze bolje"
-            android:padding="3dip" />
-        <RatingBar
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="false"
-
-            android:isIndicator="true"
-            style="?android:attr/ratingBarStyleSmall"
-            android:numStars="5"
-
-            android:rating="3"/>
-    </TableRow>
-    <TableRow>
-        <TextView
-            android:text="good food"
-            android:padding="3dip" />
-        <RatingBar
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="false"
-
-            android:isIndicator="true"
-            style="?android:attr/ratingBarStyleSmall"
-            android:numStars="5"
-            android:rating="4"/>
-    </TableRow>
-
-    </TableLayout>
+        </TableLayout>
     </ScrollView>
 </RelativeLayout>
