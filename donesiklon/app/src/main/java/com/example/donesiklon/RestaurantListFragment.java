@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.donesiklon.model.Restaurant;
+import com.example.donesiklon.model.VisitHistory;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -30,6 +31,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.lang.reflect.Field;
+import java.util.Date;
 
 public class RestaurantListFragment extends Fragment {
 
@@ -55,6 +57,7 @@ public class RestaurantListFragment extends Fragment {
                         restorauntLayout.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                addToVisitHistory(db,restaurant.getId());
                                 Fragment fragment = new RestorauntMenuFragment();
                                 Bundle args = new Bundle();
                                 args.putString("id", restaurant.getId());
@@ -154,5 +157,14 @@ public class RestaurantListFragment extends Fragment {
 
         return restorauntLayout;
     }
+
+    public void addToVisitHistory(FirebaseFirestore db, String restarauntId) {
+        VisitHistory visitHistory = new VisitHistory();
+        visitHistory.setDate(new Date());
+        visitHistory.setRestorauntId(restarauntId);
+        visitHistory.setUserId(SaveSharedPreference.getUserName(getActivity().getApplicationContext()));
+        db.collection("visit_history").add(visitHistory);
+    }
+
 
 }
