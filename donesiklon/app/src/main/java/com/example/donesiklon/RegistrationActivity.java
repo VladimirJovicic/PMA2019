@@ -66,6 +66,7 @@ public class RegistrationActivity  extends AppCompatActivity {
                             name.getText().toString(), surname.getText().toString(), deliveryAddress.getText().toString(),
                             phoneNumber.getText().toString());
                 }
+                finish();
             }
 
         });
@@ -75,10 +76,11 @@ public class RegistrationActivity  extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.i("prebacivanjeNaPrijavu", "Da");
-                clearTextFields();
+                //clearTextFields();
 
                 Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
                 RegistrationActivity.this.startActivity(intent);
+                finish();
             }
         });
     }
@@ -95,7 +97,7 @@ public class RegistrationActivity  extends AppCompatActivity {
     void successfulRegistration(){
         Log.i("uspeloRegistrovanje", "Da");
         Toast.makeText(getApplicationContext(), getResources().getString(R.string.successfullyReg), Toast.LENGTH_LONG).show();
-        clearTextFields();
+        //clearTextFields();
 
         // Redirekcija na login formu
         Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);

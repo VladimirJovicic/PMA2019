@@ -81,16 +81,19 @@ public class LoginActivity extends AppCompatActivity {
                             });
 
                 }
+                finish();
             }
+
         });
 
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clearTextFields();
+               // clearTextFields();
                 Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
                 LoginActivity.this.startActivity(intent);
+                finish();
             }
         });
 
