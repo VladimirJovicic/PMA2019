@@ -19,48 +19,6 @@
             android:divider="?android:attr/dividerHorizontal"
             android:showDividers="middle"
             android:stretchColumns="1">
-            <TableRow>
-                <TextView
-                    android:text="Ciao"
-                    android:padding="3dip" />
-                <TextView
-                    android:text="2 Pizzas"
-                    android:gravity="center_horizontal"
-                    android:padding="3dip" />
-                <TextView
-                    android:text="420 din"
-                    android:gravity="right"
-                    android:padding="3dip" />
-            </TableRow>
-
-            <TableRow>
-                <TextView
-                    android:text="Siki"
-                    android:padding="3dip" />
-                <TextView
-                    android:text="2 Burgers"
-                    android:gravity="center_horizontal"
-                    android:padding="3dip" />
-                <TextView
-                    android:text="520 din"
-                    android:gravity="right"
-                    android:padding="3dip" />
-            </TableRow>
-
-            <TableRow>
-                <TextView
-                    android:text="Pub"
-                    android:padding="3dip" />
-                <TextView
-                    android:text="2 Burgers"
-                    android:gravity="center_horizontal"
-                    android:padding="3dip" />
-                <TextView
-                    android:text="480 din"
-                    android:gravity="right"
-                    android:padding="3dip" />
-            </TableRow>
-
 
         </TableLayout>
     </ScrollView>

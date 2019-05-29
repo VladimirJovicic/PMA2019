@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -22,51 +23,26 @@ import java.util.List;
 
 
 public class Orders extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-
-
-    public Orders() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Orders.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static Orders newInstance(String param1, String param2) {
-        Orders fragment = new Orders();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
+    String user;
+    String userId;
+    DocumentSnapshot d;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        user="";
+        if(SaveSharedPreference.getUserName(getContext()).length() == 0)
+        {
+            Log.i("USER_SETTINGS", "ne");
+            // Ako ne postoji VRATI GA NA FORMU ZA LOGOVANJE
+        }
+        else
+        {
+            Log.i("USER_SETTINGS", "da");
+            user = SaveSharedPreference.getUserName(getContext());
+            Log.i("ZAKACEN_USER", user);
+        }
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_orders, container, false);
         final TableLayout ordersTable = (TableLayout)view.findViewById(R.id.ordersTable);
@@ -77,17 +53,122 @@ public class Orders extends Fragment {
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         //check if user with this email exists
-        db.collection("users").get()
+        db.collection("users")
+                .whereEqualTo("email", user)
+                .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             if(task.getResult().isEmpty()){
-                                Log.e("settingsError", "Ne postoje orderi");
+                                Log.e("settingsError", "Ne postoji korisnik u bazi");
+                            }else{
+                                DocumentSnapshot document = task.getResult().getDocuments().get(0);     //because only one user with this email should exist
+                                userId = document.getId();
+                                Log.i("ulogovanUBazi", userId);
+                            }
+                        } else {
+                            Log.d("firebaseError", task.getException().toString());
+                        }
+                    }
+                });
+
+        db.collection("purchases")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if(task.getResult().isEmpty()){
+                                Log.e("orderError", "Ne postoje orderi");
                             }else{
                                 List<DocumentSnapshot> documents = task.getResult().getDocuments();     //because only one user with this email should exist
+                                for(DocumentSnapshot doc : documents) {
+                                    String uId =  doc.getData().get("userId").toString();
+                                    if(uId.endsWith(userId)){
+                                        Log.i("daLisuJednaki", "da");
+                                        d = doc;
+                                        db.collection("products")
+                                                .get()
+                                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                        if (task.isSuccessful()) {
+                                                            if(task.getResult().isEmpty()){
+                                                                Log.e("productNema", "Ne postoji product");
+                                                            }else{
+                                                                List<DocumentSnapshot> documentProducts = task.getResult().getDocuments();     //because only one user with this email should exist
 
+                                                                for(DocumentSnapshot docPro : documentProducts) {
+                                                                    String productId = docPro.getId();
+                                                                    if(d.getData().get("productId").toString().endsWith(productId)){
+
+                                                                        TableRow tr =  new TableRow(getContext());
+                                                                        TextView c1 = new TextView(getContext());
+                                                                        c1.setText(docPro.getData().get("name").toString());
+                                                                        TextView c2 = new TextView(getContext());
+                                                                        c2.setText(docPro.getData().get("price").toString());
+                                                                        TextView c3 = new TextView(getContext());
+                                                                        c3.setText(d.getData().get("status").toString());
+                                                                        tr.addView(c1);
+                                                                        tr.addView(c2);
+                                                                        tr.addView(c3);
+                                                                        ordersTable.addView(tr);
+                                                                    }
+                                                                }}}
+
+
+                                                        else {
+                                                            Log.d("firebaseError", task.getException().toString());
+                                                        }
+                                                    }
+                                                });
+
+
+
+                                    }
+
+                                }
+
+                                /*
                                 for(DocumentSnapshot doc : documents){
+                                    d = doc;
+                                    db.collection("products")
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        if(task.getResult().isEmpty()){
+                                                            Log.e("productNema", "Ne postoji product");
+                                                        }else{
+                                                            List<DocumentSnapshot> documentProducts = task.getResult().getDocuments();     //because only one user with this email should exist
+
+                                                            for(DocumentSnapshot docPro : documentProducts) {
+                                                                String productId = docPro.getId();
+                                                                if(d.getData().get("productId").toString().equals(productId)){
+
+                                                                    TableRow tr =  new TableRow(getContext());
+                                                                    TextView c1 = new TextView(getContext());
+                                                                    c1.setText(docPro.getData().get("name").toString());
+                                                                    TextView c2 = new TextView(getContext());
+                                                                    c2.setText(docPro.getData().get("price").toString());
+                                                                    TextView c3 = new TextView(getContext());
+                                                                    c3.setText(d.getData().get("status").toString());
+                                                                    tr.addView(c1);
+                                                                    tr.addView(c2);
+                                                                    tr.addView(c3);
+                                                                    ordersTable.addView(tr);
+                                                                }
+                                                            }
+
+                                                        }
+                                                    } else {
+                                                        Log.d("firebaseError", task.getException().toString());
+                                                    }
+                                                }
+                                            });
+
 
                                     TableRow tr =  new TableRow(getContext());
                                     TextView c1 = new TextView(getContext());
@@ -101,7 +182,7 @@ public class Orders extends Fragment {
                                     tr.addView(c3);
                                     ordersTable.addView(tr);
 
-                                }
+                                }*/
                             }
                         } else {
                             Log.d("firebaseError", task.getException().toString());
