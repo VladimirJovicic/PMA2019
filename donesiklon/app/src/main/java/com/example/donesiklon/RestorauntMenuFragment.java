@@ -8,14 +8,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableRow;
@@ -24,12 +23,17 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.donesiklon.model.Product;
-import com.example.donesiklon.model.Restaurant;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RestorauntMenuFragment extends Fragment {
     private String naslov = "";
@@ -37,6 +41,8 @@ public class RestorauntMenuFragment extends Fragment {
 
     int width = Resources.getSystem().getDisplayMetrics().widthPixels;
     int height = Resources.getSystem().getDisplayMetrics().heightPixels;
+
+    final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -46,7 +52,7 @@ public class RestorauntMenuFragment extends Fragment {
         View view = inflater.inflate(R.layout.restoraunt_menu, container, false);
         final LinearLayout layout = view.findViewById(R.id.meni_items);
 
-        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+
 
         db.collection("products").
                 whereEqualTo("restaurantId", id).
@@ -83,11 +89,11 @@ public class RestorauntMenuFragment extends Fragment {
         return  retVal;
     }
 
-    private LinearLayout createRestorauntMenuLayout(Product product) {
+    private LinearLayout createRestorauntMenuLayout(final Product product) {
         LinearLayout restorauntLayout = new LinearLayout(getActivity().getApplicationContext());
         restorauntLayout.setOrientation(LinearLayout.HORIZONTAL);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, height/5);
+                LinearLayout.LayoutParams.MATCH_PARENT, height/5+30);
         layoutParams.setMargins(5, 10, 10, 30);
         restorauntLayout.setLayoutParams(layoutParams);
         restorauntLayout.setBackgroundDrawable(ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.border));
@@ -136,9 +142,54 @@ public class RestorauntMenuFragment extends Fragment {
         textPrice.setGravity(Gravity.RIGHT);
         priceHolder.addView(textPrice);
 
+        //TextView buttonHolder = new TextView(getActivity().getApplicationContext());
+        Button myButton = new Button(getActivity().getApplicationContext());
+        myButton.setText("Add To Cart");
+        myButton.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Product product = new Product();
+//                product.setCode("ISqoPyzHRhneRIaUOryT");
+//                product.setDescription("Probajte, ukusno je");
+//                product.setImageUrl("https://firebasestorage.googleapis.com/v0/b/donesi-klon-firebase.appspot.com/o/chinese2.jpg?alt=media&token=8ca870ae-1f99-4184-9de6-5799bb20aacb");
+//                product.setName("Kineska piletina");
+//                product.setPrice(250);
+//                product.setRestaurantId("3xLrl1dVId1mnJo37psz");
+                Log.d("productVan", product.toString());
+                Map<String, Object> data = new HashMap<>();
+                data.put("code", product.getCode());
+                data.put("status", "inCart");
+                data.put("userId", "Ed5dcUBXy5HHqpuN1V3J");
+
+                db.collection("purchases")
+                        .add(data)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                Log.d("productInner", product.toString());
+                                Log.d("ADDOK", product.getName().toString());
+                                Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.addedToCart), Toast.LENGTH_LONG).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w("ADDERROR", "Error adding document", e);
+                            }
+                        });
+
+
+            }
+        });
+
+        textName.setTextSize(20);
+        textName.setTypeface(null, Typeface.BOLD);
+        textName.setText(product.getName());
+
         textViewsHolder.addView(textName);
         textViewsHolder.addView(textDescriptionForProduct);
         textViewsHolder.addView(priceHolder);
+        textViewsHolder.addView(myButton);
 
         restorauntLayout.addView(imageHolder);
         restorauntLayout.addView(textViewsHolder);

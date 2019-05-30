@@ -5,6 +5,7 @@ public class Purchase {
     private String status;
     private String userId;
     private String productId;
+    private String code;
 
     public String getStatus() {
         return status;
@@ -28,5 +29,13 @@ public class Purchase {
 
     public void setProductId(String productId) {
         this.productId = productId;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

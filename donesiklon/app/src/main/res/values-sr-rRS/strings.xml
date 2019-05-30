@@ -59,6 +59,7 @@
 
     <!-- CART -->
     <string name="orderButton">Naručite</string>
+    <string name="addedToCart">Dodato u korpu</string>
 
     <!-- FRAGMENT_RESTAURANTS -->
 

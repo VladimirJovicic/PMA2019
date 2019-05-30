@@ -59,6 +59,7 @@
 
     <!-- CART -->
     <string name="orderButton">Order</string>
+    <string name="addedToCart">Added to Cart</string>
 
     <!-- FRAGMENT_RESTAURANTS -->
 

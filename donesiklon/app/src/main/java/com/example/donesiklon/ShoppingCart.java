@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Gravity;
@@ -20,10 +18,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.donesiklon.model.Product;
-import com.example.donesiklon.model.Restaurant;
+import com.example.donesiklon.model.Purchase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -32,6 +31,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ShoppingCart extends Fragment {
     int width = Resources.getSystem().getDisplayMetrics().widthPixels;
@@ -54,13 +55,28 @@ public class ShoppingCart extends Fragment {
                         layout.addView(createEmptyMenuLayout());
                     }else {
                         for (QueryDocumentSnapshot d : task.getResult()) {
-                            db.collection("products").document(d.get("productId").toString()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
+                            Log.i("DDD", d.toString());
+                            //db.collection("products").document(d.get("productId").toString()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            db.collection("products").whereEqualTo("code",d.get("code").toString()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                 @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                     if(task.isSuccessful()) {
-                                            Product product = createProduct(task.getResult());
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                           // Log.d(TAG, document.getId() + " => " + document.getData());
+                                            Product product = createProduct(document.getId(),document.getData());
+//                                            Product product = new Product();
+//                                            product.setCode("ISqoPyzHRhneRIaUOryT");
+//                                            product.setDescription("Probajte, ukusno je");
+//                                            product.setImageUrl("https://firebasestorage.googleapis.com/v0/b/donesi-klon-firebase.appspot.com/o/chinese2.jpg?alt=media&token=8ca870ae-1f99-4184-9de6-5799bb20aacb");
+//                                            product.setName("Kineska piletina");
+//                                            product.setPrice(250);
+//                                            product.setRestaurantId("3xLrl1dVId1mnJo37psz");
                                             products.add(product);
                                             layout.addView(createRestorauntMenuLayout(product));
+                                        }
+
+
                                     }
                                 }
                             });
@@ -71,6 +87,54 @@ public class ShoppingCart extends Fragment {
                 }
             }
         });
+
+        Button myButton = new Button(getActivity().getApplicationContext());
+        myButton.setText("Checkout");
+        myButton.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Map<String, Object> data = new HashMap<>();
+
+
+                db.collection("purchases").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot document : task.getResult()) {
+                                Purchase purchase = document.toObject(Purchase.class);
+                                purchase.setStatus("finished"); //Use the setter
+                                String id = document.getId();
+                                db.collection("purchases").document(id).set(purchase);
+                            }
+
+//                            Fragment currentFragment = getFragmentManager().findFragmentByTag("cart_items");
+//                            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+//                            fragmentTransaction.detach(currentFragment);
+//                            fragmentTransaction.attach(currentFragment);
+//                            fragmentTransaction.commit();
+
+                            getFragmentManager()
+                                    .beginTransaction()
+                                    .replace(R.id.fragment_container, new ShoppingCart(), "cart").commit();
+
+//after transaction you must call the executePendingTransaction
+                            getFragmentManager().executePendingTransactions();
+
+//now you can get fragment which is added with tag
+                            ShoppingCart exampleFragment = (ShoppingCart) getFragmentManager().findFragmentByTag("cart");
+
+
+                            Toast.makeText(getActivity().getApplicationContext(), "You successfully ordered your meal!", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+
+            }
+        });
+
+        layout.addView(myButton);
 
         return view;
     }
@@ -84,6 +148,18 @@ public class ShoppingCart extends Fragment {
         retVal.setRestaurantId(document.get("restaurantId").toString());
         retVal.setDescription(document.get("description").toString());
         retVal.setImageUrl(document.get("imageUrl").toString());
+        return retVal;
+    }
+
+    private Product createProduct(String id, java.util.Map<String,Object> data) {
+        Product retVal = new Product();
+        retVal.setId(id);
+        retVal.setCode(data.get("code").toString());
+        retVal.setName(data.get("name").toString());
+        retVal.setPrice(Integer.parseInt(data.get("price").toString()));
+        retVal.setRestaurantId(data.get("restaurantId").toString());
+        retVal.setDescription(data.get("description").toString());
+        retVal.setImageUrl(data.get("imageUrl").toString());
         return retVal;
     }
 
@@ -158,7 +234,7 @@ public class ShoppingCart extends Fragment {
         TextView message = new TextView(getActivity().getApplicationContext());
         message.setTextSize(20);
         message.setTypeface(null, Typeface.BOLD);
-        message.setText("Meni je trenutno prazan");
+        message.setText("Korpa je prazna!");
         message.setGravity(Gravity.CENTER);
         retValLayout.addView(message);
         return retValLayout;
