@@ -23,4 +23,19 @@
         </TableLayout>
     </ScrollView>
 
+    <TextView
+        android:id="@+id/tSpent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="@string/totalSpent"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+    <TextView
+        android:id="@+id/spent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="0"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
 </LinearLayout>

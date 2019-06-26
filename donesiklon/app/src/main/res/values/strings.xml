@@ -63,7 +63,7 @@
 
     <!-- FRAGMENT_RESTAURANTS -->
 
-
+    <string name="totalSpent">Total spent:</string>
     <!-- VISIT -->
     <string name="clearButton">Clear history</string>
 
