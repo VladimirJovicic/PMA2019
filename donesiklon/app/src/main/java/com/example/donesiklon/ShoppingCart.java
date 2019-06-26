@@ -89,7 +89,7 @@ public class ShoppingCart extends Fragment {
         });
 
         Button myButton = new Button(getActivity().getApplicationContext());
-        myButton.setText("Checkout");
+        myButton.setText(R.string.checkout);
         myButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,7 +125,7 @@ public class ShoppingCart extends Fragment {
                             ShoppingCart exampleFragment = (ShoppingCart) getFragmentManager().findFragmentByTag("cart");
 
 
-                            Toast.makeText(getActivity().getApplicationContext(), "You successfully ordered your meal!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity().getApplicationContext(), R.string.successfullyOrdered, Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -234,7 +234,7 @@ public class ShoppingCart extends Fragment {
         TextView message = new TextView(getActivity().getApplicationContext());
         message.setTextSize(20);
         message.setTypeface(null, Typeface.BOLD);
-        message.setText("Korpa je prazna!");
+        message.setText(R.string.emptyCart);
         message.setGravity(Gravity.CENTER);
         retValLayout.addView(message);
         return retValLayout;

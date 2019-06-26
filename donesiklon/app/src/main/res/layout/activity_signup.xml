@@ -91,14 +91,14 @@
 
             <Button
                 android:id="@+id/registrationButtonSignIn"
-                android:layout_width="115dp"
+                android:layout_width="110dp"
                 android:layout_height="match_parent"
                 android:textStyle="bold"
                 android:text="@string/signInButton" />
 
             <Button
                 android:id="@+id/registrationButtonSignUp"
-                android:layout_width="115dp"
+                android:layout_width="125dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="end"
                 android:textStyle="bold"

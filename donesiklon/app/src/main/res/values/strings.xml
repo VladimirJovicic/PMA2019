@@ -60,7 +60,10 @@
     <!-- CART -->
     <string name="orderButton">Order</string>
     <string name="addedToCart">Added to Cart</string>
-
+    <string name="shoppingCart">Shopping Cart</string>
+    <string name="checkout">Checkout</string>
+    <string name="successfullyOrdered">Successfully ordered meal</string>
+    <string name="emptyCart">Empty cart</string>
     <!-- FRAGMENT_RESTAURANTS -->
 
     <string name="totalSpent">Total spent:</string>

@@ -60,7 +60,10 @@
     <!-- CART -->
     <string name="orderButton">Naručite</string>
     <string name="addedToCart">Dodato u korpu</string>
-
+    <string name="shoppingCart">Korpa</string>
+    <string name="checkout">Poručiti</string>
+    <string name="successfullyOrdered">Uspešno izvršena porudžbina</string>
+    <string name="emptyCart">Korpa je prazna</string>
     <!-- FRAGMENT_RESTAURANTS -->
     <string name="totalSpent">Ukupno potrošeno:</string>
     <!-- VISIT -->
