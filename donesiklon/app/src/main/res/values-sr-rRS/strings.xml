@@ -64,7 +64,11 @@
     <string name="checkout">Poručiti</string>
     <string name="successfullyOrdered">Uspešno izvršena porudžbina</string>
     <string name="emptyCart">Korpa je prazna</string>
+    <string name="meal">Jelo</string>
+    <string name="addedMeal">je dodato u korpu</string>
     <!-- FRAGMENT_RESTAURANTS -->
+    <string name="menu">Meni</string>
+    <string name="emptyMenu">Meni je prazan</string>
     <string name="totalSpent">Ukupno potrošeno:</string>
     <!-- VISIT -->
     <string name="clearButton">Obrišite istoriju</string>

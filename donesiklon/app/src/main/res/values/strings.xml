@@ -64,7 +64,11 @@
     <string name="checkout">Checkout</string>
     <string name="successfullyOrdered">Successfully ordered meal</string>
     <string name="emptyCart">Empty cart</string>
+    <string name="meal">Meal</string>
+    <string name="addedMeal">is added to cart</string>
     <!-- FRAGMENT_RESTAURANTS -->
+    <string name="menu">Menu</string>
+    <string name="emptyMenu">Empty menu</string>
 
     <string name="totalSpent">Total spent:</string>
     <!-- VISIT -->

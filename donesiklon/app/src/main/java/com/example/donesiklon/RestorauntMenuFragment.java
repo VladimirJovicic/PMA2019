@@ -205,14 +205,14 @@ public class RestorauntMenuFragment extends Fragment {
         TextView message = new TextView(getActivity().getApplicationContext());
         message.setTextSize(20);
         message.setTypeface(null, Typeface.BOLD);
-        message.setText("Meni je trenutno prazan");
+        message.setText(R.string.emptyMenu);
         message.setGravity(Gravity.CENTER);
         retValLayout.addView(message);
         return retValLayout;
     }
 
     private void message() {
-        Toast.makeText(this.getActivity(), "Jelo '"+naslov + "' je dodato u korpu" , Toast.LENGTH_LONG).show();
+        Toast.makeText(this.getActivity(), R.string.meal + " " + naslov + " " + R.string.addedMeal , Toast.LENGTH_LONG).show();
     }
 }
 
