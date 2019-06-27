@@ -73,5 +73,6 @@
     <string name="totalSpent">Total spent:</string>
     <!-- VISIT -->
     <string name="clearButton">Clear history</string>
-
+    <string name="wrongCredentials">Wrong credentials</string>
+    <string name="errorGetting">Error getting documents for email checking</string>
 </resources>

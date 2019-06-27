@@ -23,7 +23,8 @@ public class LoginActivity extends AppCompatActivity {
     Button signUpButton;
     EditText email;
     EditText password;
-    boolean correct = false;
+    boolean correctMail = false;
+    boolean correctPassword = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!correct){
+                if(!correctPassword && !correctMail){
                     Log.i("uspeloLogovanje", "Ne");
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.reqAll), Toast.LENGTH_LONG).show();
                 }
@@ -68,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
                                         }
                                     } else {
                                         Log.d("firebaseError", task.getException().toString());
-                                        Toast.makeText(getApplicationContext(), "Error getting documents for email checking", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(), R.string.errorGetting, Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
@@ -126,7 +127,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     void wrongCredentials(){
-        Toast.makeText(getApplicationContext(), "Wrong credentials", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), R.string.wrongCredentials, Toast.LENGTH_LONG).show();
     }
 
     void addEditTextListeners(){
@@ -139,14 +140,14 @@ public class LoginActivity extends AppCompatActivity {
                                       int before, int count) {
                 if(s.length() == 0 || s.equals("")){
                     email.setError(getResources().getString(R.string.reqUsername));
-                    correct = false;
+                    correctMail = false;
                 }
                 else if(!android.util.Patterns.EMAIL_ADDRESS.matcher(s).matches()){
                     email.setError(getResources().getString(R.string.mustBeEmailUsername));
-                    correct = false;
+                    correctMail = false;
                 }
                 else{
-                    correct = true;
+                    correctMail = true;
                 }
             }
         });
@@ -159,10 +160,10 @@ public class LoginActivity extends AppCompatActivity {
                                       int before, int count) {
                 if(s.length() == 0 || s.equals("")){
                     password.setError(getResources().getString(R.string.reqPassword));
-                    correct = false;
+                    correctPassword = false;
                 }
                 else{
-                    correct = true;
+                    correctPassword = true;
                 }
             }
         });
