@@ -66,6 +66,7 @@
     <string name="emptyCart">Empty cart</string>
     <string name="meal">Meal</string>
     <string name="addedMeal">is added to cart</string>
+    <string name="addToCart">Add to cart</string>
     <!-- FRAGMENT_RESTAURANTS -->
     <string name="menu">Menu</string>
     <string name="emptyMenu">Empty menu</string>
@@ -79,4 +80,11 @@
     <string name="emailTaken">Email you entered is taken</string>
     <string name="yourLocation">Your Location</string>
     <string name="placeNumber">Place number</string>
+    <string name="errorGettingDocuments">Error getting documents:</string>
+    <string name="address">Address: </string>
+    <string name="location">Location: </string>
+    <string name="description">Description: </string>
+    <string name="checkFields">Plase check if all fields are correctlly filled</string>
+    <string name="thankForReview">Thank you for your review!</string>
+    <string name="price">Price: </string>
 </resources>

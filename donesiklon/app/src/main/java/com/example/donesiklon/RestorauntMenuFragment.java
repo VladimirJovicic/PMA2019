@@ -126,7 +126,7 @@ public class RestorauntMenuFragment extends Fragment {
 
         TextView textDescriptionForProduct = new TextView(getActivity().getApplicationContext());
         textDescriptionForProduct.setTextSize(13);
-        textDescriptionForProduct.setText("Opis: " + product.getDescription());
+        textDescriptionForProduct.setText(R.string.description + product.getDescription());
 
         LinearLayout priceHolder = new LinearLayout(getActivity().getApplicationContext());
         LinearLayout.LayoutParams layoutParamsPriceHolderLayout = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,  LinearLayout.LayoutParams.MATCH_PARENT);
@@ -138,13 +138,13 @@ public class RestorauntMenuFragment extends Fragment {
         TextView textPrice = new TextView(getActivity().getApplicationContext());
         textPrice.setTextSize(13);
         textPrice.setTextColor(Color.rgb(130,2,2));
-        textPrice.setText("Cena: " + product.getPrice());
+        textPrice.setText(R.string.price + "" + product.getPrice());
         textPrice.setGravity(Gravity.RIGHT);
         priceHolder.addView(textPrice);
 
         //TextView buttonHolder = new TextView(getActivity().getApplicationContext());
         Button myButton = new Button(getActivity().getApplicationContext());
-        myButton.setText("Add To Cart");
+        myButton.setText(R.string.addToCart);
         myButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -168,7 +168,7 @@ public class RestorauntMenuFragment extends Fragment {
                             public void onSuccess(DocumentReference documentReference) {
                                 Log.d("productInner", product.toString());
                                 Log.d("ADDOK", product.getName().toString());
-                                Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.addedToCart), Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity().getApplicationContext(), R.string.addedToCart, Toast.LENGTH_LONG).show();
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
