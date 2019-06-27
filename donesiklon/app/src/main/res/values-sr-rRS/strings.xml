@@ -76,4 +76,6 @@
     <string name="errorGetting">Greška prilikom dobavljanja dokumenata za proveru emaila</string>
     <string name="cantAddUser">Neuspelo dodavanje korisnika u bazu</string>
     <string name="emailTaken">Uneti email se već koristi</string>
+    <string name="yourLocation">Vaša lokacija</string>
+    <string name="placeNumber">Broj mesta</string>
 </resources>
