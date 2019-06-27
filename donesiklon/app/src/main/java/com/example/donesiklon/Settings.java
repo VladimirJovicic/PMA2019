@@ -28,7 +28,9 @@ public class Settings extends Fragment {
     Button buttonChangeDeliveryAddress;
     String user;
     String userId;
-    boolean correct = false;
+    boolean correctPassword = false;
+    boolean correctAddress = false;
+    boolean correctNumber = false;
 
     @Nullable
     @Override
@@ -93,7 +95,7 @@ public class Settings extends Fragment {
             public void onClick(View v) {
               //  addEditTextListeners();
 
-                if(correct) {
+                if(!correctNumber && !correctAddress && !correctPassword) {
                     Log.i("PODESAVANJA","promena");
                     db.collection("users").document(userId).update("deliveryAddress", deliveryAddress.getText().toString(), "phoneNumber", phoneNumber.getText().toString(), "password", password.getText().toString());
                     Toast.makeText(getContext(), getResources().getString(R.string.successfullyChangedSettings), Toast.LENGTH_LONG).show();
@@ -118,10 +120,10 @@ public class Settings extends Fragment {
                                       int before, int count) {
                 if(s.length() == 0 || s.equals("")){
                     deliveryAddress.setError(getResources().getString(R.string.reqDeliveryAddress));
-                    correct = false;
+                    correctAddress = false;
                 }
                 else{
-                    correct = true;
+                    correctAddress = true;
                 }
             }
         });
@@ -135,10 +137,10 @@ public class Settings extends Fragment {
                                       int before, int count) {
                 if(s.length() == 0 || s.equals("")){
                     phoneNumber.setError(getResources().getString(R.string.reqPhoneNumber));
-                    correct = false;
+                    correctNumber = false;
                 }
                 else{
-                    correct = true;
+                    correctNumber = true;
                 }
             }
         });
@@ -151,13 +153,13 @@ public class Settings extends Fragment {
                                       int before, int count) {
                 if(s.length() == 0 || s.equals("")){
                     password.setError(getResources().getString(R.string.reqPassword));
-                    correct = false;
+                    correctPassword= false;
                 }else if(password.length()<6){
                     password.setError(getResources().getString(R.string.mustLengthPassword));
-                    correct = false;
+                    correctPassword = false;
                 }
                 else{
-                    correct = true;
+                    correctPassword = true;
                 }
             }
         });

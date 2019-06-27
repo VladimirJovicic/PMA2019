@@ -86,4 +86,6 @@
     <string name="checkFields">Proverite da li su sva polja ispravno popunjena</string>
     <string name="thankForReview">Hvala na komentaru!</string>
     <string name="price">Cena: </string>
+    <string name="emptyReviewsList">Lista recenzija je prazna</string>
+    <string name="emptyVisitsHistory">Istorija poseta je prazna</string>
 </resources>

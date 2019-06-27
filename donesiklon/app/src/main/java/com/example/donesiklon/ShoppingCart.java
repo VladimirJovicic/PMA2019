@@ -200,7 +200,7 @@ public class ShoppingCart extends Fragment {
 
         TextView textDescriptionForProduct = new TextView(getActivity().getApplicationContext());
         textDescriptionForProduct.setTextSize(13);
-        textDescriptionForProduct.setText("Opis: " + product.getDescription());
+        textDescriptionForProduct.setText(R.string.description + product.getDescription());
 
         LinearLayout priceHolder = new LinearLayout(getActivity().getApplicationContext());
         LinearLayout.LayoutParams layoutParamsPriceHolderLayout = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,  LinearLayout.LayoutParams.MATCH_PARENT);
@@ -212,7 +212,7 @@ public class ShoppingCart extends Fragment {
         TextView textPrice = new TextView(getActivity().getApplicationContext());
         textPrice.setTextSize(13);
         textPrice.setTextColor(Color.rgb(130,2,2));
-        textPrice.setText("Cena: " + product.getPrice());
+        textPrice.setText(R.string.price + "" + product.getPrice());
         textPrice.setGravity(Gravity.RIGHT);
         priceHolder.addView(textPrice);
 

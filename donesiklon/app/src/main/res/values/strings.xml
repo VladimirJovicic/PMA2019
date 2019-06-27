@@ -87,4 +87,7 @@
     <string name="checkFields">Plase check if all fields are correctlly filled</string>
     <string name="thankForReview">Thank you for your review!</string>
     <string name="price">Price: </string>
+    <string name="emptyReviewsList">Empty reviews list</string>
+    <string name="emptyVisitsHistory">Empty visits history</string>
+
 </resources>

@@ -146,7 +146,7 @@ public class ReviewsList extends Fragment {
         TextView message = new TextView(getActivity().getApplicationContext());
         message.setTextSize(20);
         message.setTypeface(null, Typeface.BOLD);
-        message.setText("Trenutna lista recenzija je prazna");
+        message.setText(R.string.emptyReviewsList);
         message.setGravity(Gravity.CENTER);
         retValLayout.addView(message);
         return retValLayout;
