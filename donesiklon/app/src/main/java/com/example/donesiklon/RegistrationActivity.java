@@ -19,10 +19,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.HashMap;
 
 public class RegistrationActivity  extends AppCompatActivity {
     Button signUpButton;
@@ -33,7 +30,12 @@ public class RegistrationActivity  extends AppCompatActivity {
     EditText surname;
     EditText deliveryAddress;
     EditText phoneNumber;
-    boolean correct = false;
+    boolean correctEmail = false;
+    boolean correctPassword = false;
+    boolean correctName = false;
+    boolean correctSurname = false;
+    boolean correctAddress = false;
+    boolean correctPhone = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +58,7 @@ public class RegistrationActivity  extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!correct){
+                if(!correctEmail && !correctPassword && !correctName && !correctSurname && !correctAddress && !correctPhone){
                     Log.i("uspeloRegistrovanje", "Ne");
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.reqAll), Toast.LENGTH_LONG).show();
                 }
@@ -124,11 +126,11 @@ public class RegistrationActivity  extends AppCompatActivity {
                                 //if email doesnt exist insert new user
                                 insertUserToDatabase(db, user);
                             }else{
-                                failedRegistration("Email you entered is taken");
+                                failedRegistration(getResources().getString(R.string.emailTaken));
                             }
                         } else {
                             Log.d("firebaseError", task.getException().toString());
-                            failedRegistration("Error getting documents for email checking");
+                            failedRegistration(getResources().getString(R.string.errorGetting));
                         }
                     }
                 });
@@ -147,7 +149,7 @@ public class RegistrationActivity  extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.d("firebaseError", e.toString());
-                        failedRegistration("Couldn't add user to database");
+                        failedRegistration(getResources().getString(R.string.cantAddUser));
                     }
                 });
     }
@@ -163,14 +165,14 @@ public class RegistrationActivity  extends AppCompatActivity {
                                       int before, int count) {
                 if(s.length() == 0 || s.equals("")){
                     email.setError(getResources().getString(R.string.reqUsername));
-                    correct = false;
+                    correctEmail = false;
                 }
                 else if(!android.util.Patterns.EMAIL_ADDRESS.matcher(s).matches()){
                     email.setError(getResources().getString(R.string.mustBeEmailUsername));
-                    correct = false;
+                    correctEmail = false;
                 }
                 else{
-                    correct = true;
+                    correctEmail = true;
                 }
             }
         });
@@ -183,14 +185,14 @@ public class RegistrationActivity  extends AppCompatActivity {
                                       int before, int count) {
                 if(s.length() == 0 || s.equals("")){
                     password.setError(getResources().getString(R.string.reqPassword));
-                    correct = false;
+                    correctPassword = false;
                 }
                 else if(password.length()<6){
                     password.setError(getResources().getString(R.string.mustLengthPassword));
-                    correct = false;
+                    correctPassword = false;
                 }
                 else{
-                    correct = true;
+                    correctPassword = true;
                 }
             }
         });
@@ -203,10 +205,10 @@ public class RegistrationActivity  extends AppCompatActivity {
                                       int before, int count) {
                 if(s.length() == 0 || s.equals("")){
                     name.setError(getResources().getString(R.string.reqName));
-                    correct = false;
+                    correctName = false;
                 }
                 else{
-                    correct = true;
+                    correctName = true;
                 }
             }
         });
@@ -219,10 +221,10 @@ public class RegistrationActivity  extends AppCompatActivity {
                                       int before, int count) {
                 if(s.length() == 0 || s.equals("")){
                     surname.setError(getResources().getString(R.string.reqSurname));
-                    correct = false;
+                    correctSurname = false;
                 }
                 else{
-                    correct = true;
+                    correctSurname = true;
                 }
             }
         });
@@ -235,10 +237,10 @@ public class RegistrationActivity  extends AppCompatActivity {
                                       int before, int count) {
                 if(s.length() == 0 || s.toString().equals("")){
                     deliveryAddress.setError(getResources().getString(R.string.reqDeliveryAddress));
-                    correct = false;
+                    correctAddress = false;
                 }
                 else{
-                    correct = true;
+                    correctAddress = true;
             }
             }
         });
@@ -251,10 +253,10 @@ public class RegistrationActivity  extends AppCompatActivity {
                                       int before, int count) {
                 if(s.length() == 0 || s.equals("")){
                     phoneNumber.setError(getResources().getString(R.string.reqPhoneNumber));
-                    correct = false;
+                    correctPhone = false;
                 }
                 else{
-                    correct = true;
+                    correctPhone = true;
                 }
             }
         });

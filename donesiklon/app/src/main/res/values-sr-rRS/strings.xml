@@ -74,5 +74,6 @@
     <string name="clearButton">Obrišite istoriju</string>
     <string name="wrongCredentials">Pogrešni kredencijali</string>
     <string name="errorGetting">Greška prilikom dobavljanja dokumenata za proveru emaila</string>
-
+    <string name="cantAddUser">Neuspelo dodavanje korisnika u bazu</string>
+    <string name="emailTaken">Uneti email se već koristi</string>
 </resources>
