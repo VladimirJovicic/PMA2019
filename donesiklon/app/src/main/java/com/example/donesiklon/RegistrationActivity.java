@@ -36,6 +36,13 @@ public class RegistrationActivity  extends AppCompatActivity {
     boolean correctSurname = false;
     boolean correctAddress = false;
     boolean correctPhone = false;
+    TextWatcher emailTextWatcher;
+    TextWatcher passwordTextWatcher;
+    TextWatcher nameTextWatcher;
+    TextWatcher surnameTextWatcher;
+    TextWatcher deliveryAddressTextWatcher;
+    TextWatcher phoneNumberTextWatcher;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +57,7 @@ public class RegistrationActivity  extends AppCompatActivity {
         deliveryAddress = (EditText)findViewById(R.id.deliveryAddress);
         phoneNumber = (EditText)findViewById(R.id.phoneNumber);
 
+        createTextWatchers();
         addEditTextListeners();
 
         signUpButton = (Button) findViewById(R.id.registrationButtonSignUp);
@@ -58,7 +66,7 @@ public class RegistrationActivity  extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!correctEmail && !correctPassword && !correctName && !correctSurname && !correctAddress && !correctPhone){
+                if(!correctEmail || !correctPassword || !correctName || !correctSurname || !correctAddress || !correctPhone){
                     Log.i("uspeloRegistrovanje", "Ne");
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.reqAll), Toast.LENGTH_LONG).show();
                 }
@@ -68,7 +76,6 @@ public class RegistrationActivity  extends AppCompatActivity {
                             name.getText().toString(), surname.getText().toString(), deliveryAddress.getText().toString(),
                             phoneNumber.getText().toString());
                 }
-                finish();
             }
 
         });
@@ -82,10 +89,10 @@ public class RegistrationActivity  extends AppCompatActivity {
 
                 Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
                 RegistrationActivity.this.startActivity(intent);
-                finish();
             }
         });
     }
+
 
     void clearTextFields(){
         email.setText("");
@@ -99,7 +106,13 @@ public class RegistrationActivity  extends AppCompatActivity {
     void successfulRegistration(){
         Log.i("uspeloRegistrovanje", "Da");
         Toast.makeText(getApplicationContext(), getResources().getString(R.string.successfullyReg), Toast.LENGTH_LONG).show();
-        //clearTextFields();
+        email.removeTextChangedListener(emailTextWatcher);
+        password.removeTextChangedListener(passwordTextWatcher);
+        name.removeTextChangedListener(nameTextWatcher);
+        surname.removeTextChangedListener(surnameTextWatcher);
+        deliveryAddress.removeTextChangedListener(deliveryAddressTextWatcher);
+        phoneNumber.removeTextChangedListener(phoneNumberTextWatcher);
+        clearTextFields();
 
         // Redirekcija na login formu
         Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
@@ -156,7 +169,17 @@ public class RegistrationActivity  extends AppCompatActivity {
 
     void addEditTextListeners(){
         // Treba jos da se proveri da li postoji vec korisnik sa tim username
-        email.addTextChangedListener(new TextWatcher() {
+        email.addTextChangedListener(emailTextWatcher);
+        password.addTextChangedListener(passwordTextWatcher);
+        name.addTextChangedListener(nameTextWatcher);
+        surname.addTextChangedListener(surnameTextWatcher);
+        deliveryAddress.addTextChangedListener(deliveryAddressTextWatcher);
+        phoneNumber.addTextChangedListener(phoneNumberTextWatcher);
+    }
+
+
+    private void createTextWatchers() {
+        emailTextWatcher = new TextWatcher() {
             public void afterTextChanged(Editable s) {}
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -175,9 +198,9 @@ public class RegistrationActivity  extends AppCompatActivity {
                     correctEmail = true;
                 }
             }
-        });
+        };
 
-        password.addTextChangedListener(new TextWatcher() {
+        passwordTextWatcher = new TextWatcher() {
             public void afterTextChanged(Editable s) {}
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
@@ -195,9 +218,9 @@ public class RegistrationActivity  extends AppCompatActivity {
                     correctPassword = true;
                 }
             }
-        });
+        };
 
-        name.addTextChangedListener(new TextWatcher() {
+        nameTextWatcher = new TextWatcher() {
             public void afterTextChanged(Editable s) {}
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
@@ -211,9 +234,9 @@ public class RegistrationActivity  extends AppCompatActivity {
                     correctName = true;
                 }
             }
-        });
+        };
 
-        surname.addTextChangedListener(new TextWatcher() {
+        surnameTextWatcher = new TextWatcher() {
             public void afterTextChanged(Editable s) {}
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
@@ -227,9 +250,9 @@ public class RegistrationActivity  extends AppCompatActivity {
                     correctSurname = true;
                 }
             }
-        });
+        };
 
-        deliveryAddress.addTextChangedListener(new TextWatcher() {
+        deliveryAddressTextWatcher = new TextWatcher() {
             public void afterTextChanged(Editable s) {}
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
@@ -241,11 +264,11 @@ public class RegistrationActivity  extends AppCompatActivity {
                 }
                 else{
                     correctAddress = true;
+                }
             }
-            }
-        });
+        };
 
-        phoneNumber.addTextChangedListener(new TextWatcher() {
+        phoneNumberTextWatcher = new TextWatcher() {
             public void afterTextChanged(Editable s) {}
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
@@ -259,6 +282,6 @@ public class RegistrationActivity  extends AppCompatActivity {
                     correctPhone = true;
                 }
             }
-        });
+        };
     }
 }

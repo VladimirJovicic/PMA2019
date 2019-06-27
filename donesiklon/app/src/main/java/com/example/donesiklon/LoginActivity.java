@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!correctPassword && !correctMail){
+                if(!correctPassword || !correctMail){
                     Log.i("uspeloLogovanje", "Ne");
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.reqAll), Toast.LENGTH_LONG).show();
                 }
