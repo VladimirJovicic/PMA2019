@@ -28,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        redirectIfUserAlreadyLogged();
         setContentView(R.layout.activity_signin);
 
         email = (EditText) findViewById(R.id.emailSignIn);
@@ -47,7 +48,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 else{
                     final FirebaseFirestore db = FirebaseFirestore.getInstance();
-                    email.setText("email@email.com");    // ovo se brise posle
                     //check if user with this email exists
                     db.collection("users")
                             .whereEqualTo("email", email.getText().toString())
@@ -74,7 +74,6 @@ public class LoginActivity extends AppCompatActivity {
                             });
 
                 }
-                finish();
             }
 
         });
@@ -86,10 +85,26 @@ public class LoginActivity extends AppCompatActivity {
                // clearTextFields();
                 Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
                 LoginActivity.this.startActivity(intent);
-                finish();
             }
         });
 
+    }
+
+    private void redirectIfUserAlreadyLogged() {
+        String user="";
+        if(SaveSharedPreference.getUserName(LoginActivity.this).length() == 0)
+        {
+            Log.i("DA_LI_POSTOJI_USER", "ne");
+            // Ako ne postoji VRATI GA NA FORMU ZA LOGOVANJE
+        }
+        else
+        {
+            Log.i("DA_LI_POSTOJI_USER", "da");
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            LoginActivity.this.startActivity(intent);
+            //da back iz main activitya ne vrati na login
+            finish();
+        }
     }
 
     void clearTextFields(){
