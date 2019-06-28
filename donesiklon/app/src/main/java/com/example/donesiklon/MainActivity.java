@@ -14,12 +14,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -32,23 +26,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.restoraunt);
         setContentView(R.layout.activity_main);
-
-
-//        FirebaseInstanceId.getInstance().getInstanceId()
-//                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-//                        if (!task.isSuccessful()) {
-//                            Log.w("FirebaseInstanceId", "getInstanceId failed", task.getException());
-//                            return;
-//                        }
-//                        String token = task.getResult().getToken();
-//                        Log.w("token", token);
-//
-//                        Toast.makeText(MainActivity.this, "Token " + token, Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-
 
         // Provera da li postoji sacuvan token - username na onovu koga cemo filtrirati view History, Order...
         String user="";
