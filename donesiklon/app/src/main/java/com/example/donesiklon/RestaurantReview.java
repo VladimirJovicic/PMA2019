@@ -91,7 +91,7 @@ public class RestaurantReview extends Fragment {
             @Override
             public void onClick(View v) {
                 if(comment.getText().toString().trim().equals("") || rating.getRating() == 0.0){
-                    Toast.makeText(getActivity().getApplicationContext(), "Plase check if all fields are correctlly filled", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity().getApplicationContext(), R.string.checkFields, Toast.LENGTH_LONG).show();
                 }else {
                     com.example.donesiklon.model.RestaurantReview restaurantReview = new com.example.donesiklon.model.RestaurantReview();
                     restaurantReview.setComment(comment.getText().toString().trim());
@@ -113,7 +113,7 @@ public class RestaurantReview extends Fragment {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(getActivity().getApplicationContext(), "Thank you for your review", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity().getApplicationContext(), R.string.thankForReview, Toast.LENGTH_LONG).show();
                     }
                 });
     }

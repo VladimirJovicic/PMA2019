@@ -19,10 +19,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.HashMap;
 
 public class RegistrationActivity  extends AppCompatActivity {
     Button signUpButton;
@@ -33,7 +30,19 @@ public class RegistrationActivity  extends AppCompatActivity {
     EditText surname;
     EditText deliveryAddress;
     EditText phoneNumber;
-    boolean correct = false;
+    boolean correctEmail = false;
+    boolean correctPassword = false;
+    boolean correctName = false;
+    boolean correctSurname = false;
+    boolean correctAddress = false;
+    boolean correctPhone = false;
+    TextWatcher emailTextWatcher;
+    TextWatcher passwordTextWatcher;
+    TextWatcher nameTextWatcher;
+    TextWatcher surnameTextWatcher;
+    TextWatcher deliveryAddressTextWatcher;
+    TextWatcher phoneNumberTextWatcher;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +57,7 @@ public class RegistrationActivity  extends AppCompatActivity {
         deliveryAddress = (EditText)findViewById(R.id.deliveryAddress);
         phoneNumber = (EditText)findViewById(R.id.phoneNumber);
 
+        createTextWatchers();
         addEditTextListeners();
 
         signUpButton = (Button) findViewById(R.id.registrationButtonSignUp);
@@ -56,7 +66,7 @@ public class RegistrationActivity  extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!correct){
+                if(!correctEmail || !correctPassword || !correctName || !correctSurname || !correctAddress || !correctPhone){
                     Log.i("uspeloRegistrovanje", "Ne");
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.reqAll), Toast.LENGTH_LONG).show();
                 }
@@ -66,7 +76,6 @@ public class RegistrationActivity  extends AppCompatActivity {
                             name.getText().toString(), surname.getText().toString(), deliveryAddress.getText().toString(),
                             phoneNumber.getText().toString());
                 }
-                finish();
             }
 
         });
@@ -80,10 +89,10 @@ public class RegistrationActivity  extends AppCompatActivity {
 
                 Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
                 RegistrationActivity.this.startActivity(intent);
-                finish();
             }
         });
     }
+
 
     void clearTextFields(){
         email.setText("");
@@ -97,7 +106,13 @@ public class RegistrationActivity  extends AppCompatActivity {
     void successfulRegistration(){
         Log.i("uspeloRegistrovanje", "Da");
         Toast.makeText(getApplicationContext(), getResources().getString(R.string.successfullyReg), Toast.LENGTH_LONG).show();
-        //clearTextFields();
+        email.removeTextChangedListener(emailTextWatcher);
+        password.removeTextChangedListener(passwordTextWatcher);
+        name.removeTextChangedListener(nameTextWatcher);
+        surname.removeTextChangedListener(surnameTextWatcher);
+        deliveryAddress.removeTextChangedListener(deliveryAddressTextWatcher);
+        phoneNumber.removeTextChangedListener(phoneNumberTextWatcher);
+        clearTextFields();
 
         // Redirekcija na login formu
         Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
@@ -124,11 +139,11 @@ public class RegistrationActivity  extends AppCompatActivity {
                                 //if email doesnt exist insert new user
                                 insertUserToDatabase(db, user);
                             }else{
-                                failedRegistration("Email you entered is taken");
+                                failedRegistration(getResources().getString(R.string.emailTaken));
                             }
                         } else {
                             Log.d("firebaseError", task.getException().toString());
-                            failedRegistration("Error getting documents for email checking");
+                            failedRegistration(getResources().getString(R.string.errorGetting));
                         }
                     }
                 });
@@ -147,14 +162,24 @@ public class RegistrationActivity  extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.d("firebaseError", e.toString());
-                        failedRegistration("Couldn't add user to database");
+                        failedRegistration(getResources().getString(R.string.cantAddUser));
                     }
                 });
     }
 
     void addEditTextListeners(){
         // Treba jos da se proveri da li postoji vec korisnik sa tim username
-        email.addTextChangedListener(new TextWatcher() {
+        email.addTextChangedListener(emailTextWatcher);
+        password.addTextChangedListener(passwordTextWatcher);
+        name.addTextChangedListener(nameTextWatcher);
+        surname.addTextChangedListener(surnameTextWatcher);
+        deliveryAddress.addTextChangedListener(deliveryAddressTextWatcher);
+        phoneNumber.addTextChangedListener(phoneNumberTextWatcher);
+    }
+
+
+    private void createTextWatchers() {
+        emailTextWatcher = new TextWatcher() {
             public void afterTextChanged(Editable s) {}
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -163,19 +188,19 @@ public class RegistrationActivity  extends AppCompatActivity {
                                       int before, int count) {
                 if(s.length() == 0 || s.equals("")){
                     email.setError(getResources().getString(R.string.reqUsername));
-                    correct = false;
+                    correctEmail = false;
                 }
                 else if(!android.util.Patterns.EMAIL_ADDRESS.matcher(s).matches()){
                     email.setError(getResources().getString(R.string.mustBeEmailUsername));
-                    correct = false;
+                    correctEmail = false;
                 }
                 else{
-                    correct = true;
+                    correctEmail = true;
                 }
             }
-        });
+        };
 
-        password.addTextChangedListener(new TextWatcher() {
+        passwordTextWatcher = new TextWatcher() {
             public void afterTextChanged(Editable s) {}
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
@@ -183,19 +208,19 @@ public class RegistrationActivity  extends AppCompatActivity {
                                       int before, int count) {
                 if(s.length() == 0 || s.equals("")){
                     password.setError(getResources().getString(R.string.reqPassword));
-                    correct = false;
+                    correctPassword = false;
                 }
                 else if(password.length()<6){
                     password.setError(getResources().getString(R.string.mustLengthPassword));
-                    correct = false;
+                    correctPassword = false;
                 }
                 else{
-                    correct = true;
+                    correctPassword = true;
                 }
             }
-        });
+        };
 
-        name.addTextChangedListener(new TextWatcher() {
+        nameTextWatcher = new TextWatcher() {
             public void afterTextChanged(Editable s) {}
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
@@ -203,15 +228,15 @@ public class RegistrationActivity  extends AppCompatActivity {
                                       int before, int count) {
                 if(s.length() == 0 || s.equals("")){
                     name.setError(getResources().getString(R.string.reqName));
-                    correct = false;
+                    correctName = false;
                 }
                 else{
-                    correct = true;
+                    correctName = true;
                 }
             }
-        });
+        };
 
-        surname.addTextChangedListener(new TextWatcher() {
+        surnameTextWatcher = new TextWatcher() {
             public void afterTextChanged(Editable s) {}
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
@@ -219,15 +244,15 @@ public class RegistrationActivity  extends AppCompatActivity {
                                       int before, int count) {
                 if(s.length() == 0 || s.equals("")){
                     surname.setError(getResources().getString(R.string.reqSurname));
-                    correct = false;
+                    correctSurname = false;
                 }
                 else{
-                    correct = true;
+                    correctSurname = true;
                 }
             }
-        });
+        };
 
-        deliveryAddress.addTextChangedListener(new TextWatcher() {
+        deliveryAddressTextWatcher = new TextWatcher() {
             public void afterTextChanged(Editable s) {}
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
@@ -235,15 +260,15 @@ public class RegistrationActivity  extends AppCompatActivity {
                                       int before, int count) {
                 if(s.length() == 0 || s.toString().equals("")){
                     deliveryAddress.setError(getResources().getString(R.string.reqDeliveryAddress));
-                    correct = false;
+                    correctAddress = false;
                 }
                 else{
-                    correct = true;
+                    correctAddress = true;
+                }
             }
-            }
-        });
+        };
 
-        phoneNumber.addTextChangedListener(new TextWatcher() {
+        phoneNumberTextWatcher = new TextWatcher() {
             public void afterTextChanged(Editable s) {}
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
@@ -251,12 +276,12 @@ public class RegistrationActivity  extends AppCompatActivity {
                                       int before, int count) {
                 if(s.length() == 0 || s.equals("")){
                     phoneNumber.setError(getResources().getString(R.string.reqPhoneNumber));
-                    correct = false;
+                    correctPhone = false;
                 }
                 else{
-                    correct = true;
+                    correctPhone = true;
                 }
             }
-        });
+        };
     }
 }

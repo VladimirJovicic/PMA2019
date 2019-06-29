@@ -89,7 +89,7 @@ public class ShoppingCart extends Fragment {
         });
 
         Button myButton = new Button(getActivity().getApplicationContext());
-        myButton.setText("Checkout");
+        myButton.setText(R.string.checkout);
         myButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,7 +125,7 @@ public class ShoppingCart extends Fragment {
                             ShoppingCart exampleFragment = (ShoppingCart) getFragmentManager().findFragmentByTag("cart");
 
 
-                            Toast.makeText(getActivity().getApplicationContext(), "You successfully ordered your meal!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity().getApplicationContext(), R.string.successfullyOrdered, Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -200,7 +200,7 @@ public class ShoppingCart extends Fragment {
 
         TextView textDescriptionForProduct = new TextView(getActivity().getApplicationContext());
         textDescriptionForProduct.setTextSize(13);
-        textDescriptionForProduct.setText("Opis: " + product.getDescription());
+        textDescriptionForProduct.setText(R.string.description + product.getDescription());
 
         LinearLayout priceHolder = new LinearLayout(getActivity().getApplicationContext());
         LinearLayout.LayoutParams layoutParamsPriceHolderLayout = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,  LinearLayout.LayoutParams.MATCH_PARENT);
@@ -212,7 +212,7 @@ public class ShoppingCart extends Fragment {
         TextView textPrice = new TextView(getActivity().getApplicationContext());
         textPrice.setTextSize(13);
         textPrice.setTextColor(Color.rgb(130,2,2));
-        textPrice.setText("Cena: " + product.getPrice());
+        textPrice.setText(R.string.price + "" + product.getPrice());
         textPrice.setGravity(Gravity.RIGHT);
         priceHolder.addView(textPrice);
 
@@ -234,7 +234,7 @@ public class ShoppingCart extends Fragment {
         TextView message = new TextView(getActivity().getApplicationContext());
         message.setTextSize(20);
         message.setTypeface(null, Typeface.BOLD);
-        message.setText("Korpa je prazna!");
+        message.setText(R.string.emptyCart);
         message.setGravity(Gravity.CENTER);
         retValLayout.addView(message);
         return retValLayout;

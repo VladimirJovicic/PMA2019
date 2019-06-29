@@ -60,9 +60,32 @@
     <!-- CART -->
     <string name="orderButton">Naručite</string>
     <string name="addedToCart">Dodato u korpu</string>
-
+    <string name="shoppingCart">Korpa</string>
+    <string name="checkout">Poručiti</string>
+    <string name="successfullyOrdered">Uspešno izvršena porudžbina</string>
+    <string name="emptyCart">Korpa je prazna</string>
+    <string name="meal">Jelo</string>
+    <string name="addedMeal">je dodato u korpu</string>
+    <string name="addToCart">Dodati u korpu</string>
     <!-- FRAGMENT_RESTAURANTS -->
-
+    <string name="menu">Meni</string>
+    <string name="emptyMenu">Meni je prazan</string>
+    <string name="totalSpent">Ukupno potrošeno:</string>
     <!-- VISIT -->
     <string name="clearButton">Obrišite istoriju</string>
+    <string name="wrongCredentials">Pogrešni kredencijali</string>
+    <string name="errorGetting">Greška prilikom dobavljanja dokumenata za proveru emaila</string>
+    <string name="cantAddUser">Neuspelo dodavanje korisnika u bazu</string>
+    <string name="emailTaken">Uneti email se već koristi</string>
+    <string name="yourLocation">Vaša lokacija</string>
+    <string name="placeNumber">Broj mesta</string>
+    <string name="errorGettingDocuments">Greška u dobavljanju dokumenata:</string>
+    <string name="address">Adresa:</string>
+    <string name="location">Lokacija: </string>
+    <string name="description">Opis:</string>
+    <string name="checkFields">Proverite da li su sva polja ispravno popunjena</string>
+    <string name="thankForReview">Hvala na komentaru!</string>
+    <string name="price">Cena: </string>
+    <string name="emptyReviewsList">Lista recenzija je prazna</string>
+    <string name="emptyVisitsHistory">Istorija poseta je prazna</string>
 </resources>

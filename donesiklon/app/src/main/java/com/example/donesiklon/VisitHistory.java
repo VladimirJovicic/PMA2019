@@ -111,7 +111,7 @@ public class VisitHistory extends Fragment {
         TextView message = new TextView(getActivity().getApplicationContext());
         message.setTextSize(20);
         message.setTypeface(null, Typeface.BOLD);
-        message.setText("Istorija poseta je prazna");
+        message.setText(R.string.emptyVisitsHistory);
         message.setGravity(Gravity.CENTER);
         retValLayout.addView(message);
         return retValLayout;
@@ -154,11 +154,11 @@ public class VisitHistory extends Fragment {
 
         TextView textAddress = new TextView(getActivity().getApplicationContext());
         textAddress.setTextSize(13);
-        textAddress.setText("Adresa: " + restaurant.getAddress());
+        textAddress.setText(R.string.address + restaurant.getAddress());
 
         TextView textDescription = new TextView(getActivity().getApplicationContext());
         textDescription.setTextSize(13);
-        textDescription.setText("Opis: " + restaurant.getDescription());
+        textDescription.setText(R.string.description + restaurant.getDescription());
 
         textViewsHolder.addView(textName);
         textViewsHolder.addView(textAddress);

@@ -20,9 +20,13 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 
+
+
 public class Orders extends Fragment {
     String user;
     String userId;
+    Integer totalSpent=0;
+    TextView spentText;
     DocumentSnapshot d;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,7 +48,7 @@ public class Orders extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_orders, container, false);
         final TableLayout ordersTable = (TableLayout)view.findViewById(R.id.ordersTable);
-
+        spentText = (TextView) view.findViewById(R.id.spent);
 
         ordersTable.setStretchAllColumns(true);
         ordersTable.bringToFront();
@@ -105,12 +109,13 @@ public class Orders extends Fragment {
                                                             c1.setText(document.get("name").toString());
                                                             TextView c2 = new TextView(getContext());
                                                             c2.setText(String.valueOf(document.get("price")));
-                                                            TextView c3 = new TextView(getContext());
 
                                                             tr.addView(c1);
                                                             tr.addView(c2);
-                                                       
+
                                                             ordersTable.addView(tr);
+                                                            totalSpent = totalSpent+ Integer.parseInt(String.valueOf(document.get("price")));
+                                                            spentText.setText(totalSpent.toString());
                                                         }
                                                     }
 
@@ -123,122 +128,8 @@ public class Orders extends Fragment {
 
 
                     }
-
-
-//                                        db.collection("products")
-//                                                .get()
-//                                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                                                    @Override
-//                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                                                        if (task.isSuccessful()) {
-//                                                            if(task.getResult().isEmpty()){
-//                                                                Log.e("productNema", "Ne postoji product");
-//                                                            }else{
-//                                                                List<DocumentSnapshot> documentProducts = task.getResult().getDocuments();     //because only one user with this email should exist
-//
-//                                                                for(final DocumentSnapshot docPro : documentProducts) {
-//                                                                    String productId = docPro.getId();
-
-
-//                                                                    db.collection("purchases").whereEqualTo("code",code).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                                                                        @Override
-//                                                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                                                                            if(task.isSuccessful()) {
-//                                                                                for (QueryDocumentSnapshot document : task.getResult()) {
-//
-//                                                                                    if(document.get("status").equals("finished")) {
-//                                                                                        TableRow tr = new TableRow(getContext());
-//                                                                                        TextView c1 = new TextView(getContext());
-//                                                                                        c1.setText(docPro.get("name").toString());
-//                                                                                        TextView c2 = new TextView(getContext());
-//                                                                                        c2.setText(String.valueOf(docPro.get("price")))                                                                                        ;
-//                                                                                        TextView c3 = new TextView(getContext());
-//                                                                                        c3.setText(d.getData().get("status").toString());
-//                                                                                        tr.addView(c1);
-//                                                                                        tr.addView(c2);
-//                                                                                        tr.addView(c3);
-//                                                                                        ordersTable.addView(tr);
-//                                                                                    }
-//                                                                                }
-//
-//
-//                                                                            }
-//                                                                        }
-//                                                                    });
-
-
-//                                                                }}}
-//
-//
-//                                                        else {
-//                                                            Log.d("firebaseError", task.getException().toString());
-//                                                        }
-//                                                    }
-//                                                });
-
-
                 }
-
-
-                                /*
-                                for(DocumentSnapshot doc : documents){
-                                    d = doc;
-                                    db.collection("products")
-                                            .get()
-                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                    if (task.isSuccessful()) {
-                                                        if(task.getResult().isEmpty()){
-                                                            Log.e("productNema", "Ne postoji product");
-                                                        }else{
-                                                            List<DocumentSnapshot> documentProducts = task.getResult().getDocuments();     //because only one user with this email should exist
-
-                                                            for(DocumentSnapshot docPro : documentProducts) {
-                                                                String productId = docPro.getId();
-                                                                if(d.getData().get("productId").toString().equals(productId)){
-
-                                                                    TableRow tr =  new TableRow(getContext());
-                                                                    TextView c1 = new TextView(getContext());
-                                                                    c1.setText(docPro.getData().get("name").toString());
-                                                                    TextView c2 = new TextView(getContext());
-                                                                    c2.setText(docPro.getData().get("price").toString());
-                                                                    TextView c3 = new TextView(getContext());
-                                                                    c3.setText(d.getData().get("status").toString());
-                                                                    tr.addView(c1);
-                                                                    tr.addView(c2);
-                                                                    tr.addView(c3);
-                                                                    ordersTable.addView(tr);
-                                                                }
-                                                            }
-
-                                                        }
-                                                    } else {
-                                                        Log.d("firebaseError", task.getException().toString());
-                                                    }
-                                                }
-                                            });
-
-
-                                    TableRow tr =  new TableRow(getContext());
-                                    TextView c1 = new TextView(getContext());
-                                    c1.setText(doc.getData().get("firstName").toString());
-                                    TextView c2 = new TextView(getContext());
-                                    c2.setText(doc.getData().get("lastName").toString());
-                                    TextView c3 = new TextView(getContext());
-                                    c3.setText(doc.getData().get("phoneNumber").toString());
-                                    tr.addView(c1);
-                                    tr.addView(c2);
-                                    tr.addView(c3);
-                                    ordersTable.addView(tr);
-
-                                }*/
-
-//                        } else {
-//                            Log.d("firebaseError", task.getException().toString());
-//                        }
             });
-
         return view;
     }
 
