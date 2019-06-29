@@ -7,6 +7,8 @@ public class Restaurant {
     private String address;
     private String imageUrl;
     private String description;
+    private double lat;
+    private double lon;
 
     public String getId() {
         return id;
@@ -46,5 +48,21 @@ public class Restaurant {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public double getLon() {
+        return lon;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public void setLon(double lon) {
+        this.lon = lon;
     }
 }
