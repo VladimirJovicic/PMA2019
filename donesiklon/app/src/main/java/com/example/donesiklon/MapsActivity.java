@@ -91,11 +91,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void centreMapOnLocation(Location location, String title){
-
-        LatLng userLocation = new LatLng(location.getLatitude(),location.getLongitude());
-        mMap.clear();
-        mMap.addMarker(new MarkerOptions().position(userLocation).title(title));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation,12));
+        if(location!=null) {
+            LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+            mMap.clear();
+            mMap.addMarker(new MarkerOptions().position(userLocation).title(title));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 12));
+        }
 
     }
 
