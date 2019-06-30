@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.database.DatabaseUtils;
 import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Criteria;
@@ -38,6 +39,8 @@ import com.example.donesiklon.model.Restaurant;
 import com.example.donesiklon.model.VisitHistory;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -59,10 +62,7 @@ public class RestaurantListFragment extends Fragment {
         final LinearLayout layout = view.findViewById(R.id.restoraunt_list_layout);
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
-
         final Location usersLocation =  getUserLocation();
-
-
         db.collection("restoraunts").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -70,7 +70,6 @@ public class RestaurantListFragment extends Fragment {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         final Restaurant restaurant = createRestoraunt(document);
                         final Info info = calculateDistance(usersLocation, restaurant);
-
 
                         LinearLayout restorauntLayout = createRestorauntLayout(restaurant, info);
                         restorauntLayout.setOnClickListener(new View.OnClickListener() {
@@ -399,12 +398,27 @@ public class RestaurantListFragment extends Fragment {
         return restorauntLayout;
     }
 
-    public void addToVisitHistory(FirebaseFirestore db, String restarauntId) {
-        VisitHistory visitHistory = new VisitHistory();
+    public void addToVisitHistory(final FirebaseFirestore db, String restarauntId) {
+        final VisitHistory visitHistory = new VisitHistory();
         visitHistory.setDate(new Date());
         visitHistory.setRestorauntId(restarauntId);
         visitHistory.setUserId(SaveSharedPreference.getUserName(((MainActivity)mActivity).getApplicationContext()));
-        db.collection("visit_history").add(visitHistory);
+        db.collection("visit_history").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                boolean toAdd = true;
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    if(document.get("userId").equals(visitHistory.getUserId()) && document.get("restorauntId").equals(visitHistory.getRestorauntId())) {
+                        toAdd = false;
+                        break;
+                    }
+                }
+                if(toAdd) {
+                    db.collection("visit_history").add(visitHistory);
+                }
+            }
+        });
+
     }
 
 
