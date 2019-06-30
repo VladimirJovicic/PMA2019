@@ -22,6 +22,8 @@ import com.bumptech.glide.Glide;
 import com.example.donesiklon.model.Restaurant;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -34,71 +36,71 @@ public class VisitHistory extends Fragment {
     private int width = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int height = Resources.getSystem().getDisplayMetrics().heightPixels;
     private Button clearHistoryButton;
+    private List<String> restIds = new ArrayList<String>();
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.visit, container, false);
         final LinearLayout layout = view.findViewById(R.id.visit_history_layout_id);
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         clearHistoryButton = view.findViewById(R.id.clear_history_button);
-        /*clearHistoryButton.setOnClickListener(new View.OnClickListener() {
+
+        clearHistoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final List<String> ids = new ArrayList<String>();
-                db.collection("visit_history").get().addOnCompleteListener(
-                        new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if(task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        ids.add(document.getId());
-                                    }
-                                }
-                             }
-                        });
-
-                for(String s : ids) {
-                    Log.d("asd",s);
-                    db.collection("visit_history").document(s).delete();
-                }
-
-
+                db.collection("visit_history")
+                        .whereEqualTo("userId", SaveSharedPreference.getUserName(getActivity().getApplicationContext())).
+                        get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            document.getReference().delete();
+                        }
+                        
+                    }
+                });
             }
-        });*/
+        });
 
 
-
-        /*db.collection("visit_history").
-                whereEqualTo("userId", SaveSharedPreference.getUserName(getActivity().getApplicationContext())).
-                get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("visit_history").whereEqualTo("userId", SaveSharedPreference.getUserName(getActivity().getApplicationContext()))
+        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    if(task.getResult().size() == 0) {
-                        layout.addView(createEmptyMenuLayout());
-                    }else {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            db.collection("restoraunts").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        LinearLayout restorauntLayout = new LinearLayout(getActivity().getApplicationContext());
-                                        for (QueryDocumentSnapshot documentRestoraunt : task.getResult()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Log.d("asd", "Adding " + document.get("restorauntId").toString());
+                    restIds.add(document.get("restorauntId").toString());
+                    Log.d("list", String.valueOf(restIds.size()));
+
+                }
+                for(final String s : restIds) {
+                    Log.d("id", s);
+                    db.collection("restoraunts")
+                            .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                if(task.getResult().size() == 0) {
+                                    layout.addView(createEmptyMenuLayout());
+                                }else {
+                                    LinearLayout restorauntLayout = new LinearLayout(getActivity().getApplicationContext());
+                                    for (QueryDocumentSnapshot documentRestoraunt : task.getResult()) {
+                                        if (documentRestoraunt.getId().equals(s)) {
                                             Restaurant restaurant = createRestoraunt(documentRestoraunt);
                                             restorauntLayout = createRestorauntLayout(restaurant);
                                             layout.addView(restorauntLayout);
                                         }
                                     }
                                 }
-                        });
-
-                    }
-                }
+                        }
+                        }
+                    });
                 }
             }
-        });*/
+        });
 
         return view;
     }
