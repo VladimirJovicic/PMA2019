@@ -10,6 +10,8 @@ public class SaveSharedPreference
 {
     static final String PREF_USER_NAME= "username";
 
+
+
     static SharedPreferences getSharedPreferences(Context ctx) {
         return PreferenceManager.getDefaultSharedPreferences(ctx);
     }
@@ -33,6 +35,18 @@ public class SaveSharedPreference
         //editor.clear(); //clear all stored data
         Log.i("OBRISAO",  "trebalo bi");
         editor.commit();
+    }
+
+    public static void setFetched(Context ctx, String fetched)
+    {
+        Editor editor = getSharedPreferences(ctx).edit();
+        editor.putString("fetched", fetched);
+        editor.commit();
+    }
+
+    public static String getFetched(Context ctx)
+    {
+        return getSharedPreferences(ctx).getString("fetched", "");
     }
 
 

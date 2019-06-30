@@ -18,6 +18,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +41,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.IOException;
+
 import java.util.Date;
 import java.util.List;
 public class RestaurantListFragment extends Fragment {
@@ -52,7 +54,7 @@ public class RestaurantListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_restaraunt_list, container, false);
-        final LinearLayout layout = view.findViewById(R.id.rest_list);
+        final LinearLayout layout = view.findViewById(R.id.restoraunt_list_layout);
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -103,6 +105,70 @@ public class RestaurantListFragment extends Fragment {
                 } else {
                     Log.d("qwe", "Error getting documents: ", task.getException());
                 }
+            }
+        });
+
+        final SearchView searchView = view.findViewById(R.id.search_text);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                Log.d("prvi",s);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                Log.d("drugi",s);
+                final String query = s;
+                db.collection("restoraunts")
+                        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            layout.removeAllViews();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                if(document.get("name").toString().trim().toLowerCase().contains(query.trim().toLowerCase())) {
+                                    final Restaurant restaurant = createRestoraunt(document);
+                                    final Info info = calculateDistance(usersLocation, restaurant);
+                                    LinearLayout restorauntLayout = createRestorauntLayout(restaurant, info);
+                                    restorauntLayout.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            addToVisitHistory(db, restaurant.getId());
+                                            Fragment fragment = new RestorauntMenuFragment();
+                                            Bundle args = new Bundle();
+                                            args.putString("id", restaurant.getId());
+                                            fragment.setArguments(args);
+                                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                            fragmentTransaction.replace(R.id.fragment_container, fragment);
+                                            fragmentTransaction.addToBackStack(null);
+                                            fragmentTransaction.commit();
+                                        }
+                                    });
+
+                                    restorauntLayout.setOnLongClickListener(new View.OnLongClickListener() {
+                                        @Override
+                                        public boolean onLongClick(View v) {
+                                            Fragment fragment = new RestaurantReview();
+                                            Bundle args = new Bundle();
+                                            args.putString("id", restaurant.getId());
+                                            fragment.setArguments(args);
+                                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                            fragmentTransaction.replace(R.id.fragment_container, fragment);
+                                            fragmentTransaction.addToBackStack(null);
+                                            fragmentTransaction.commit();
+                                            return true;
+                                        }
+                                    });
+                                    layout.addView(restorauntLayout);
+                                }
+                            }
+                        }
+                    }
+                });
+                return false;
             }
         });
         return view;
