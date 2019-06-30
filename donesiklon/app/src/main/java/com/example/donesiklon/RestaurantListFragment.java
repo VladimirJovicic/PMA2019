@@ -1,10 +1,19 @@
 package com.example.donesiklon;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Typeface;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -20,16 +29,21 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.donesiklon.gps.Info;
+import com.example.donesiklon.gps.Utils;
 import com.example.donesiklon.model.Restaurant;
 import com.example.donesiklon.model.VisitHistory;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.Date;
+import java.io.IOException;
 
+import java.util.Date;
+import java.util.List;
 public class RestaurantListFragment extends Fragment {
 
     public String naslov = "";
@@ -44,13 +58,17 @@ public class RestaurantListFragment extends Fragment {
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+        final Location usersLocation = getUserLocation();
+
         db.collection("restoraunts").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         final Restaurant restaurant = createRestoraunt(document);
-                        LinearLayout restorauntLayout = createRestorauntLayout(restaurant);
+                        final Info info = calculateDistance(usersLocation, restaurant);
+
+                        LinearLayout restorauntLayout = createRestorauntLayout(restaurant, info);
                         restorauntLayout.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -162,10 +180,107 @@ public class RestaurantListFragment extends Fragment {
         retVal.setAddress(document.getData().get("address").toString());
         retVal.setImageUrl(document.getData().get("imageUrl").toString());
         retVal.setDescription(document.getData().get("description").toString());
+
+        Address addressInfo = getLocationFromAddress(retVal.getAddress());
+        if(addressInfo!=null) {
+            Log.i("addressInfo", addressInfo.toString());
+            retVal.setLat(addressInfo.getLatitude());
+            retVal.setLon(addressInfo.getLongitude());
+        }
+
         return  retVal;
     }
 
-    private LinearLayout createRestorauntLayout(Restaurant restaurant) {
+    public Address getLocationFromAddress(String strAddress){
+
+        Geocoder coder = new Geocoder(getActivity().getApplicationContext());
+        List<Address> address;
+        GeoPoint p1 = null;
+
+        try {
+            address = coder.getFromLocationName(strAddress,5);
+            if (address==null) {
+                return null;
+            }
+            if(address.size()>0) {
+                Address location = address.get(0);
+                Log.i("address",location.toString());
+                location.getLatitude();
+                location.getLongitude();
+
+                Log.i("lat", String.valueOf(location.getLatitude()));
+                Log.i("lon", String.valueOf(location.getLongitude()));
+
+                p1 = new GeoPoint(
+                        (location.getLatitude()),(location.getLongitude()));
+
+                return location;
+            } else {
+                return null;
+            }
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    LocationManager locationManager;
+    LocationListener locationListener;
+
+    public Location getUserLocation(){
+
+        locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                //centreMapOnLocation(location,"Your Location");
+            }
+
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String s) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String s) {
+
+            }
+        };
+
+        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,locationListener);
+            Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            Log.i("users location", String.valueOf(String.valueOf( lastKnownLocation.getLatitude())+','+String.valueOf(lastKnownLocation.getLongitude())));
+            return lastKnownLocation;
+        } else {
+            ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
+            return null;
+        }
+    }
+
+    public static GeoPoint convert(double latitude, double longitude){
+        int lat = (int)(latitude * 1E6);
+        int lng = (int)(longitude * 1E6);
+
+        return new GeoPoint(lat, lng);
+    }
+
+    public Info calculateDistance(Location usersLocation, Restaurant restaurant){
+        //double fullDistance = Utils.distance(usersLocation.getLatitude(),restaurant.getLat(),usersLocation.getLongitude(),restaurant.getLon(), 0, 0);
+
+        Info info =  Utils.getRealDistance(
+                usersLocation.getLatitude(),usersLocation.getLongitude(),
+                restaurant.getLat(),restaurant.getLon());
+
+
+        return info;
+    }
+
+    private LinearLayout createRestorauntLayout(Restaurant restaurant, Info info) {
         LinearLayout restorauntLayout = new LinearLayout(getActivity().getApplicationContext());
         restorauntLayout.setOrientation(LinearLayout.HORIZONTAL);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
@@ -202,15 +317,25 @@ public class RestaurantListFragment extends Fragment {
 
         TextView textAddress = new TextView(getActivity().getApplicationContext());
         textAddress.setTextSize(13);
-        textAddress.setText(R.string.address + restaurant.getAddress());
+        textAddress.setText(restaurant.getAddress());
 
         TextView textDescription = new TextView(getActivity().getApplicationContext());
         textDescription.setTextSize(13);
-        textDescription.setText(R.string.description + restaurant.getDescription());
+        textDescription.setText(this.getString(R.string.description) +" "+ restaurant.getDescription());
+
+        TextView textDistance = new TextView(getActivity().getApplicationContext());
+        textDistance.setTextSize(13);
+        textDistance.setText(this.getString(R.string.distance) +" "+ info.getDistance());
+
+        TextView textDelivery = new TextView(getActivity().getApplicationContext());
+        textDelivery.setTextSize(13);
+        textDelivery.setText(this.getString(R.string.deliveryTime) + " "+ info.getDuration());
 
         textViewsHolder.addView(textName);
         textViewsHolder.addView(textAddress);
         textViewsHolder.addView(textDescription);
+        textViewsHolder.addView(textDistance);
+        textViewsHolder.addView(textDelivery);
 
         restorauntLayout.addView(imageHolder);
         restorauntLayout.addView(textViewsHolder);

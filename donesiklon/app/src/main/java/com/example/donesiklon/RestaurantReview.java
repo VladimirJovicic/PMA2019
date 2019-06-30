@@ -103,6 +103,28 @@ public class RestaurantReview extends Fragment {
                 }
             }
         });
+
+        Button showDirections = view.findViewById(R.id.showDirections);
+        showDirections.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new Map();
+                Bundle args = new Bundle();
+                args.putString("id", id);
+                fragment.setArguments(args);
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+
+
+       // Intent intent2 = new Intent(getActivity().getApplicationContext(), MapsActivity.class);
+       // getActivity().getApplicationContext().startActivity(intent2);
+
+
         return view;
 
     }

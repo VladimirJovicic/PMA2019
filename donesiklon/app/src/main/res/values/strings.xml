@@ -56,6 +56,7 @@
     <string name="cancelButton">Cancel</string>
     <string name="applyChangesButton">Apply Changes</string>
     <string name="title_activity_maps">Map</string>
+    <string name="showDirections">Show Directions</string>
 
     <!-- CART -->
     <string name="orderButton">Order</string>
@@ -84,6 +85,8 @@
     <string name="address">Address: </string>
     <string name="location">Location: </string>
     <string name="description">Description: </string>
+    <string name="distance">Distance: </string>
+    <string name="deliveryTime">Estimated delivery time: </string>
     <string name="checkFields">Plase check if all fields are correctlly filled</string>
     <string name="thankForReview">Thank you for your review!</string>
     <string name="price">Price: </string>
