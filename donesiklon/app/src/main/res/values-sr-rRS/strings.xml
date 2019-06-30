@@ -56,6 +56,7 @@
     <string name="cancelButton">Odustanite</string>
     <string name="applyChangesButton">Potvrdite promene</string>
     <string name="title_activity_maps">Mapa</string>
+    <string name="showDirections">Pokazi Putanju</string>
 
     <!-- CART -->
     <string name="orderButton">Naručite</string>

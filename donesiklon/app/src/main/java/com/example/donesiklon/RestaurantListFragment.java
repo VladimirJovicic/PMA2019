@@ -252,19 +252,19 @@ public class RestaurantListFragment extends Fragment {
 
         TextView textAddress = new TextView(getActivity().getApplicationContext());
         textAddress.setTextSize(13);
-        textAddress.setText(this.getString(R.string.address) + restaurant.getAddress());
+        textAddress.setText(this.getString(R.string.address) +" "+ restaurant.getAddress());
 
         TextView textDescription = new TextView(getActivity().getApplicationContext());
         textDescription.setTextSize(13);
-        textDescription.setText(this.getString(R.string.description) + restaurant.getDescription());
+        textDescription.setText(this.getString(R.string.description) +" "+ restaurant.getDescription());
 
         TextView textDistance = new TextView(getActivity().getApplicationContext());
         textDistance.setTextSize(13);
-        textDistance.setText(this.getString(R.string.distance) + info.getDistance());
+        textDistance.setText(this.getString(R.string.distance) +" "+ info.getDistance());
 
         TextView textDelivery = new TextView(getActivity().getApplicationContext());
         textDelivery.setTextSize(13);
-        textDelivery.setText(this.getString(R.string.deliveryTime) + info.getDuration());
+        textDelivery.setText(this.getString(R.string.deliveryTime) + " "+ info.getDuration());
 
         textViewsHolder.addView(textName);
         textViewsHolder.addView(textAddress);
