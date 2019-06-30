@@ -105,37 +105,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
 
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode,
-//                                           String permissions[], int[] grantResults) {
-//        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-//
-//        switch (requestCode) {
-//            case MY_PERMISSIONS_REQUEST_LOCATION: {
-//                // If request is cancelled, the result arrays are empty.
-//                if (grantResults.length > 0
-//                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//
-//                    // permission was granted, yay! Do the
-//                    // location-related task you need to do.
-//                    if (ContextCompat.checkSelfPermission(this,
-//                            Manifest.permission.ACCESS_FINE_LOCATION)
-//                            == PackageManager.PERMISSION_GRANTED) {
-//
-//                        //Request location updates:
-//                        locationManager.requestLocationUpdates("gps", 400, 1, myLocationListener);
-//                    }
-//
-//                } else {
-//
-//                    // permission denied
-//
-//                }
-//                return;
-//            }
-//
-//        }
-//    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted,
+                    if (ContextCompat.checkSelfPermission(this,
+                            Manifest.permission.ACCESS_FINE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED) {
+
+                        //Request location updates:
+                        locationManager.requestLocationUpdates("gps", 400, 1, myLocationListener);
+                    }
+
+                } else {
+
+                    // permission denied
+
+                }
+                return;
+            }
+
+        }
+    }
 
     LocationListener myLocationListener = new LocationListener() {
         @Override
