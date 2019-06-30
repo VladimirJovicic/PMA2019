@@ -80,6 +80,7 @@ public class RestaurantListFragment extends Fragment {
                                 Fragment fragment = new RestorauntMenuFragment();
                                 Bundle args = new Bundle();
                                 args.putString("id", restaurant.getId());
+                                args.putString("restAddress", restaurant.getAddress());
                                 fragment.setArguments(args);
                                 FragmentManager fragmentManager = ((MainActivity)mActivity).getSupportFragmentManager();
                                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -95,6 +96,8 @@ public class RestaurantListFragment extends Fragment {
                                 Fragment fragment = new RestaurantReview();
                                 Bundle args = new Bundle();
                                 args.putString("id", restaurant.getId());
+                                args.putString("restName", restaurant.getName());
+                                args.putString("restAddress", restaurant.getAddress());
                                 fragment.setArguments(args);
                                 FragmentManager fragmentManager = ((MainActivity)mActivity).getSupportFragmentManager();
                                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -142,6 +145,7 @@ public class RestaurantListFragment extends Fragment {
                                             Fragment fragment = new RestorauntMenuFragment();
                                             Bundle args = new Bundle();
                                             args.putString("id", restaurant.getId());
+                                            args.putString("restAddress", restaurant.getAddress());
                                             fragment.setArguments(args);
                                             FragmentManager fragmentManager = ((MainActivity)mActivity).getSupportFragmentManager();
                                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -157,6 +161,8 @@ public class RestaurantListFragment extends Fragment {
                                             Fragment fragment = new RestaurantReview();
                                             Bundle args = new Bundle();
                                             args.putString("id", restaurant.getId());
+                                            args.putString("restName", restaurant.getName());
+                                            args.putString("restAddress", restaurant.getAddress());
                                             fragment.setArguments(args);
                                             FragmentManager fragmentManager = ((MainActivity)mActivity).getSupportFragmentManager();
                                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

@@ -1,5 +1,9 @@
 package com.example.donesiklon;
 
+import android.app.Activity;
+import android.content.Context;
+import android.location.Address;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +16,7 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
+import com.example.donesiklon.gps.RestaurantDirections;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -108,10 +113,36 @@ public class RestaurantReview extends Fragment {
         showDirections.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+                Location usersLocation = RestaurantDirections.getUserLocation((MainActivity)mActivity);
+                //imam startLat i startLon
+                String startLat = Double.valueOf(usersLocation.getLatitude()).toString();
+                String startLon = Double.valueOf(usersLocation.getLongitude()).toString();
+
+
+                Bundle args = getArguments();
+                id = args.getString("id");
+                String restName = args.getString("restName");
+                String restaurantAddress = args.getString("restAddress");
+                Address restAddress = RestaurantDirections.getLocationFromAddress(restaurantAddress, (MainActivity)mActivity);
+                //imam endLat i endLon
+
+                String endLat = Double.valueOf(restAddress.getLatitude()).toString();
+                String endLon = Double.valueOf(restAddress.getLongitude()).toString();
+
+
+                Bundle bundle = new Bundle();
+                bundle.putString("id",id);
+                bundle.putString("restName",restName);
+                bundle.putString("startLat",startLat);
+                bundle.putString("startLon",startLon);
+                bundle.putString("endLat",endLat);
+                bundle.putString("endLon",endLon);
+
                 Fragment fragment = new Map();
-                Bundle args = new Bundle();
-                args.putString("id", id);
-                fragment.setArguments(args);
+                fragment.setArguments(bundle);
+
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fragment_container, fragment);
@@ -139,5 +170,21 @@ public class RestaurantReview extends Fragment {
                     }
                 });
     }
+
+
+
+
+
+
+    private Activity mActivity;
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if (context instanceof Activity){
+            mActivity = (Activity) context;
+        }
+    }
+
 
 }
