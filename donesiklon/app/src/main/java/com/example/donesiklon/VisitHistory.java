@@ -43,7 +43,7 @@ public class VisitHistory extends Fragment {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         clearHistoryButton = view.findViewById(R.id.clear_history_button);
-        clearHistoryButton.setOnClickListener(new View.OnClickListener() {
+        /*clearHistoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final List<String> ids = new ArrayList<String>();
@@ -66,11 +66,11 @@ public class VisitHistory extends Fragment {
 
 
             }
-        });
+        });*/
 
 
 
-        db.collection("visit_history").
+        /*db.collection("visit_history").
                 whereEqualTo("userId", SaveSharedPreference.getUserName(getActivity().getApplicationContext())).
                 get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -98,7 +98,7 @@ public class VisitHistory extends Fragment {
                 }
                 }
             }
-        });
+        });*/
 
         return view;
     }
