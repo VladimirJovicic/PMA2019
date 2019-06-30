@@ -129,7 +129,8 @@ public class RestaurantListFragment extends Fragment {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 if(document.get("name").toString().trim().toLowerCase().contains(query.trim().toLowerCase())) {
                                     final Restaurant restaurant = createRestoraunt(document);
-                                    LinearLayout restorauntLayout = createRestorauntLayout(restaurant);
+                                    final Info info = calculateDistance(usersLocation, restaurant);
+                                    LinearLayout restorauntLayout = createRestorauntLayout(restaurant, info);
                                     restorauntLayout.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
