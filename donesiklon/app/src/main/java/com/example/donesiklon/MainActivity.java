@@ -1,10 +1,19 @@
 package com.example.donesiklon;
 
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,17 +24,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.donesiklon.gps.Info;
+
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
     private MapsActivity mapsActivity;
-
-
+    LocationManager locationManager;
+    NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.restoraunt);
         setContentView(R.layout.activity_main);
+
+
 
         // Provera da li postoji sacuvan token - username na onovu koga cemo filtrirati view History, Order...
         String user="";
@@ -46,7 +61,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
+
+
 
         // Username korisnika prikazan na nav
         View headerView = navigationView.getHeaderView(0);
@@ -62,11 +79,121 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
 
-        //da se ne bi prikazala prazna aktivnost na pocetku
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new RestaurantListFragment()).commit();
-        navigationView.setCheckedItem(R.id.nav_restaurant_list);
+        //da se ne bi prikazala prazna aktivnost
+
+        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            Log.i("Allowed","No");
+            return;
+        } else {
+            Log.i("Allowed","Already Yes");
+            RestaurantListFragment list = new RestaurantListFragment();
+            Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList("fetched", fetched);
+            list.setArguments(bundle);
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, list).commit();
+            navigationView.setCheckedItem(R.id.nav_restaurant_list);
+        }
+
+    }
+
+    ArrayList<Parcelable> fetched = new ArrayList<>();
+    static ArrayList<Info> alreadyFetched = new ArrayList<>();
 
 
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted,
+                    if (ContextCompat.checkSelfPermission(this,
+                            Manifest.permission.ACCESS_FINE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED) {
+
+                        //Request location updates:
+                        locationManager.requestLocationUpdates("gps", 400, 1, myLocationListener);
+                    }
+
+                } else {
+
+                    // permission denied
+
+                }
+                return;
+            }
+
+        }
+    }
+
+    LocationListener myLocationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+            Log.d("dj","on location changed: "+location.getLatitude()+" & "+location.getLongitude());
+            //toastLocation(location);
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }
+
+
+    };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+
+            locationManager.requestLocationUpdates("gps", 400, 1, myLocationListener);
+
+            Log.i("Allowed","Now_yes");
+            RestaurantListFragment list = new RestaurantListFragment();
+            Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList("fetched", fetched);
+            list.setArguments(bundle);
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, list).commit();
+            navigationView.setCheckedItem(R.id.nav_restaurant_list);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+
+            locationManager.removeUpdates(myLocationListener);
+        }
     }
 
     //kad se klikne back dok je u navigation draweru treba da zatvori navigation drawer a ne da ode back
@@ -84,7 +211,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch (menuItem.getItemId()){
             case R.id.nav_restaurant_list:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new RestaurantListFragment()).addToBackStack(null).commit();
+                RestaurantListFragment list = new RestaurantListFragment();
+
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("fetched", fetched);
+                list.setArguments(bundle);
+
+
+
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, list).addToBackStack(null).commit();
                 break;
             case R.id.shopping_cary:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ShoppingCart()).addToBackStack(null).commit();
@@ -117,4 +252,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+
+
+
+
+
+
+
 }
