@@ -56,6 +56,7 @@
     <string name="cancelButton">Odustanite</string>
     <string name="applyChangesButton">Potvrdite promene</string>
     <string name="title_activity_maps">Mapa</string>
+    <string name="showDirections">Pokazi Putanju</string>
 
     <!-- CART -->
     <string name="orderButton">Naručite</string>
@@ -83,6 +84,8 @@
     <string name="address">Adresa:</string>
     <string name="location">Lokacija: </string>
     <string name="description">Opis:</string>
+    <string name="distance">Udaljenost: </string>
+    <string name="deliveryTime">Procenjeno vreme dostave: </string>
     <string name="checkFields">Proverite da li su sva polja ispravno popunjena</string>
     <string name="thankForReview">Hvala na komentaru!</string>
     <string name="price">Cena: </string>

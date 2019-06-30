@@ -1,21 +1,30 @@
 package com.example.donesiklon;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 
 /**
@@ -83,48 +92,59 @@ public class Map extends Fragment {
             public void onMapReady(final GoogleMap mMap) {
                 mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
-               // mMap.clear(); //clear old markers
+                mMap.clear(); //clear old markers
 
 
+                mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
+                    @Override
+                    public void onMyLocationChange(Location location) {
+
+                        CameraUpdate center= CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
+                        CameraUpdate zoom=CameraUpdateFactory.zoomTo(11);
+                        mMap.moveCamera(center);
+                        mMap.animateCamera(zoom);
 
 
-//                mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
-//                    @Override
-//                    public void onMyLocationChange(Location location) {
-//
-//                        CameraUpdate center=CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
-//                        CameraUpdate zoom=CameraUpdateFactory.zoomTo(11);
-//                        mMap.moveCamera(center);
-//                        mMap.animateCamera(zoom);
-//
-//
-//                    }
-//                });
+                    }
+                });
 
 
-//                Context c = MainActivity.ma.getApplicationContext();
-//
-//                if (ContextCompat.checkSelfPermission(c, android.Manifest.permission.ACCESS_FINE_LOCATION) ==
-//                        PackageManager.PERMISSION_GRANTED &&
-//                        ContextCompat.checkSelfPermission(c, android.Manifest.permission.ACCESS_COARSE_LOCATION) ==
-//                                PackageManager.PERMISSION_GRANTED) {
-//                    // Permission already Granted
-//
-//                    //  This is method returns the lastKnownlocation and store it in location object from where then you can retrive latitute and longitude.
-//                    LocationManager locationManager = (LocationManager) c.getSystemService(Context.LOCATION_SERVICE);
-//                    Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-//                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 20.0f));
-//                } else {
-//                    ActivityCompat.requestPermissions(MainActivity.ma, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
-//                    //  This is method returns the lastKnownlocation and store it in location object from where then you can retrive latitute and longitude.
-//                    LocationManager locationManager = (LocationManager) c.getSystemService(Context.LOCATION_SERVICE);
-//                    Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-//                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 20.0f));
-//                }
+                Context c = getActivity().getApplicationContext();
+
+                // mMap.setMinZoomPreference(10.0f);
+                // mMap.setMaxZoomPreference(1000.0f);
 
 
+                if (ContextCompat.checkSelfPermission(c, android.Manifest.permission.ACCESS_FINE_LOCATION) ==
+                        PackageManager.PERMISSION_GRANTED &&
+                        ContextCompat.checkSelfPermission(c, android.Manifest.permission.ACCESS_COARSE_LOCATION) ==
+                                PackageManager.PERMISSION_GRANTED) {
+                    // Permission already Granted
 
+                    //  This is method returns the lastKnownlocation and store it in location object from where then you can retrive latitute and longitude.
+                    LocationManager locationManager = (LocationManager) c.getSystemService(Context.LOCATION_SERVICE);
+                    Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 18));
+                    mMap.animateCamera(CameraUpdateFactory.zoomTo(17), 1000, null);
+
+                    LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                    mMap.clear();
+                    mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));
+
+                } else {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+                    //  This is method returns the lastKnownlocation and store it in location object from where then you can retrive latitute and longitude.
+                    LocationManager locationManager = (LocationManager) c.getSystemService(Context.LOCATION_SERVICE);
+                    Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 200.0f));
+
+                    LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                    mMap.clear();
+
+                    mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));
+                }
 
             }
 
