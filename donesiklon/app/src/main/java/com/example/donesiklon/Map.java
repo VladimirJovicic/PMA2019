@@ -94,7 +94,7 @@ public class Map extends Fragment {
 
                 mMap.clear(); //clear old markers
 
-                
+
                 mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
                     @Override
                     public void onMyLocationChange(Location location) {

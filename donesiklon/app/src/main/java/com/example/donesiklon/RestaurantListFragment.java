@@ -252,7 +252,7 @@ public class RestaurantListFragment extends Fragment {
 
         TextView textAddress = new TextView(getActivity().getApplicationContext());
         textAddress.setTextSize(13);
-        textAddress.setText(this.getString(R.string.address) +" "+ restaurant.getAddress());
+        textAddress.setText(restaurant.getAddress());
 
         TextView textDescription = new TextView(getActivity().getApplicationContext());
         textDescription.setTextSize(13);
