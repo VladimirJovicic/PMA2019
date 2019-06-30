@@ -1,8 +1,13 @@
 package com.example.donesiklon;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -26,7 +31,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             @Override
             public void run()
             {
-                Toast.makeText(getApplicationContext(), staticRemoteMessage.getNotification().getTitle() + " \n" + staticRemoteMessage.getNotification().getBody(), Toast.LENGTH_SHORT).show();
+                NotificationCompat.Builder mBuilder =
+                        new NotificationCompat.Builder(getApplicationContext())
+                                .setSmallIcon(R.mipmap.ic_launcher_round)
+                                .setContentTitle(staticRemoteMessage.getNotification().getTitle())
+                                .setContentText(staticRemoteMessage.getNotification().getBody());
+
+
+                NotificationManager nm = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                nm.notify(1, mBuilder.build());
+
+                //Toast.makeText(getApplicationContext(), staticRemoteMessage.getNotification().getTitle() + " \n" + staticRemoteMessage.getNotification().getBody(), Toast.LENGTH_SHORT).show();
             }
         });
     }
