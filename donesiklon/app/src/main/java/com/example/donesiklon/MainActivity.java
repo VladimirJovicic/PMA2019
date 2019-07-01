@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
 
-
         // Provera da li postoji sacuvan token - username na onovu koga cemo filtrirati view History, Order...
         String user="";
         if(SaveSharedPreference.getUserName(MainActivity.this).length() == 0)
