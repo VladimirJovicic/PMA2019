@@ -3,25 +3,34 @@ package com.example.donesiklon;
 import android.app.Activity;
 import android.content.Context;
 import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.donesiklon.gps.Info;
 import com.example.donesiklon.gps.RestaurantDirections;
+import com.example.donesiklon.gps.Utils;
+import com.example.donesiklon.model.Restaurant;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 
+import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 
 public class RestaurantReview extends Fragment {
@@ -109,22 +118,37 @@ public class RestaurantReview extends Fragment {
             }
         });
 
+
+        id = args.getString("id");
+        final String restName = args.getString("restName");
+        final String restaurantAddress = args.getString("restAddress");
+
+        Info info = new Info();
+        Address addressInfo = getLocationFromAddress(restaurantAddress);
+        Restaurant rest = new Restaurant();
+        if(addressInfo!=null) {
+            Log.i("addressInfo", addressInfo.toString());
+            rest.setLat(addressInfo.getLatitude());
+            rest.setLon(addressInfo.getLongitude());
+        }
+
+        final Location usersLocation = RestaurantDirections.getUserLocation((MainActivity)mActivity);
+
+        info = calculateDistance(usersLocation, rest);
+
         Button showDirections = view.findViewById(R.id.showDirections);
         showDirections.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
-                Location usersLocation = RestaurantDirections.getUserLocation((MainActivity)mActivity);
+
                 //imam startLat i startLon
                 String startLat = Double.valueOf(usersLocation.getLatitude()).toString();
                 String startLon = Double.valueOf(usersLocation.getLongitude()).toString();
 
 
-                Bundle args = getArguments();
-                id = args.getString("id");
-                String restName = args.getString("restName");
-                String restaurantAddress = args.getString("restAddress");
+
                 Address restAddress = RestaurantDirections.getLocationFromAddress(restaurantAddress, (MainActivity)mActivity);
                 //imam endLat i endLon
 
@@ -156,8 +180,36 @@ public class RestaurantReview extends Fragment {
        // getActivity().getApplicationContext().startActivity(intent2);
 
 
+
+
+        TextView tv1 = view.findViewById(R.id.distanceTextView);
+
+        tv1.setText(((MainActivity)mActivity).getString(R.string.distance)+" "+info.getDistance()+"\n"+
+                ((MainActivity)mActivity).getString(R.string.deliveryTime)+" "+info.getDuration() );
+
+        TextView tv2 = view.findViewById(R.id.durationTextView);
+        tv2.setText(((MainActivity)mActivity).getString(R.string.deliveryTime)+" "+info.getDuration() );
+
         return view;
 
+    }
+
+    public Info calculateDistance(Location usersLocation, Restaurant restaurant){
+        //double fullDistance = Utils.distance(usersLocation.getLatitude(),restaurant.getLat(),usersLocation.getLongitude(),restaurant.getLon(), 0, 0);
+
+        Info info = new Info();
+
+        if(usersLocation !=null) {
+            info = Utils.getRealDistance(
+                    usersLocation.getLatitude(), usersLocation.getLongitude(),
+                    restaurant.getLat(), restaurant.getLon());
+            return info;
+        }
+
+        info.setDistance("Not Determined");
+        info.setDuration("Not Known");
+
+        return info;
     }
 
     public void saveReviewToDatabase(FirebaseFirestore db,  com.example.donesiklon.model.RestaurantReview review) {
@@ -173,7 +225,31 @@ public class RestaurantReview extends Fragment {
 
 
 
+    public Address getLocationFromAddress(String strAddress){
 
+        Geocoder coder = new Geocoder(((MainActivity)mActivity).getApplicationContext());
+        List<Address> address;
+        GeoPoint p1 = null;
+
+        try {
+            address = coder.getFromLocationName(strAddress,5);
+            if (address==null) {
+                return null;
+            }
+            if(address.size()>0) {
+                Address location = address.get(0);
+                Log.i("address",location.toString());
+                location.getLatitude();
+                location.getLongitude();
+
+                return location;
+            } else {
+                return null;
+            }
+        } catch (IOException e) {
+            return null;
+        }
+    }
 
 
     private Activity mActivity;

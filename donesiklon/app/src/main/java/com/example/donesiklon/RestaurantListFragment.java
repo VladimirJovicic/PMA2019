@@ -14,6 +14,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -30,7 +31,7 @@ import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.provider.Settings;
+
 import com.bumptech.glide.Glide;
 import com.example.donesiklon.gps.Info;
 import com.example.donesiklon.gps.Utils;
@@ -69,7 +70,7 @@ public class RestaurantListFragment extends Fragment {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         final Restaurant restaurant = createRestoraunt(document);
-                        final Info info = calculateDistance(usersLocation, restaurant);
+                        final Info info = new Info();// = calculateDistance(usersLocation, restaurant);
 
 
                         LinearLayout restorauntLayout = createRestorauntLayout(restaurant, info);
@@ -136,7 +137,7 @@ public class RestaurantListFragment extends Fragment {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 if(document.get("name").toString().trim().toLowerCase().contains(query.trim().toLowerCase())) {
                                     final Restaurant restaurant = createRestoraunt(document);
-                                    final Info info = calculateDistance(usersLocation, restaurant);
+                                    final Info info = new Info(); //calculateDistance(usersLocation, restaurant);
                                     LinearLayout restorauntLayout = createRestorauntLayout(restaurant, info);
                                     restorauntLayout.setOnClickListener(new View.OnClickListener() {
                                         @Override
@@ -192,15 +193,82 @@ public class RestaurantListFragment extends Fragment {
         retVal.setImageUrl(document.getData().get("imageUrl").toString());
         retVal.setDescription(document.getData().get("description").toString());
 
-        Address addressInfo = getLocationFromAddress(retVal.getAddress());
-        if(addressInfo!=null) {
-            Log.i("addressInfo", addressInfo.toString());
-            retVal.setLat(addressInfo.getLatitude());
-            retVal.setLon(addressInfo.getLongitude());
-        }
+//        Address addressInfo = getLocationFromAddress(retVal.getAddress());
+//        if(addressInfo!=null) {
+//            Log.i("addressInfo", addressInfo.toString());
+//            retVal.setLat(addressInfo.getLatitude());
+//            retVal.setLon(addressInfo.getLongitude());
+//        }
+
+        retVal.setLat(0);
+        retVal.setLon(0);
 
         return  retVal;
     }
+//    private Restaurant createRestoraunt(QueryDocumentSnapshot document) {
+//        Restaurant retVal = new Restaurant();
+//        //retVal.setId(document.getId());
+//        retVal.setId(document.getData().get("id").toString());
+//        retVal.setName(document.getData().get("name").toString());
+//        retVal.setAddress(document.getData().get("address").toString());
+//        retVal.setImageUrl(document.getData().get("imageUrl").toString());
+//        retVal.setDescription(document.getData().get("description").toString());
+//
+//        if(retVal.getLat() == 0.0 || retVal.getLon() == 0.0){
+//            Address addressInfo = getLocationFromAddress(retVal.getAddress());
+//            if(addressInfo!=null) {
+//                Log.i("addressInfo", addressInfo.toString());
+//                retVal.setLat(addressInfo.getLatitude());
+//                retVal.setLon(addressInfo.getLongitude());
+//
+//                updateLatLong(retVal, retVal.getLat(), retVal.getLon());
+//            }
+//        } else {
+//            retVal.setLat(Double.valueOf(document.getData().get("lat").toString()));
+//            retVal.setLon(Double.valueOf(document.getData().get("lon").toString()));
+//        }
+//
+//        return  retVal;
+//    }
+
+//    public void updateLatLong(final Restaurant argRest, final double lat, final double lon){
+//        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+//        db.collection("restoraunts").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    for (DocumentSnapshot document : task.getResult()) {
+//                        Log.i("Updating: ", document.getId());
+//                        Log.i("more: ", document.toObject(Object.class).toString());
+//                        Object restObject = document.toObject(Object.class);
+//                        Restaurant rest = new Restaurant();
+//                        rest.setAddress(arg);
+//
+//                        for (Field field : restObject.getClass().getDeclaredFields()) {
+//                            field.setAccessible(true); // You might want to set modifier to public first.
+//                            try {
+//                                Object value = field.get("id");
+//                                if (value != null) {
+//                                    System.out.println(field.getName() + "=" + value);
+//                                    rest.setId(String.valueOf(value));
+//                                }
+//                            } catch (Exception e){
+//
+//                            }
+//                        }
+//
+//                        if(rest.getId().equals(restId)){
+//                            rest.setLat(lat);
+//                            rest.setLon(lon);
+//                        }
+//                        String id = document.getId();
+//                        db.collection("restoraunts").document(id).set(rest);
+//                    }
+//
+//                }
+//            }
+//        });
+//    }
 
     public Address getLocationFromAddress(String strAddress){
 
@@ -387,11 +455,11 @@ public class RestaurantListFragment extends Fragment {
 
         TextView textDistance = new TextView(((MainActivity)mActivity).getApplicationContext());
         textDistance.setTextSize(13);
-        textDistance.setText(((MainActivity)mActivity).getString(R.string.distance) +" "+ info.getDistance());
+        textDistance.setText(((MainActivity)mActivity).getString(R.string.distance) +" "+ "Long press for details");
 
         TextView textDelivery = new TextView(((MainActivity)mActivity).getApplicationContext());
         textDelivery.setTextSize(13);
-        textDelivery.setText(((MainActivity)mActivity).getString(R.string.deliveryTime) + " "+ info.getDuration());
+        textDelivery.setText(((MainActivity)mActivity).getString(R.string.deliveryTime) + " "+ "...");
 
         textViewsHolder.addView(textName);
         textViewsHolder.addView(textAddress);
