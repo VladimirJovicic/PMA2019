@@ -143,44 +143,41 @@ public class RestaurantReview extends Fragment {
 
 
 
-                //imam startLat i startLon
-                String startLat = Double.valueOf(usersLocation.getLatitude()).toString();
-                String startLon = Double.valueOf(usersLocation.getLongitude()).toString();
+        String startLat = Double.valueOf(usersLocation.getLatitude()).toString();
+        String startLon = Double.valueOf(usersLocation.getLongitude()).toString();
 
 
 
-                Address restAddress = RestaurantDirections.getLocationFromAddress(restaurantAddress, (MainActivity)mActivity);
-                //imam endLat i endLon
-
-                String endLat = Double.valueOf(restAddress.getLatitude()).toString();
-                String endLon = Double.valueOf(restAddress.getLongitude()).toString();
+        Address restAddress = RestaurantDirections.getLocationFromAddress(restaurantAddress, (MainActivity)mActivity);
 
 
-                Bundle bundle = new Bundle();
-                bundle.putString("id",id);
-                bundle.putString("restName",restName);
-                bundle.putString("startLat",startLat);
-                bundle.putString("startLon",startLon);
-                bundle.putString("endLat",endLat);
-                bundle.putString("endLon",endLon);
+        String endLat = Double.valueOf(restAddress.getLatitude()).toString();
+        String endLon = Double.valueOf(restAddress.getLongitude()).toString();
 
-                Fragment fragment = new Map();
-                fragment.setArguments(bundle);
 
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+        Bundle bundle = new Bundle();
+        bundle.putString("id",id);
+        bundle.putString("restName",restName);
+        bundle.putString("startLat",startLat);
+        bundle.putString("startLon",startLon);
+        bundle.putString("endLat",endLat);
+        bundle.putString("endLon",endLon);
+
+        Fragment fragment = new Map();
+        fragment.setArguments(bundle);
+
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+
             }
         });
 
 
        // Intent intent2 = new Intent(getActivity().getApplicationContext(), MapsActivity.class);
        // getActivity().getApplicationContext().startActivity(intent2);
-
-
-
 
         TextView tv1 = view.findViewById(R.id.distanceTextView);
 

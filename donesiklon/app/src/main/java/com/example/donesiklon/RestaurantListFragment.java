@@ -2,11 +2,13 @@ package com.example.donesiklon;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.database.DatabaseUtils;
 import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Criteria;
@@ -40,8 +42,6 @@ import com.example.donesiklon.model.Restaurant;
 import com.example.donesiklon.model.VisitHistory;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -185,6 +185,7 @@ public class RestaurantListFragment extends Fragment {
     }
 
     private Restaurant createRestoraunt(QueryDocumentSnapshot document) {
+
         Restaurant retVal = new Restaurant();
         retVal.setId(document.getId());
         retVal.setName(document.getData().get("name").toString());
@@ -308,6 +309,37 @@ public class RestaurantListFragment extends Fragment {
     LocationManager locationManager;
     LocationListener locationListener;
 
+    private void showLocationDisabledInfo() {
+        final Context c = (MainActivity)mActivity;
+        final Builder builder = new AlertDialog.Builder(c);
+        final AlertDialog alert = builder.create();
+        builder.setMessage("GPS is disabled - Open Settings?");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(final DialogInterface dialog, int id) {
+                dialog.cancel();
+                dialog.dismiss();
+                alert.cancel();
+                alert.dismiss();
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+
+                c.startActivity(intent);
+            }
+        });
+        builder.setNeutralButton(R.string.cancelButton, new DialogInterface.OnClickListener() {
+            public void onClick(final DialogInterface dialog, int which) {
+                // TODO Auto-generated method stub
+                mActivity.finish();
+                dialog.cancel();
+                dialog.dismiss();
+                alert.cancel();
+                alert.dismiss();
+            }
+        });
+        alert.show();
+    }
+
+
     public Location getUserLocation(){
 
         locationManager = (LocationManager)((MainActivity)mActivity).getSystemService(Context.LOCATION_SERVICE);
@@ -356,10 +388,12 @@ public class RestaurantListFragment extends Fragment {
             }
 
             if(lastKnownLocation==null){
-                Intent newIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                newIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                ((MainActivity)mActivity).startActivity(newIntent); //ako nema providera otvori mu
-                Log.i("entered","da");
+
+               // showLocationDisabledInfo();
+//                Intent newIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+//                newIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                ((MainActivity)mActivity).startActivity(newIntent); //ako nema providera otvori mu
+//                Log.i("entered","da");
             }
 
             criteria = new Criteria();
