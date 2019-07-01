@@ -52,8 +52,6 @@ public class RestorauntMenuFragment extends Fragment {
         View view = inflater.inflate(R.layout.restoraunt_menu, container, false);
         final LinearLayout layout = view.findViewById(R.id.meni_items);
 
-
-
         db.collection("products").
                 whereEqualTo("restaurantId", id).
                 get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -141,20 +139,11 @@ public class RestorauntMenuFragment extends Fragment {
         textPrice.setText(R.string.price + "" + product.getPrice());
         textPrice.setGravity(Gravity.RIGHT);
         priceHolder.addView(textPrice);
-
-        //TextView buttonHolder = new TextView(getActivity().getApplicationContext());
         Button myButton = new Button(getActivity().getApplicationContext());
         myButton.setText(R.string.addToCart);
         myButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Product product = new Product();
-//                product.setCode("ISqoPyzHRhneRIaUOryT");
-//                product.setDescription("Probajte, ukusno je");
-//                product.setImageUrl("https://firebasestorage.googleapis.com/v0/b/donesi-klon-firebase.appspot.com/o/chinese2.jpg?alt=media&token=8ca870ae-1f99-4184-9de6-5799bb20aacb");
-//                product.setName("Kineska piletina");
-//                product.setPrice(250);
-//                product.setRestaurantId("3xLrl1dVId1mnJo37psz");
                 Log.d("productVan", product.toString());
                 Map<String, Object> data = new HashMap<>();
                 data.put("code", product.getCode());

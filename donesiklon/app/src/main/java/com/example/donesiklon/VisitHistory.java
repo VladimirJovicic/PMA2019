@@ -59,7 +59,6 @@ public class VisitHistory extends Fragment {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             document.getReference().delete();
                         }
-                        
                     }
                 });
             }

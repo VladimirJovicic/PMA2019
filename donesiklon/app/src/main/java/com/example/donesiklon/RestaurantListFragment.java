@@ -24,6 +24,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -154,24 +155,6 @@ public class RestaurantListFragment extends Fragment {
                                             fragmentTransaction.commit();
                                         }
                                     });
-
-                                    restorauntLayout.setOnLongClickListener(new View.OnLongClickListener() {
-                                        @Override
-                                        public boolean onLongClick(View v) {
-                                            Fragment fragment = new RestaurantReview();
-                                            Bundle args = new Bundle();
-                                            args.putString("id", restaurant.getId());
-                                            args.putString("restName", restaurant.getName());
-                                            args.putString("restAddress", restaurant.getAddress());
-                                            fragment.setArguments(args);
-                                            FragmentManager fragmentManager = ((MainActivity)mActivity).getSupportFragmentManager();
-                                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                            fragmentTransaction.replace(R.id.fragment_container, fragment);
-                                            fragmentTransaction.addToBackStack(null);
-                                            fragmentTransaction.commit();
-                                            return true;
-                                        }
-                                    });
                                     layout.addView(restorauntLayout);
                                 }
                             }
@@ -192,82 +175,11 @@ public class RestaurantListFragment extends Fragment {
         retVal.setImageUrl(document.getData().get("imageUrl").toString());
         retVal.setDescription(document.getData().get("description").toString());
 
-//        Address addressInfo = getLocationFromAddress(retVal.getAddress());
-//        if(addressInfo!=null) {
-//            Log.i("addressInfo", addressInfo.toString());
-//            retVal.setLat(addressInfo.getLatitude());
-//            retVal.setLon(addressInfo.getLongitude());
-//        }
-
         retVal.setLat(0);
         retVal.setLon(0);
 
         return  retVal;
     }
-//    private Restaurant createRestoraunt(QueryDocumentSnapshot document) {
-//        Restaurant retVal = new Restaurant();
-//        //retVal.setId(document.getId());
-//        retVal.setId(document.getData().get("id").toString());
-//        retVal.setName(document.getData().get("name").toString());
-//        retVal.setAddress(document.getData().get("address").toString());
-//        retVal.setImageUrl(document.getData().get("imageUrl").toString());
-//        retVal.setDescription(document.getData().get("description").toString());
-//
-//        if(retVal.getLat() == 0.0 || retVal.getLon() == 0.0){
-//            Address addressInfo = getLocationFromAddress(retVal.getAddress());
-//            if(addressInfo!=null) {
-//                Log.i("addressInfo", addressInfo.toString());
-//                retVal.setLat(addressInfo.getLatitude());
-//                retVal.setLon(addressInfo.getLongitude());
-//
-//                updateLatLong(retVal, retVal.getLat(), retVal.getLon());
-//            }
-//        } else {
-//            retVal.setLat(Double.valueOf(document.getData().get("lat").toString()));
-//            retVal.setLon(Double.valueOf(document.getData().get("lon").toString()));
-//        }
-//
-//        return  retVal;
-//    }
-
-//    public void updateLatLong(final Restaurant argRest, final double lat, final double lon){
-//        final FirebaseFirestore db = FirebaseFirestore.getInstance();
-//        db.collection("restoraunts").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    for (DocumentSnapshot document : task.getResult()) {
-//                        Log.i("Updating: ", document.getId());
-//                        Log.i("more: ", document.toObject(Object.class).toString());
-//                        Object restObject = document.toObject(Object.class);
-//                        Restaurant rest = new Restaurant();
-//                        rest.setAddress(arg);
-//
-//                        for (Field field : restObject.getClass().getDeclaredFields()) {
-//                            field.setAccessible(true); // You might want to set modifier to public first.
-//                            try {
-//                                Object value = field.get("id");
-//                                if (value != null) {
-//                                    System.out.println(field.getName() + "=" + value);
-//                                    rest.setId(String.valueOf(value));
-//                                }
-//                            } catch (Exception e){
-//
-//                            }
-//                        }
-//
-//                        if(rest.getId().equals(restId)){
-//                            rest.setLat(lat);
-//                            rest.setLon(lon);
-//                        }
-//                        String id = document.getId();
-//                        db.collection("restoraunts").document(id).set(rest);
-//                    }
-//
-//                }
-//            }
-//        });
-//    }
 
     public Address getLocationFromAddress(String strAddress){
 
@@ -314,7 +226,6 @@ public class RestaurantListFragment extends Fragment {
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                //centreMapOnLocation(location,"Your Location");
             }
 
             @Override
@@ -392,7 +303,6 @@ public class RestaurantListFragment extends Fragment {
     }
 
     public Info calculateDistance(Location usersLocation, Restaurant restaurant){
-        //double fullDistance = Utils.distance(usersLocation.getLatitude(),restaurant.getLat(),usersLocation.getLongitude(),restaurant.getLon(), 0, 0);
 
         Info info = new Info();
 
@@ -409,7 +319,7 @@ public class RestaurantListFragment extends Fragment {
         return info;
     }
 
-    private LinearLayout createRestorauntLayout(Restaurant restaurant, Info info) {
+    private LinearLayout createRestorauntLayout(final Restaurant restaurant, Info info) {
         LinearLayout restorauntLayout = new LinearLayout(((MainActivity)mActivity).getApplicationContext());
         restorauntLayout.setOrientation(LinearLayout.HORIZONTAL);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
@@ -460,7 +370,50 @@ public class RestaurantListFragment extends Fragment {
         textDelivery.setTextSize(13);
         textDelivery.setText(((MainActivity)mActivity).getString(R.string.deliveryTime) + " "+ "...");
 
-        textViewsHolder.addView(textName);
+        LinearLayout ceo = new LinearLayout(((MainActivity)mActivity).getApplicationContext());
+        LinearLayout levi = new LinearLayout(((MainActivity)mActivity).getApplicationContext());
+        LinearLayout desni = new LinearLayout(((MainActivity)mActivity).getApplicationContext());
+
+        LinearLayout.LayoutParams zaCeo = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,  LinearLayout.LayoutParams.WRAP_CONTENT);
+        ceo.setLayoutParams(zaCeo);
+
+        LinearLayout.LayoutParams leviparams = new LinearLayout.LayoutParams(width/4,  LinearLayout.LayoutParams.WRAP_CONTENT);
+        levi.setLayoutParams(leviparams);
+        levi.setGravity(Gravity.LEFT);
+        LinearLayout.LayoutParams desniParams = new LinearLayout.LayoutParams(width/5,  LinearLayout.LayoutParams.WRAP_CONTENT);
+        desniParams.setMargins(60,10,0,0);
+        desni.setLayoutParams(desniParams);
+        desni.setGravity(Gravity.RIGHT);
+        levi.addView(textName);
+
+        ImageView ikonica = new ImageView(((MainActivity)mActivity).getApplicationContext());
+        TableRow.LayoutParams ikonicaParam = new TableRow.LayoutParams(40, 40);
+        ikonica.setLayoutParams(ikonicaParam);
+        ikonica.setScaleType(ImageView.ScaleType.FIT_XY);
+        Glide.with(((MainActivity)mActivity).getApplicationContext()).load(R.drawable.comment).into(ikonica);
+        desni.addView(ikonica);
+
+        desni.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new RestaurantReview();
+                Bundle args = new Bundle();
+                args.putString("id", restaurant.getId());
+                args.putString("restName", restaurant.getName());
+                args.putString("restAddress", restaurant.getAddress());
+                fragment.setArguments(args);
+                FragmentManager fragmentManager = ((MainActivity)mActivity).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+
+        });
+
+        ceo.addView(levi);
+        ceo.addView(desni);
+        textViewsHolder.addView(ceo);
         textViewsHolder.addView(textAddress);
         textViewsHolder.addView(textDescription);
         textViewsHolder.addView(textDistance);
