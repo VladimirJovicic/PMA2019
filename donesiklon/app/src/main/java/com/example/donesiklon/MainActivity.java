@@ -63,8 +63,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
 
-
-
         // Username korisnika prikazan na nav
         View headerView = navigationView.getHeaderView(0);
         TextView navUsername = (TextView) headerView.findViewById(R.id.usernameNav);
@@ -87,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return;
         } else {
             Log.i("Allowed","Already Yes");
+
             RestaurantListFragment list = new RestaurantListFragment();
             Bundle bundle = new Bundle();
             bundle.putParcelableArrayList("fetched", fetched);
