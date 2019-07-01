@@ -46,7 +46,7 @@ public class Utils {
             public void run() {
                 try {
 
-                    URL url = new URL("https://maps.googleapis.com/maps/api/directions/json?origin=" + lat1 + "," + lon1 + "&destination=" + lat2 + "," + lon2 + "&sensor=false&units=metric&mode=driving&key=AIzaSyAU8awJCP75PAy9AcocqyJXNtinbEn5CnE");
+                    URL url = new URL("https://maps.googleapis.com/maps/api/directions/json?origin=" + lat1 + "," + lon1 + "&destination=" + lat2 + "," + lon2 + "&sensor=false&units=metric&mode=driving&key=AIzaSyAU8awJCP75PAy9AcocqyJXNtinbEn5CnE&force=lite");
                     final HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("POST");
                     InputStream in = new BufferedInputStream(conn.getInputStream());
