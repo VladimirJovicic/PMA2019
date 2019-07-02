@@ -47,7 +47,7 @@ public class VisitHistory extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.visit, container, false);
-        final LinearLayout layout = view.findViewById(R.id.visit_history_layout_id);
+        final LinearLayout layout = view.findViewById(R.id.visit_history_layout_list);
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -64,6 +64,7 @@ public class VisitHistory extends Fragment {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             document.getReference().delete();
                         }
+                        layout.removeAllViews();
                     }
                 });
             }
