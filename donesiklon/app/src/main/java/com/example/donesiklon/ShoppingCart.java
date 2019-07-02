@@ -96,7 +96,6 @@ public class ShoppingCart extends Fragment {
 
                 Map<String, Object> data = new HashMap<>();
 
-
                 db.collection("purchases").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {

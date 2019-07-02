@@ -1,6 +1,8 @@
 
 package com.example.donesiklon;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -78,6 +80,7 @@ public class RestorauntMenuFragment extends Fragment {
 
     private Product createProduct(QueryDocumentSnapshot document) {
         Product retVal = new Product();
+        retVal.setId(document.getId());
         retVal.setCode(document.get("code").toString());
         retVal.setName(document.get("name").toString());
         retVal.setPrice(Integer.parseInt(document.get("price").toString()));
@@ -146,9 +149,10 @@ public class RestorauntMenuFragment extends Fragment {
             public void onClick(View v) {
                 Log.d("productVan", product.toString());
                 Map<String, Object> data = new HashMap<>();
+                data.put("productId", product.getId());
                 data.put("code", product.getCode());
                 data.put("status", "inCart");
-                data.put("userId", "Ed5dcUBXy5HHqpuN1V3J");
+                data.put("userId", SaveSharedPreference.getUserName(((MainActivity)mActivity).getApplicationContext()));
 
                 db.collection("purchases")
                         .add(data)
@@ -184,6 +188,16 @@ public class RestorauntMenuFragment extends Fragment {
         restorauntLayout.addView(textViewsHolder);
 
         return restorauntLayout;
+    }
+
+    private Activity mActivity;
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if (context instanceof Activity){
+            mActivity = (Activity) context;
+        }
     }
 
     private LinearLayout createEmptyMenuLayout() {
