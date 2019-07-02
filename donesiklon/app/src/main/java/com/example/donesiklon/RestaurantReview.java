@@ -176,18 +176,6 @@ public class RestaurantReview extends Fragment {
             }
         });
 
-
-       // Intent intent2 = new Intent(getActivity().getApplicationContext(), MapsActivity.class);
-       // getActivity().getApplicationContext().startActivity(intent2);
-
-//        TextView tv1 = view.findViewById(R.id.distanceTextView);
-//
-//        tv1.setText(((MainActivity)mActivity).getString(R.string.distance)+" "+info.getDistance()+"\n"+
-//                ((MainActivity)mActivity).getString(R.string.deliveryTime)+" "+info.getDuration() );
-//
-//        TextView tv2 = view.findViewById(R.id.durationTextView);
-//        tv2.setText(((MainActivity)mActivity).getString(R.string.deliveryTime)+" "+info.getDuration() );
-
         return view;
 
     }
@@ -220,8 +208,6 @@ public class RestaurantReview extends Fragment {
                     }
                 });
     }
-
-
 
     public Address getLocationFromAddress(String strAddress){
 

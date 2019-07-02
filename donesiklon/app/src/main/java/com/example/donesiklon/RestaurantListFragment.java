@@ -410,49 +410,11 @@ public class RestaurantListFragment extends Fragment {
         textDelivery.setText(((MainActivity)mActivity).getString(R.string.deliveryTime) + " "+ "...");
 
         LinearLayout ceo = new LinearLayout(((MainActivity)mActivity).getApplicationContext());
-        LinearLayout levi = new LinearLayout(((MainActivity)mActivity).getApplicationContext());
-        LinearLayout desni = new LinearLayout(((MainActivity)mActivity).getApplicationContext());
 
         LinearLayout.LayoutParams zaCeo = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,  LinearLayout.LayoutParams.WRAP_CONTENT);
         ceo.setLayoutParams(zaCeo);
+        ceo.addView(textName);
 
-        LinearLayout.LayoutParams leviparams = new LinearLayout.LayoutParams(width/4,  LinearLayout.LayoutParams.WRAP_CONTENT);
-        levi.setLayoutParams(leviparams);
-        levi.setGravity(Gravity.LEFT);
-        LinearLayout.LayoutParams desniParams = new LinearLayout.LayoutParams(width/5,  LinearLayout.LayoutParams.WRAP_CONTENT);
-        desniParams.setMargins(60,10,0,0);
-        desni.setLayoutParams(desniParams);
-        desni.setGravity(Gravity.RIGHT);
-        levi.addView(textName);
-
-        ImageView ikonica = new ImageView(((MainActivity)mActivity).getApplicationContext());
-        TableRow.LayoutParams ikonicaParam = new TableRow.LayoutParams(40, 40);
-        ikonica.setLayoutParams(ikonicaParam);
-        ikonica.setScaleType(ImageView.ScaleType.FIT_XY);
-        Glide.with(((MainActivity)mActivity).getApplicationContext()).load(R.drawable.comment).into(ikonica);
-        desni.addView(ikonica);
-
-
-        desni.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment fragment = new RestaurantReview();
-                Bundle args = new Bundle();
-                args.putString("id", restaurant.getId());
-                args.putString("restName", restaurant.getName());
-                args.putString("restAddress", restaurant.getAddress());
-                fragment.setArguments(args);
-                FragmentManager fragmentManager = ((MainActivity)mActivity).getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, fragment, "REVIEW_FRAG");
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-            }
-
-        });
-
-        ceo.addView(levi);
-        ceo.addView(desni);
         textViewsHolder.addView(ceo);
         textViewsHolder.addView(textAddress);
         textViewsHolder.addView(textDescription);

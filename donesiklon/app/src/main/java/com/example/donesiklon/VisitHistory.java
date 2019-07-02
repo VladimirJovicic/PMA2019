@@ -1,11 +1,15 @@
 package com.example.donesiklon;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Gravity;
@@ -19,6 +23,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.donesiklon.gps.Info;
 import com.example.donesiklon.model.Restaurant;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -118,52 +123,116 @@ public class VisitHistory extends Fragment {
         return retValLayout;
     }
 
-    private LinearLayout createRestorauntLayout(Restaurant restaurant) {
-        LinearLayout restorauntLayout = new LinearLayout(getActivity().getApplicationContext());
+    private Activity mActivity;
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if (context instanceof Activity){
+            mActivity = (Activity) context;
+        }
+    }
+
+    private LinearLayout createRestorauntLayout(final Restaurant restaurant) {
+        LinearLayout restorauntLayout = new LinearLayout(((MainActivity)mActivity).getApplicationContext());
         restorauntLayout.setOrientation(LinearLayout.HORIZONTAL);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, height/5);
         layoutParams.setMargins(5, 10, 10, 30);
         restorauntLayout.setLayoutParams(layoutParams);
-        restorauntLayout.setBackgroundDrawable(ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.border));
+        restorauntLayout.setBackgroundDrawable(ContextCompat.getDrawable(((MainActivity)mActivity).getApplicationContext(), R.drawable.border));
 
-        LinearLayout imageHolder = new LinearLayout(getActivity().getApplicationContext());
+        LinearLayout imageHolder = new LinearLayout(((MainActivity)mActivity).getApplicationContext());
         imageHolder.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
 
-        ImageView imageView = new ImageView(getActivity().getApplicationContext());
+        ImageView imageView = new ImageView(((MainActivity)mActivity).getApplicationContext());
         TableRow.LayoutParams layoutParamsForImageView = new TableRow.LayoutParams(width/3, height/5 - 20);
         layoutParamsForImageView.setMargins(10, 10, 0, 20);
         imageView.setLayoutParams(layoutParamsForImageView);
 
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-        Glide.with(getActivity().getApplicationContext()).load(restaurant.getImageUrl()).into(imageView);
+        Glide.with(((MainActivity)mActivity).getApplicationContext()).load(restaurant.getImageUrl()).into(imageView);
         imageHolder.addView(imageView);
 
-        ImageView image = new ImageView(getActivity().getApplicationContext());
-        Glide.with(getActivity().getApplicationContext()).load(restaurant.getImageUrl()).into(image);
+        ImageView image = new ImageView(((MainActivity)mActivity).getApplicationContext());
+        Glide.with(((MainActivity)mActivity).getApplicationContext()).load(restaurant.getImageUrl()).into(image);
 
-        LinearLayout textViewsHolder = new LinearLayout(getActivity().getApplicationContext());
+        LinearLayout textViewsHolder = new LinearLayout(((MainActivity)mActivity).getApplicationContext());
         LinearLayout.LayoutParams layoutParamsContentHolderLayout = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,  LinearLayout.LayoutParams.MATCH_PARENT);
         layoutParamsContentHolderLayout.setMargins(25, 10, 25, 0);
         textViewsHolder.setOrientation(LinearLayout.VERTICAL);
         textViewsHolder.setLayoutParams(layoutParamsContentHolderLayout);
 
-        TextView textName = new TextView(getActivity().getApplicationContext());
+        TextView textName = new TextView(((MainActivity)mActivity).getApplicationContext());
         textName.setTextSize(20);
         textName.setTypeface(null, Typeface.BOLD);
         textName.setText(restaurant.getName());
 
-        TextView textAddress = new TextView(getActivity().getApplicationContext());
+        TextView textAddress = new TextView(((MainActivity)mActivity).getApplicationContext());
         textAddress.setTextSize(13);
-        textAddress.setText(R.string.address + restaurant.getAddress());
+        textAddress.setText(restaurant.getAddress());
 
-        TextView textDescription = new TextView(getActivity().getApplicationContext());
+        TextView textDescription = new TextView(((MainActivity)mActivity).getApplicationContext());
         textDescription.setTextSize(13);
-        textDescription.setText(R.string.description + restaurant.getDescription());
+        textDescription.setText(((MainActivity)mActivity).getString(R.string.description) +" "+ restaurant.getDescription());
 
-        textViewsHolder.addView(textName);
+        TextView textDistance = new TextView(((MainActivity)mActivity).getApplicationContext());
+        textDistance.setTextSize(13);
+        textDistance.setText(((MainActivity)mActivity).getString(R.string.distance) +" "+ "Long press for details");
+
+        TextView textDelivery = new TextView(((MainActivity)mActivity).getApplicationContext());
+        textDelivery.setTextSize(13);
+        textDelivery.setText(((MainActivity)mActivity).getString(R.string.deliveryTime) + " "+ "...");
+
+        LinearLayout ceo = new LinearLayout(((MainActivity)mActivity).getApplicationContext());
+        LinearLayout levi = new LinearLayout(((MainActivity)mActivity).getApplicationContext());
+        LinearLayout desni = new LinearLayout(((MainActivity)mActivity).getApplicationContext());
+
+        LinearLayout.LayoutParams zaCeo = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,  LinearLayout.LayoutParams.WRAP_CONTENT);
+        ceo.setLayoutParams(zaCeo);
+
+        LinearLayout.LayoutParams leviparams = new LinearLayout.LayoutParams(width/4,  LinearLayout.LayoutParams.WRAP_CONTENT);
+        levi.setLayoutParams(leviparams);
+        levi.setGravity(Gravity.LEFT);
+        LinearLayout.LayoutParams desniParams = new LinearLayout.LayoutParams(width/5,  LinearLayout.LayoutParams.WRAP_CONTENT);
+        desniParams.setMargins(60,10,0,0);
+        desni.setLayoutParams(desniParams);
+        desni.setGravity(Gravity.RIGHT);
+        levi.addView(textName);
+
+        ImageView ikonica = new ImageView(((MainActivity)mActivity).getApplicationContext());
+        TableRow.LayoutParams ikonicaParam = new TableRow.LayoutParams(40, 40);
+        ikonica.setLayoutParams(ikonicaParam);
+        ikonica.setScaleType(ImageView.ScaleType.FIT_XY);
+        Glide.with(((MainActivity)mActivity).getApplicationContext()).load(R.drawable.comment).into(ikonica);
+        desni.addView(ikonica);
+
+
+        desni.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new RestaurantReview();
+                Bundle args = new Bundle();
+                args.putString("id", restaurant.getId());
+                args.putString("restName", restaurant.getName());
+                args.putString("restAddress", restaurant.getAddress());
+                fragment.setArguments(args);
+                FragmentManager fragmentManager = ((MainActivity)mActivity).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, fragment, "REVIEW_FRAG");
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+
+        });
+
+        ceo.addView(levi);
+        ceo.addView(desni);
+        textViewsHolder.addView(ceo);
         textViewsHolder.addView(textAddress);
         textViewsHolder.addView(textDescription);
+        textViewsHolder.addView(textDistance);
+        textViewsHolder.addView(textDelivery);
 
         restorauntLayout.addView(imageHolder);
         restorauntLayout.addView(textViewsHolder);
