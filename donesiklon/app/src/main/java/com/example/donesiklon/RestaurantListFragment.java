@@ -26,7 +26,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -401,14 +400,6 @@ public class RestaurantListFragment extends Fragment {
         textDescription.setTextSize(13);
         textDescription.setText(((MainActivity)mActivity).getString(R.string.description) +" "+ restaurant.getDescription());
 
-        TextView textDistance = new TextView(((MainActivity)mActivity).getApplicationContext());
-        textDistance.setTextSize(13);
-        textDistance.setText(((MainActivity)mActivity).getString(R.string.distance) +" "+ "Long press for details");
-
-        TextView textDelivery = new TextView(((MainActivity)mActivity).getApplicationContext());
-        textDelivery.setTextSize(13);
-        textDelivery.setText(((MainActivity)mActivity).getString(R.string.deliveryTime) + " "+ "...");
-
         LinearLayout ceo = new LinearLayout(((MainActivity)mActivity).getApplicationContext());
 
         LinearLayout.LayoutParams zaCeo = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,  LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -418,8 +409,7 @@ public class RestaurantListFragment extends Fragment {
         textViewsHolder.addView(ceo);
         textViewsHolder.addView(textAddress);
         textViewsHolder.addView(textDescription);
-        textViewsHolder.addView(textDistance);
-        textViewsHolder.addView(textDelivery);
+
 
         restorauntLayout.addView(imageHolder);
         restorauntLayout.addView(textViewsHolder);
