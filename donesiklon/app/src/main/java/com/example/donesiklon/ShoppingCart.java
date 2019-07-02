@@ -115,7 +115,7 @@ public class ShoppingCart extends Fragment {
 
                             getFragmentManager()
                                     .beginTransaction()
-                                    .replace(R.id.fragment_container, new ShoppingCart(), "cart").commit();
+                                    .replace(R.id.fragment_container, new ShoppingCart(), "cart").addToBackStack(null).commit();
 
 //after transaction you must call the executePendingTransaction
                             getFragmentManager().executePendingTransactions();
