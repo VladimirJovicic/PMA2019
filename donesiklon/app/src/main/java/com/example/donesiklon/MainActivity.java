@@ -13,6 +13,9 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -25,6 +28,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.donesiklon.gps.Info;
+import com.example.donesiklon.gps.RestaurantDirections;
 
 import java.util.ArrayList;
 
@@ -76,22 +80,62 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
 
+        final Location usersLocation = RestaurantDirections.getUserLocation(this);
+
         //da se ne bi prikazala prazna aktivnost
 
+        int intentFragment = 43;
+        if( getIntent().getExtras()!=null){
+            Log.i("dalJeNull","ne");
+            Log.i("vrednost:",String.valueOf(getIntent().getExtras().getInt("frgToLoad")));
+           if(  getIntent().getExtras().getInt("frgToLoad") == 1){
+               intentFragment = getIntent().getExtras().getInt("frgToLoad");
+           }
+        }
+
+        RestaurantReview myFragment = (RestaurantReview) getSupportFragmentManager().findFragmentByTag("REVIEW_FRAG");
         if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-            Log.i("Allowed","No");
+            Log.i("Allowed", "No");
             return;
         } else {
-            Log.i("Allowed","Already Yes");
 
-            RestaurantListFragment list = new RestaurantListFragment();
-            Bundle bundle = new Bundle();
-            bundle.putParcelableArrayList("fetched", fetched);
-            list.setArguments(bundle);
+         if (intentFragment == 1){
+             if (myFragment == null) {
+                 Log.i("fragment:", "review");
+                 String restId = getIntent().getExtras().getString("id");
+                 String name = getIntent().getExtras().getString("name");
+                 String address = getIntent().getExtras().getString("address");
 
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, list).commit();
-            navigationView.setCheckedItem(R.id.nav_restaurant_list);
+                 Fragment fragment = new RestaurantReview();
+                 Bundle args = new Bundle();
+                 args.putString("id", String.valueOf(restId));
+                 args.putString("restName", name);
+                 args.putString("restAddress", address);
+                 fragment.setArguments(args);
+
+
+                 FragmentManager fragmentManager = ((MainActivity) this).getSupportFragmentManager();
+                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                 fragmentTransaction.replace(R.id.fragment_container, fragment, "REVIEW_FRAG");
+
+                 fragmentTransaction.commit();
+
+             }
+        } else {
+
+
+                Log.i("Allowed", "Already Yes");
+
+                RestaurantListFragment list = new RestaurantListFragment();
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("fetched", fetched);
+                list.setArguments(bundle);
+
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, list).commit();
+                navigationView.setCheckedItem(R.id.nav_restaurant_list);
+            }
+
         }
 
     }
@@ -172,13 +216,58 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             locationManager.requestLocationUpdates("gps", 400, 1, myLocationListener);
 
             Log.i("Allowed","Now_yes");
-            RestaurantListFragment list = new RestaurantListFragment();
-            Bundle bundle = new Bundle();
-            bundle.putParcelableArrayList("fetched", fetched);
-            list.setArguments(bundle);
 
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, list).commit();
-            navigationView.setCheckedItem(R.id.nav_restaurant_list);
+
+            RestaurantReview myFragment = (RestaurantReview) getSupportFragmentManager().findFragmentByTag("REVIEW_FRAG");
+
+
+
+
+            int intentFragment = 43;
+            if( getIntent().getExtras()!=null){
+                Log.i("dalJeNull","ne");
+                Log.i("vrednost:",String.valueOf(getIntent().getExtras().getInt("frgToLoad")));
+                if(  getIntent().getExtras().getInt("frgToLoad") == 1){
+                    intentFragment = getIntent().getExtras().getInt("frgToLoad");
+                }
+            }
+
+
+            if (intentFragment == 1) {
+                if (myFragment == null ) {
+                    Log.i("fragment:", "review");
+                    String restId = getIntent().getExtras().getString("id");
+                    String name = getIntent().getExtras().getString("name");
+                    String address = getIntent().getExtras().getString("address");
+
+                    Fragment fragment = new RestaurantReview();
+                    Bundle args = new Bundle();
+                    args.putString("id", String.valueOf(restId));
+                    args.putString("restName", name);
+                    args.putString("restAddress", address);
+                    fragment.setArguments(args);
+
+
+                    FragmentManager fragmentManager = ((MainActivity) this).getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment_container, fragment, "REVIEW_FRAG");
+
+                    fragmentTransaction.commit();
+                }
+
+
+
+            } else {
+
+
+                RestaurantListFragment list = new RestaurantListFragment();
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("fetched", fetched);
+                list.setArguments(bundle);
+
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, list).commit();
+                navigationView.setCheckedItem(R.id.nav_restaurant_list);
+            }
         }
     }
 
@@ -199,10 +288,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onBackPressed() {
         if(drawer.isDrawerOpen(GravityCompat.START)){
             drawer.closeDrawer(GravityCompat.START);
+
         }else {
             super.onBackPressed();
         }
     }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -250,8 +341,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
 
 
 

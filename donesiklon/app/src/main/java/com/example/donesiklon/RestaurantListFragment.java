@@ -49,6 +49,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 public class RestaurantListFragment extends Fragment {
@@ -57,9 +58,12 @@ public class RestaurantListFragment extends Fragment {
     int width = Resources.getSystem().getDisplayMetrics().widthPixels;
     int height = Resources.getSystem().getDisplayMetrics().heightPixels;
 
+    public static List<Restaurant> restaurants = new ArrayList<>();
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        restaurants = new ArrayList<>();
         View view = inflater.inflate(R.layout.fragment_restaraunt_list, container, false);
         final LinearLayout layout = view.findViewById(R.id.restoraunt_list_layout);
 
@@ -71,6 +75,7 @@ public class RestaurantListFragment extends Fragment {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         final Restaurant restaurant = createRestoraunt(document);
+                        restaurants.add(restaurant);
                         final Info info = new Info();// = calculateDistance(usersLocation, restaurant);
 
                         LinearLayout restorauntLayout = createRestorauntLayout(restaurant, info);
@@ -102,7 +107,7 @@ public class RestaurantListFragment extends Fragment {
                                 fragment.setArguments(args);
                                 FragmentManager fragmentManager = ((MainActivity)mActivity).getSupportFragmentManager();
                                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                fragmentTransaction.replace(R.id.fragment_container, fragment);
+                                fragmentTransaction.replace(R.id.fragment_container, fragment, "REVIEW_FRAG");
                                 fragmentTransaction.addToBackStack(null);
                                 fragmentTransaction.commit();
                                 return true;
@@ -427,6 +432,7 @@ public class RestaurantListFragment extends Fragment {
         Glide.with(((MainActivity)mActivity).getApplicationContext()).load(R.drawable.comment).into(ikonica);
         desni.addView(ikonica);
 
+
         desni.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -438,7 +444,7 @@ public class RestaurantListFragment extends Fragment {
                 fragment.setArguments(args);
                 FragmentManager fragmentManager = ((MainActivity)mActivity).getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, fragment);
+                fragmentTransaction.replace(R.id.fragment_container, fragment, "REVIEW_FRAG");
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }

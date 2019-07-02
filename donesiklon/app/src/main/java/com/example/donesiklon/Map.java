@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.akexorcist.googledirection.DirectionCallback;
@@ -197,10 +198,21 @@ public class Map extends Fragment implements OnMapReadyCallback, RoutingListener
         endLon = Double.valueOf(endLonString);
 
 
-
+        String distance = bundle.getString("distance");
+        String time = bundle.getString("time");
 
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
+
+        TextView tv1 = rootView.findViewById(R.id.distanceOnMap);
+
+        tv1.setText(((MainActivity)mActivity).getString(R.string.distance)+" "+distance);
+
+        TextView tv2 = rootView.findViewById(R.id.timeOnMap);
+        tv2.setText(((MainActivity)mActivity).getString(R.string.deliveryTime)+" "+time);
+
+
+
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);  //use SuppoprtMapFragment for using in fragment instead of activity  MapFragment = activity   SupportMapFragment = fragment
         mapFragment.getMapAsync(new OnMapReadyCallback() {

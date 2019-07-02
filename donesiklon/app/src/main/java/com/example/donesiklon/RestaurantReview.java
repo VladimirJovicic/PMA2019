@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.donesiklon.gps.Info;
@@ -74,7 +73,7 @@ public class RestaurantReview extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    Info info;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -123,7 +122,7 @@ public class RestaurantReview extends Fragment {
         final String restName = args.getString("restName");
         final String restaurantAddress = args.getString("restAddress");
 
-        Info info = new Info();
+        info = new Info();
         Address addressInfo = getLocationFromAddress(restaurantAddress);
         Restaurant rest = new Restaurant();
         if(addressInfo!=null) {
@@ -162,6 +161,8 @@ public class RestaurantReview extends Fragment {
         bundle.putString("startLon",startLon);
         bundle.putString("endLat",endLat);
         bundle.putString("endLon",endLon);
+        bundle.putString("distance",info.getDistance());
+        bundle.putString("time",info.getDuration());
 
         Fragment fragment = new Map();
         fragment.setArguments(bundle);
@@ -179,13 +180,13 @@ public class RestaurantReview extends Fragment {
        // Intent intent2 = new Intent(getActivity().getApplicationContext(), MapsActivity.class);
        // getActivity().getApplicationContext().startActivity(intent2);
 
-        TextView tv1 = view.findViewById(R.id.distanceTextView);
-
-        tv1.setText(((MainActivity)mActivity).getString(R.string.distance)+" "+info.getDistance()+"\n"+
-                ((MainActivity)mActivity).getString(R.string.deliveryTime)+" "+info.getDuration() );
-
-        TextView tv2 = view.findViewById(R.id.durationTextView);
-        tv2.setText(((MainActivity)mActivity).getString(R.string.deliveryTime)+" "+info.getDuration() );
+//        TextView tv1 = view.findViewById(R.id.distanceTextView);
+//
+//        tv1.setText(((MainActivity)mActivity).getString(R.string.distance)+" "+info.getDistance()+"\n"+
+//                ((MainActivity)mActivity).getString(R.string.deliveryTime)+" "+info.getDuration() );
+//
+//        TextView tv2 = view.findViewById(R.id.durationTextView);
+//        tv2.setText(((MainActivity)mActivity).getString(R.string.deliveryTime)+" "+info.getDuration() );
 
         return view;
 
