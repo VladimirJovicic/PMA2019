@@ -128,7 +128,7 @@ public class RestorauntMenuFragment extends Fragment {
 
         TextView textDescriptionForProduct = new TextView(getActivity().getApplicationContext());
         textDescriptionForProduct.setTextSize(13);
-        textDescriptionForProduct.setText(R.string.description + product.getDescription());
+        textDescriptionForProduct.setText(product.getDescription());
 
         LinearLayout priceHolder = new LinearLayout(getActivity().getApplicationContext());
         LinearLayout.LayoutParams layoutParamsPriceHolderLayout = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,  LinearLayout.LayoutParams.MATCH_PARENT);
