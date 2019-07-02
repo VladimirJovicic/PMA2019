@@ -54,9 +54,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         restsWithLoc = new ArrayList<>();
 
-
-
-
         Address addressInfo;
 
         Log.i("size: ", String.valueOf(RestaurantListFragment.restaurants.size()));

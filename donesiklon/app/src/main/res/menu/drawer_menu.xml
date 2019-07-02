@@ -17,7 +17,7 @@
             android:icon="@drawable/shopping_cart"
             android:title="@string/shopping_cart" />
 
-        <item android:id="@+id/map"
+        <item android:id="@+id/near_by_map"
             android:icon="@drawable/map"
             android:title="@string/incoming_orders" />
 

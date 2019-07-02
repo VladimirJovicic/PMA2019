@@ -316,12 +316,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.visit_history:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new VisitHistory()).addToBackStack(null).commit();
                 break;
-            case R.id.map:
+            case R.id.near_by_map:
                 //with fragment:
-                //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Map()).addToBackStack(null).commitAllowingStateLoss();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NearByMap()).addToBackStack(null).commitAllowingStateLoss();
                 //with activity:
-                Intent intent2 = new Intent(MainActivity.this, MapsActivity.class);
-                MainActivity.this.startActivity(intent2);
+//                Intent intent2 = new Intent(MainActivity.this, MapsActivity.class);
+//                MainActivity.this.startActivity(intent2);
                 break;
             case R.id.orders:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Orders()).addToBackStack(null).commit();
