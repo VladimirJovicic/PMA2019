@@ -88,42 +88,43 @@ public class Orders extends Fragment {
 
                         for (QueryDocumentSnapshot document : task.getResult()) {
 
+                            if (document.get("userId").toString().equals(user)) {
+                                Log.i("Order:", "Ah");
+                                if (document.get("status").equals("finished")) {
+                                    Log.i("Order:", "4");
+                                    final String code = document.get("code").toString();
 
-                            if (document.get("status").equals("finished")) {
-                                Log.i("Order:", "4");
-                                final String code = document.get("code").toString();
+                                    db.collection("products")
+                                            .whereEqualTo("code", code).get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    Log.i("Order:", "5");
+                                                    if (task.isSuccessful()) {
+                                                        Log.i("Order:", "6");
 
-                                db.collection("products")
-                                        .whereEqualTo("code", code).get()
-                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                Log.i("Order:", "5");
-                                                if (task.isSuccessful()) {
-                                                    Log.i("Order:", "6");
+                                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                                            if (code.equals(document.get("code"))) {
+                                                                TableRow tr = new TableRow(getContext());
+                                                                TextView c1 = new TextView(getContext());
+                                                                c1.setText(document.get("name").toString());
+                                                                TextView c2 = new TextView(getContext());
+                                                                c2.setText(String.valueOf(document.get("price")));
 
-                                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                                        if (code.equals(document.get("code"))) {
-                                                            TableRow tr = new TableRow(getContext());
-                                                            TextView c1 = new TextView(getContext());
-                                                            c1.setText(document.get("name").toString());
-                                                            TextView c2 = new TextView(getContext());
-                                                            c2.setText(String.valueOf(document.get("price")));
+                                                                tr.addView(c1);
+                                                                tr.addView(c2);
 
-                                                            tr.addView(c1);
-                                                            tr.addView(c2);
-
-                                                            ordersTable.addView(tr);
-                                                            totalSpent = totalSpent+ Integer.parseInt(String.valueOf(document.get("price")));
-                                                            spentText.setText(totalSpent.toString());
+                                                                ordersTable.addView(tr);
+                                                                totalSpent = totalSpent+ Integer.parseInt(String.valueOf(document.get("price")));
+                                                                spentText.setText(totalSpent.toString());
+                                                            }
                                                         }
+
                                                     }
 
                                                 }
-
-                                            }
-                                        });
-                            }
+                                            });
+                            }}
                         }
 
 
