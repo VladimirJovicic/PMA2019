@@ -71,6 +71,7 @@
     <!-- FRAGMENT_RESTAURANTS -->
     <string name="menu">Menu</string>
     <string name="emptyMenu">Empty menu</string>
+    <string name="searchForRestaurants">Search for Restaurants</string>
 
     <string name="totalSpent">Total spent:</string>
     <!-- VISIT -->

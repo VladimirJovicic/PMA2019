@@ -95,7 +95,7 @@ public class Settings extends Fragment {
             public void onClick(View v) {
               //  addEditTextListeners();
 
-                if(!correctNumber && !correctAddress && !correctPassword) {
+                if(!correctNumber || !correctAddress || !correctPassword) {
                     Log.i("PODESAVANJA","promena");
                     db.collection("users").document(userId).update("deliveryAddress", deliveryAddress.getText().toString(), "phoneNumber", phoneNumber.getText().toString(), "password", password.getText().toString());
                     Toast.makeText(getContext(), getResources().getString(R.string.successfullyChangedSettings), Toast.LENGTH_LONG).show();

@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:queryHint="Search for restoraunt"
+                android:queryHint="@string/searchForRestaurants"
                 android:textSize="35dp"
                 android:textColor="#000000"/>
             <LinearLayout

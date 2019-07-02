@@ -72,6 +72,8 @@
     <string name="menu">Meni</string>
     <string name="emptyMenu">Meni je prazan</string>
     <string name="totalSpent">Ukupno potrošeno:</string>
+    <string name="searchForRestaurants">Pretraga restorana</string>
+
     <!-- VISIT -->
     <string name="clearButton">Obrišite istoriju</string>
     <string name="wrongCredentials">Pogrešni kredencijali</string>
