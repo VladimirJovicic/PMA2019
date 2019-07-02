@@ -83,7 +83,8 @@ public class RestorauntMenuFragment extends Fragment {
         retVal.setId(document.getId());
         retVal.setCode(document.get("code").toString());
         retVal.setName(document.get("name").toString());
-        retVal.setPrice(Integer.parseInt(document.get("price").toString()));
+        String price = document.get("price").toString();
+        retVal.setPrice(Double.parseDouble(price));
         retVal.setRestaurantId(document.get("restaurantId").toString());
         retVal.setDescription(document.get("description").toString());
         retVal.setImageUrl(document.get("imageUrl").toString());
@@ -139,7 +140,7 @@ public class RestorauntMenuFragment extends Fragment {
         TextView textPrice = new TextView(getActivity().getApplicationContext());
         textPrice.setTextSize(13);
         textPrice.setTextColor(Color.rgb(130,2,2));
-        textPrice.setText(R.string.price + "" + product.getPrice());
+        textPrice.setText(Double.toString(product.getPrice()));
         textPrice.setGravity(Gravity.RIGHT);
         priceHolder.addView(textPrice);
         Button myButton = new Button(getActivity().getApplicationContext());
